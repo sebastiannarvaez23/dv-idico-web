@@ -1,0 +1,7 @@
+.leftSection,
+.rightSection {
+    width: 90% !important;
+    margin: 20px auto !important;
+    height: 55vh !important;
+    padding: 10px !important;
+}

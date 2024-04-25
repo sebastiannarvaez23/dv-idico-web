@@ -1,0 +1,36 @@
+.root {
+    display: flex;
+    flex-direction: column;
+}
+
+.appBar {
+    z-index: 1201;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: row;
+    background-color: #efebeb;
+    color: black;
+    padding: 8px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.sidebar .MuiListItemText-root {
+    text-align: center;
+    /* Centra el texto dentro de ListItemText */
+}
+
+.sidebar>* {
+    margin-right: 8px;
+}
+
+.content {
+    padding: 20px;
+    flex-grow: 1;
+    margin-top: 64px;
+    /* Ajusta el espacio para el app bar */
+}
