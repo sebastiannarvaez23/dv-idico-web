@@ -1,49 +1,40 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
-interface Character {
-    name: string;
-    age: number;
-    weight: number;
-    story: string;
-    imageUrl: string;
-    seriesmovies: string[];
+interface ComponentDetailsCardProps {
+    element: DetailsCardElement;
+    label: DetailsLabelCardElement;
 }
 
-interface CharacterDetailsCardProps {
-    character: Character;
-}
-
-function CharacterDetailsCard({ character }: CharacterDetailsCardProps) {
+function DetailsCardComponent({ element, label }: ComponentDetailsCardProps) {
     return (
-        <Card style={{ marginBottom: '20px' }}>
-            <Grid container>
+        <Card style={{ marginBottom: '20px', height: '47vh' }}>
+            <Grid style={{ width: '90%', margin: '0 auto' }} container >
                 {/* Parte izquierda: Imagen */}
                 <Grid item xs={12} sm={5}>
                     <CardMedia
                         component="img"
                         style={{ width: '100%', height: 'auto' }}
-                        image={character.imageUrl}
-                        alt={`Imagen de ${character.name}`}
+                        image={element.image1}
                     />
                 </Grid>
                 {/* Parte derecha: Contenido */}
                 <Grid item xs={12} sm={7}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            {character.name}
+                            {element.field1}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Edad: {character.age} años
+                            {label.label1} {element.field2}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Peso: {character.weight} kg
+                            {label.label2} {element.field3}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Historia del Personaje: {character.story}
+                            {label.label3} {element.field4}
                         </Typography>
                         <hr />
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Películas y/o Series: {character.seriesmovies.join(', ')}
+                            {label.label4} {element.list1.join(', ')}
                         </Typography>
                     </CardContent>
                 </Grid>
@@ -52,4 +43,4 @@ function CharacterDetailsCard({ character }: CharacterDetailsCardProps) {
     );
 }
 
-export default CharacterDetailsCard;
+export default DetailsCardComponent;

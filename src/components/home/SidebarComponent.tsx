@@ -1,7 +1,11 @@
 import { AppBar, Toolbar, Typography, List, ListItem, ListItemText } from '@mui/material';
 import '../../styles/SidebarComponent.css';
 
-function SidebarComponent() {
+interface PropsComponent {
+    setSectionSelected: (section: string) => void;
+}
+
+function SidebarComponent({ setSectionSelected }: PropsComponent) {
     return (
         <div className="root">
             <div className="root">
@@ -13,7 +17,7 @@ function SidebarComponent() {
                     </Toolbar>
                     <List className="sidebar">
                         {['Personajes', 'Peliculas', 'API'].map((text) => (
-                            <ListItem button key={text}>
+                            <ListItem button key={text} onClick={() => setSectionSelected(text)}>
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}
