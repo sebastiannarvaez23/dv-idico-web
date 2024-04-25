@@ -15,8 +15,9 @@ const ListCardComponent: React.FC<ComponentListProps> = ({ elements }) => {
                             width: '80%',
                             margin: '4px auto',
                             padding: '4px 8px'
-                        }}>
-                            <Grid item key={index} xs={12} style={{ cursor: 'pointer' }}>
+                        }}
+                            key={index}>
+                            <Grid item xs={12} style={{ cursor: 'pointer' }}>
                                 <Grid container alignItems="center">
                                     <Grid item xs={1}>
                                         <img src={element.image1} alt={`Imagen de ${element.field1}`} style={{ width: '100%', height: 'auto' }} />

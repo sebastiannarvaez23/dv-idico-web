@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoginFormComponent from "../components/auth/LoginFormComponent";
+import LoginFormComponent from "../components/auth/SignInFormComponent";
 import SignUpFormComponent from "../components/auth/SignUpFormComponent";
 
 function AuthPage() {
@@ -26,7 +26,7 @@ function AuthPage() {
             )}
             {showSignUp && (
                 <div>
-                    <SignUpFormComponent />
+                    <SignUpFormComponent handleShowLogin={handleShowLogin} />
                     <a href="#" onClick={handleShowLogin}>¿Ya tienes una cuenta? Inicia sesión aquí</a>
                 </div>
             )}

@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { signin } from '../../services/auth';
 
 function LoginFormComponent() {
+    const [mail, setMail] = useState('sebastian.doe@example.com');
+    const [password, setPassword] = useState('admin123');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const [mail, setMail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        console.log('Usuario:', mail);
-        console.log('Contraseña:', password);
+        try {
+            const newToken = await signin(mail, password);
+            localStorage.setItem('token', newToken);
+            navigate('/');
+        } catch (error) {
+            setError('Hubo un error al iniciar sesión. Por favor, verifica tus credenciales y vuelve a intentarlo.');
+        }
     };
 
     return (
@@ -18,6 +25,7 @@ function LoginFormComponent() {
             <Typography variant="h4" align="center" gutterBottom>
                 Iniciar sesión
             </Typography>
+            {error && <Typography variant="body1" color="error">{error}</Typography>}
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Correo Electrónico"

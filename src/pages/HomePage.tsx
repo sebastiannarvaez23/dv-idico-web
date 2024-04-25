@@ -4,7 +4,8 @@ import SearchElementComponent from '../components/home/SerachElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import img from '../assets/images/descarga.jpeg';
 import TheGreatAdventure from '../assets/images/The Great Adventure.jpg';
-import { mapCharacterToDetailsCardElement, mapSerieMovieToDetailsCardElement } from '../utils/mappers/character';
+import { mapCharacterToDetailsCardElement } from '../utils/mappers/character';
+import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie';
 
 function HomePage() {
 
@@ -74,4 +75,3 @@ function HomePage() {
 }
 
 export default HomePage;
-

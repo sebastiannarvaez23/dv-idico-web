@@ -1,7 +1,13 @@
 import React from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
+import { signup } from '../../services/auth';
+import { DataFormRegister } from '../../interfaces/data-form-register';
 
-function SignUpFormComponent() {
+interface ComponentSignUpFormProps {
+    handleShowLogin: () => void;
+}
+
+function SignUpFormComponent({ handleShowLogin }: ComponentSignUpFormProps) {
 
     const [name, setName] = React.useState('');
     const [lastname, setLastname] = React.useState('');
@@ -22,6 +28,16 @@ function SignUpFormComponent() {
             setError('Las contraseñas no coinciden');
             return;
         }
+        const dataFormRegister: DataFormRegister = {
+            name: name,
+            lastname: lastname,
+            mail: mail,
+            birthdate: birthdate,
+            phone: phone,
+            password: password,
+        }
+        signup(dataFormRegister);
+        handleShowLogin();
     };
 
     return (
