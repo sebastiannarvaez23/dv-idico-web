@@ -2,9 +2,16 @@
 
 Esta es una aplicación desarrollada para explorar el universo de Disney, permitiendo conocer y modificar los personajes, así como comprender las películas en las que participaron. La API expone la información de manera que cualquier frontend pueda consumirla de manera sencilla.
 
-## Modelado de base de datos
+## Interfaces de usuario
 
-![MODELO ENT-REL DB  DISNEY CHARACTERS](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/b41d995a-84b7-41e1-9df0-5ed26e74f1e6)
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/ad031d7f-dffa-4662-92ed-39810c297adb)
+
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/9b85d275-897f-4c03-a7e5-0a3e5c865d3b)
+
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/ddd85383-aa7a-4220-a646-088cd3e22898)
+
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/2eeb1e51-6f09-4780-bbc9-e32b7b8ec563)
+
 
 ## Tecnologías Utilizadas
 
@@ -21,23 +28,16 @@ El código ha sido publicado en GitHub. Se han realizado commits regulares y se 
 
 ## Tareas y Estimación
 
-Se han segregado las tareas de los requerimientos y se ha propuesto una estimación para las mismas. A continuación se detallan:
-
-| No | Sprint | Entorno | Descripción                                                               | Tiempo | Unidad  | Rama dependiente           | Nombre de la rama   | Complejidad | Comentarios                                                                                                                   |
-|----|--------|---------|---------------------------------------------------------------------------|--------|---------|-----------------------------|---------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------|
-| 1  | 1      | Backend | Estructura base del código fuente                                        | 20     | Minutos | NA                          | feature/sprint1#DEV0001 | Baja        | Organización de archivos bajo una arquitectura MVC en Express basada en TypeScript.                                          |
-| 2  | 1      | Backend | Configuración del servidor, controladores, y rutas                       | 30     | Minutos | feature/sprint1#DEV0001     | feature/sprint1#DEV0002 | Baja        | NA                                                                                                                            |
-| 3  | 1      | Backend | Configuración de los middlewares                                          | 5      | Minutos | feature/sprint1#DEV0002     | feature/sprint1#DEV0003 | Baja        | NA                                                                                                                            |
-| 4  | 1      | Backend | Configuración del Sequelize y creación de los modelos principales         | 30     | Minutos | feature/sprint1#DEV0003     | feature/sprint1#DEV0004 | Media       | NA                                                                                                                            |
-| 5  | 1      | Backend | Implementación de los metodos CRUD de los modelos principales             | 40     | Minutos | feature/sprint1#DEV0004     | feature/sprint1#DEV0005 | Media       | NA                                                                                                                            |
-| 6  | 1      | Backend | Implementación del delete soft por medio del paranoid                     | 20     | Minutos | feature/sprint1#DEV0005     | feature/sprint1#DEV0006 | Baja        | NA                                                                                                                            |
-| 7  | 1      | Backend | Ajuste al requerimiento del listado de personajes, solo se muestran los atributos requeridos | 10     | Minutos | feature/sprint1#DEV0006     | feature/sprint1#DEV0007 | Baja        | NA                                                                                                                            |
-| 8  | 1      | Backend | Ajuste a los filtros requeridos para la busqueda de personas             | 30     | Minutos | NA                          | feature/sprint1#DEV0007 | Alta        | NA                                                                                                                            |
-| 9  | 1      | Backend | Ajuste a los filtros requeridos para la busqueda de series o películas   | 20     | Minutos | feature/sprint1#DEV0007     | feature/sprint1#DEV0008 | Media       | NA                                                                                                                            |
-| 10 | 1      | Backend | Configuración de archivos estaticos para servir las imágenes             | 40     | Minutos | feature/sprint1#DEV0008     | feature/sprint1#DEV0009 | Media       | NA                                                                                                                            |
-| 11 | 1      | Backend | Implementación de los metodos CRUD gender                                 | 30     | Minutos | feature/sprint1#DEV0009     | feature/sprint1#DEV00010| Baja        | NA                                                                                                                            |
-| 12 | 1      | Backend | Configuración de la carga y almacenamiento de imágenes                   | 20     | Minutos | feature/sprint1#DEV00010    | feature/sprint1#DEV00011| Media       | NA                                                                                                                            |
-| 13 | 1      | Backend | Creación de los modelos y controladores para registro y autenticación de usuarios | 1  | hora    | feature/sprint1#DEV00011    | feature/sprint1#DEV00012| Alta        | NA                                                                                                                            |
+| No | Sprint | Entorno  | Descripción                                                                                           | Tiempo | Unidad  | Rama dependiente           | Nombre de la rama     | Complejidad | Comentarios                                                                                                                     |
+|----|--------|----------|-------------------------------------------------------------------------------------------------------|--------|---------|-----------------------------|-----------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------|
+| 14 | 2      | Frontend | Estructura base del código fuente                                                                     | 20     | Minutos | NA                          | feature/sprint1#DEV00013 | Baja        | NA                                                                                                                              |
+| 15 | 2      | Frontend | Pantalla de autenticación y registro de usuario                                                        | 30     | Minutos | NA                          | feature/sprint1#DEV00013 | Baja        | NA                                                                                                                              |
+| 16 | 2      | Frontend | Pantalla de interacción con el personaje                                                               | 30     | Minutos | NA                          | feature/sprint1#DEV00013 | Media       | NA                                                                                                                              |
+| 17 | 2      | Frontend | Pantalla de interacción con las películas                                                              | 30     | Minutos | NA                          | feature/sprint1#DEV00013 | Media       | NA                                                                                                                              |
+| 18 | 2      | Frontend | Integración de las pantallas                                                                           | 30     | Minutos | feature/sprint1#DEV00013   | feature/sprint1#DEV00014| Media       | NA                                                                                                                              |
+| 19 | 2      | Frontend | Consumo del servicio de autenticación y registro, y protección de rutas                                | 1      | hora    | feature/sprint1#DEV00014   | feature/sprint1#DEV00015| Media       | NA                                                                                                                              |
+| 20 | 2      | Frontend | Consumo de servicios de obtención de Personajes y Películas + renderizado de la información           | 1      | hora    | feature/sprint1#DEV00015   | feature/sprint1#DEV00016| Media       | NA                                                                                                                              |
+| 21 | 2      | Frontend | Implementación del filtros de búsqueda en la interfaz                                                   | 1      | hora    | feature/sprint1#DEV00016   | feature/sprint1#DEV00017| Media       | NA                                                                                                                              |
 
 ## Consideraciones Técnicas
 
@@ -55,9 +55,3 @@ Se han tenido en cuenta varias consideraciones técnicas para el desarrollo efic
 ## Búsqueda Multifactor y Interfaz de Usuario
 
 Se ha implementado una búsqueda multifactor que permite a los usuarios buscar personajes por diferentes criterios, así como películas o series y géneros. La interfaz de usuario presenta componentes visuales atractivos y filtros dinámicos para mejorar la experiencia del usuario.
-
-## Criterios de Evaluación
-
-Los criterios de evaluación incluyen la precisión y relevancia de los resultados de búsqueda, la capacidad de manejar consultas ambiguas, la velocidad y eficiencia del motor de búsqueda, así como la experiencia del usuario y la facilidad de navegación en la interfaz. Se han implementado estrategias para hacer que la aplicación sea lo más eficiente posible en todos estos aspectos.
-
-¡Gracias por considerar nuestra aplicación para explorar el universo Disney!
