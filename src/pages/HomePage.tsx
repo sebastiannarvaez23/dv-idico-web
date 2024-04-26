@@ -14,10 +14,10 @@ function HomePage() {
         name: "",
         age: "",
         weight: "",
-        story: "",
+        history: "",
         image: "",
         endpoint: "",
-        seriesmovies: [],
+        seriesMovies: [],
     });
     const [characters, setCharacters] = useState<Character[]>();
     const [serieMovieSelected, setSerieMovieSelected] = useState<SerieMovie>({
