@@ -1,33 +1,34 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import SidebarComponent from '../components/home/SidebarComponent';
 import SearchElementComponent from '../components/home/SerachElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
-import img from '../assets/images/descarga.jpeg';
-import TheGreatAdventure from '../assets/images/The Great Adventure.jpg';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie';
+import { getSeriesMovies } from '../services/serie-movie';
+import { getCharacter, getCharacters } from '../services/character';
 
 function HomePage() {
 
     const [sectionSelected, setSectionSelected] = useState("Peliculas");
-
-    const character: Character = {
-        name: "Luke Skywalker",
-        age: 25,
-        weight: 75,
-        story: "Luke Skywalker is a fictional character and the main protagonist of the original film trilogy of the Star Wars franchise.",
-        image: img,
-        seriesmovies: ["Alameda", "San Judas", "Melendez"]
-    };
-
-    const serieMovie: SerieMovie = {
-        title: "The Great Adventure",
-        image: TheGreatAdventure,
-        created_date: "2023-09-15",
-        qualification: 4.7,
-        gender: "Action",
-        characters: ["John Smith", "Jane Doe", "Michael Johnson"]
-    }
+    const [characterSelected, setCharacterSelected] = useState<Character>({
+        name: "",
+        age: "",
+        weight: "",
+        story: "",
+        image: "",
+        endpoint: "",
+        seriesmovies: [],
+    });
+    const [characters, setCharacters] = useState<Character[]>();
+    const [serieMovieSelected, setSerieMovieSelected] = useState<SerieMovie>({
+        title: "",
+        image: "",
+        created_date: "",
+        qualification: "",
+        gender: "",
+        characters: []
+    });
+    const [seriesMovies, setSeriesMovies] = useState<SerieMovie[]>();
 
     const detailLabelsCharacter: DetailsLabelCardElement = {
         label1: "Edad:",
@@ -43,8 +44,47 @@ function HomePage() {
         label4: "Personajes:"
     }
 
-    const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(character);
-    const serieMovieDto: DetailsCardElement = mapSerieMovieToDetailsCardElement(serieMovie);
+    const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
+    const serieMovieDto: DetailsCardElement = mapSerieMovieToDetailsCardElement(serieMovieSelected);
+
+    const fetchSeriesMovies = async () => {
+        try {
+            const seriesMoviesData = await getSeriesMovies();
+            setSeriesMovies(seriesMoviesData);
+            setSerieMovieSelected(seriesMoviesData[0]);
+        } catch (error) {
+            console.error('Error al obtener las películas y series:', error);
+        }
+    };
+
+    const fetchCharacters = async () => {
+        try {
+            const charactersData = await getCharacters();
+            setCharacters(charactersData);
+            setCharacterSelected(charactersData[0]);
+        } catch (error) {
+            console.error('Error al obtener las películas y series:', error);
+        }
+    }
+
+    const fetchCharacter = async (endpoint: string) => {
+        try {
+            const charactersData: Character = await getCharacter(endpoint);
+            setCharacterSelected(charactersData);
+        } catch (error) {
+            console.error('Error al obtener las películas y series:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchSeriesMovies();
+        fetchCharacters();
+        if (characterSelected.endpoint) fetchCharacter(characterSelected.endpoint)
+    }, [])
+
+    useEffect(() => {
+        fetchCharacter(characterSelected.endpoint)
+    }, [characterSelected])
 
     return (
         <Fragment>
@@ -57,7 +97,8 @@ function HomePage() {
                     <SectionComponent
                         detailElement={characterDto}
                         detailLabels={detailLabelsCharacter}
-                        listElement={[characterDto, characterDto, characterDto, characterDto]}
+                        listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
+                        setCharacterSelected={setCharacterSelected}
                     />
                 </Fragment>
             ) || sectionSelected === "Peliculas" && (
@@ -66,7 +107,8 @@ function HomePage() {
                     <SectionComponent
                         detailElement={serieMovieDto}
                         detailLabels={detailLabelsSerieMovie}
-                        listElement={[serieMovieDto, serieMovieDto, serieMovieDto, serieMovieDto, serieMovieDto, serieMovieDto, serieMovieDto, serieMovieDto, serieMovieDto,]}
+                        listElement={seriesMovies?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
+                        setSerieMovieSelected={setSerieMovieSelected}
                     />
                 </Fragment>
             )}

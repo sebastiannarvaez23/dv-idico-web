@@ -13,7 +13,7 @@ function DetailsCardComponent({ element, label }: ComponentDetailsCardProps) {
                 <Grid item xs={12} sm={5}>
                     <CardMedia
                         component="img"
-                        style={{ width: '100%', height: 'auto' }}
+                        style={{ width: '100%', height: '340px', objectFit: 'cover' }}
                         image={element.image1}
                     />
                 </Grid>
@@ -34,7 +34,7 @@ function DetailsCardComponent({ element, label }: ComponentDetailsCardProps) {
                         </Typography>
                         <hr />
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {label.label4} {element.list1.join(', ')}
+                            {label.label4} {element.list1?.join(', ')}
                         </Typography>
                     </CardContent>
                 </Grid>

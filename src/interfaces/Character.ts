@@ -1,8 +1,9 @@
 interface Character {
     name: string;
-    age: number;
-    weight: number;
-    story: string;
+    age: string;
+    weight: string;
+    history: string;
     image: string;
-    seriesmovies: string[];
+    endpoint: string;
+    seriesMovies: string[];
 }

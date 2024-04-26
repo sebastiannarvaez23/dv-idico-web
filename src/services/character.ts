@@ -1,0 +1,23 @@
+import api from './api';
+
+export const getCharacters = async (): Promise<Character[]> => {
+    try {
+        const response = await api.get('/character');
+        const characters = response.data.characters;
+        return characters;
+    } catch (error: any) {
+        throw new Error(`Error al iniciar sesión: ${error.message}`);
+    }
+};
+
+
+export const getCharacter = async (endpoint: string): Promise<Character> => {
+    try {
+        const response = await api.get(endpoint);
+        const character = response.data;
+        console.log(character);
+        return character;
+    } catch (error: any) {
+        throw new Error(`Error al iniciar sesión: ${error.message}`);
+    }
+};

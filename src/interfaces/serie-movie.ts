@@ -2,7 +2,7 @@ interface SerieMovie {
     title: string;
     image: string;
     created_date: string;
-    qualification: number;
+    qualification: string;
     gender: string;
     characters: string[];
 }

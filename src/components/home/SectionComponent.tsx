@@ -6,9 +6,11 @@ interface SectionProps {
     detailElement: DetailsCardElement;
     detailLabels: DetailsLabelCardElement;
     listElement: DetailsCardElement[];
+    setSerieMovieSelected?: (e: SerieMovie) => void;
+    setCharacterSelected?: (e: Character) => void;
 }
 
-function SectionComponent({ detailElement, detailLabels, listElement }: SectionProps) {
+function SectionComponent({ detailElement, detailLabels, listElement, setSerieMovieSelected, setCharacterSelected }: SectionProps) {
 
     return (
         <Grid container spacing={2}>
@@ -23,7 +25,10 @@ function SectionComponent({ detailElement, detailLabels, listElement }: SectionP
             <Grid item xs={6}>
                 <Paper className="rightSection" elevation={3}>
                     <h2>Listado de Series y Peliculas</h2>
-                    <ListCardComponent elements={listElement} />
+                    <ListCardComponent
+                        elements={listElement}
+                        setSerieMovieSelected={setSerieMovieSelected}
+                        setCharacterSelected={setCharacterSelected} />
                 </Paper>
             </Grid>
         </Grid >
