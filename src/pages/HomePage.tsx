@@ -107,6 +107,8 @@ function HomePage() {
                         flag={"character"}
                     />
                     <SectionComponent
+                        titleSection={"Personaje"}
+                        titleListSection={"Listado de Personajes"}
                         detailElement={characterDto}
                         detailLabels={detailLabelsCharacter}
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
@@ -123,6 +125,8 @@ function HomePage() {
                         flag={"seriemovie"}
                     />
                     <SectionComponent
+                        titleSection={"Serie o Película"}
+                        titleListSection={"Listado de Series y Peliculas"}
                         detailElement={serieMovieDto}
                         detailLabels={detailLabelsSerieMovie}
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
