@@ -12,7 +12,6 @@ const formattingDate = (date: Date): string => {
 }
 
 const parseDateString = (dateString: string): string => {
-    console.log(dateString);
     const dateParts = dateString.split(" ");
     const day = parseInt(dateParts[0]);
     const monthStr = dateParts[2];

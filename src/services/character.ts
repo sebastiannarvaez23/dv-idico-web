@@ -15,7 +15,6 @@ export const getCharacter = async (endpoint: string): Promise<Character> => {
     try {
         const response = await api.get(endpoint);
         const character = response.data;
-        console.log(character);
         return character;
     } catch (error: any) {
         throw new Error(`Error al iniciar sesión: ${error.message}`);

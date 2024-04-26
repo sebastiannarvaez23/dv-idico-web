@@ -8,7 +8,7 @@ interface PropsComponent {
 }
 
 function SidebarComponent({ setSectionSelected }: PropsComponent) {
-    const name = "Sebastian";
+
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -25,7 +25,7 @@ function SidebarComponent({ setSectionSelected }: PropsComponent) {
                     </Typography>
                     <div style={{ flexGrow: 1 }}></div>
                     <Typography style={{ marginRight: '2%' }} variant="body1" noWrap>
-                        Bienvenido al universo {name}
+                        Bienvenido al universo de Disney
                     </Typography>
                     <IconButton color="inherit" onClick={handleLogout}>
                         <Logout />

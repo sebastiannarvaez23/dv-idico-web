@@ -20,6 +20,7 @@ function HomePage() {
         seriesMovies: [],
     });
     const [characters, setCharacters] = useState<Character[]>();
+    const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [serieMovieSelected, setSerieMovieSelected] = useState<SerieMovie>({
         title: "",
         image: "",
@@ -29,10 +30,11 @@ function HomePage() {
         characters: []
     });
     const [seriesMovies, setSeriesMovies] = useState<SerieMovie[]>();
+    const [seriesMoviesFilters, setSeriesMoviesFilters] = useState<SerieMovie[]>();
 
     const detailLabelsCharacter: DetailsLabelCardElement = {
         label1: "Edad:",
-        label2: "Peso:",
+        label2: "Peso (kg): ",
         label3: "Historia del Personaje:",
         label4: "Películas y/ o Series:"
     }
@@ -79,11 +81,15 @@ function HomePage() {
     useEffect(() => {
         fetchSeriesMovies();
         fetchCharacters();
-        if (characterSelected.endpoint) fetchCharacter(characterSelected.endpoint)
+        if (characterSelected.endpoint !== '' && characterSelected.endpoint !== undefined) {
+            fetchCharacter(characterSelected.endpoint)
+        }
     }, [])
 
     useEffect(() => {
-        fetchCharacter(characterSelected.endpoint)
+        if (characterSelected.endpoint !== '' && characterSelected.endpoint !== undefined) {
+            fetchCharacter(characterSelected.endpoint)
+        };
     }, [characterSelected])
 
     return (
@@ -93,21 +99,33 @@ function HomePage() {
             </div>
             {sectionSelected === "Personajes" && (
                 <Fragment>
-                    <SearchElementComponent />
+                    <SearchElementComponent
+                        characters={characters ?? []}
+                        setFilteredCharacters={setCharactersFilters}
+                        seriesmovies={[]}
+                        setFilteredSeriesMovies={() => { }}
+                        flag={"character"}
+                    />
                     <SectionComponent
                         detailElement={characterDto}
                         detailLabels={detailLabelsCharacter}
-                        listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
+                        listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                         setCharacterSelected={setCharacterSelected}
                     />
                 </Fragment>
             ) || sectionSelected === "Peliculas" && (
                 <Fragment>
-                    <SearchElementComponent />
+                    <SearchElementComponent
+                        seriesmovies={seriesMovies ?? []}
+                        setFilteredSeriesMovies={setSeriesMoviesFilters}
+                        characters={[]}
+                        setFilteredCharacters={() => { }}
+                        flag={"seriemovie"}
+                    />
                     <SectionComponent
                         detailElement={serieMovieDto}
                         detailLabels={detailLabelsSerieMovie}
-                        listElement={seriesMovies?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
+                        listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
                         setSerieMovieSelected={setSerieMovieSelected}
                     />
                 </Fragment>
