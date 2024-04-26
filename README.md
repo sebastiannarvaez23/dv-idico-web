@@ -10,8 +10,7 @@ Esta es una aplicación desarrollada para explorar el universo de Disney, permit
 
 ![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/ddd85383-aa7a-4220-a646-088cd3e22898)
 
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/2eeb1e51-6f09-4780-bbc9-e32b7b8ec563)
-
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/47e6b56a-12c5-47e4-be2b-16b46d1ab181)
 
 ## Tecnologías Utilizadas
 
