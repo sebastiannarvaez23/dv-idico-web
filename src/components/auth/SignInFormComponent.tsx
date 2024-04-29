@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { signin } from '../../services/auth';
 
 function LoginFormComponent() {
-    const [mail, setMail] = useState('sebastian.doe@example.com');
-    const [password, setPassword] = useState('admin123');
+    const [mail, setMail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
