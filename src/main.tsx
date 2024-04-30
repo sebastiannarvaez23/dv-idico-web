@@ -1,23 +1,36 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider, createHashRouter, RouteObject } from 'react-router-dom';
 import HomePage from './pages/HomePage.tsx';
 import AuthPage from './pages/AuthPage.tsx';
+import './index.css';
 
-const router = createHashRouter([
+const isAuthenticated = !!localStorage.getItem('token');
+
+const PrivateRoute: React.FC<{ path: string, element: React.ReactNode }> = ({ element }) => {
+  if (isAuthenticated) {
+    return <>{element}</>;
+  } else {
+    window.location.href = '/auth';
+    return null;
+  }
+};
+
+const routes: RouteObject[] = [
   {
     path: '/',
-    element: <HomePage />
+    element: <PrivateRoute path="/" element={<HomePage />} />
   },
   {
     path: '/auth',
     element: <AuthPage />
   }
-]);
+];
+
+const router = createHashRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>,
-)
+);
