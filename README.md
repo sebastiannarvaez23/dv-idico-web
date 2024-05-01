@@ -15,11 +15,15 @@ Esta es una aplicación desarrollada para explorar el universo de Disney, permit
 ## Tecnologías Utilizadas
 
 - **NodeJs**: Para el desarrollo del backend.
-- **ExpressJs**: Para la creación de la API RESTful.
-- **Base de datos MySQL**: Almacenamiento de datos.
 - **React con @mui React Text Field component - Material UI**: Para la construcción del frontend.
-- **Patrón REST para rutas**: Para la estructuración de las rutas de la API.
-- **Librería Sequelize**: Para el mapeo objeto-relacional y la interacción con la base de datos.
+
+<p align="left">
+  <img src="https://github.com/sebastiannarvaez23/window-quote-machine/assets/88569352/8be2479b-f1da-4d44-a379-a2050d40ec5e" width="auto" height="80">
+  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/4a76714b-8dee-433e-a353-fbcee2b57c0c" width="auto" height="80">
+  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/cc64327f-28bd-43df-bd5f-1c9283988c34" width="auto" height="80">
+  <img src="https://static-00.iconduck.com/assets.00/git-icon-1024x1024-pqp7u4hl.png" width="auto" height="90">
+
+</p>
 
 ## Entrega del Código
 
