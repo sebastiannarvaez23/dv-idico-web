@@ -13,9 +13,9 @@ Esta es una aplicación desarrollada para explorar el universo de Disney, permit
 ![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/47e6b56a-12c5-47e4-be2b-16b46d1ab181)
 
 ## Tecnologías Utilizadas
-
-- **NodeJs**: Para el desarrollo del backend.
 - **React con @mui React Text Field component - Material UI**: Para la construcción del frontend.
+- **TypeScript**: Para el manejo de tipado.
+- **Vite**: Como framework para el desarrollo.
 
 <p align="left">
   <img src="https://github.com/sebastiannarvaez23/window-quote-machine/assets/88569352/8be2479b-f1da-4d44-a379-a2050d40ec5e" width="auto" height="80">
