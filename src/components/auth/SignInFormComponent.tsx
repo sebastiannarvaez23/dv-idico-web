@@ -3,7 +3,7 @@ import { Container, Typography, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { signin } from '../../services/auth';
 
-function LoginFormComponent() {
+const LoginFormComponent = () => {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -21,7 +21,7 @@ function LoginFormComponent() {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" style={{ paddingTop: '28vh' }}>
             <Typography variant="h4" align="center" gutterBottom>
                 Iniciar sesión
             </Typography>

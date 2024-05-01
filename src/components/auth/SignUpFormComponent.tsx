@@ -7,7 +7,7 @@ interface ComponentSignUpFormProps {
     handleShowLogin: () => void;
 }
 
-function SignUpFormComponent({ handleShowLogin }: ComponentSignUpFormProps) {
+const SignUpFormComponent = ({ handleShowLogin }: ComponentSignUpFormProps) => {
 
     const [name, setName] = React.useState('');
     const [lastname, setLastname] = React.useState('');
@@ -41,7 +41,7 @@ function SignUpFormComponent({ handleShowLogin }: ComponentSignUpFormProps) {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" style={{ paddingTop: '8vh' }}>
             <Typography variant="h4" align="center" gutterBottom>
                 Resgistro de usuario
             </Typography>

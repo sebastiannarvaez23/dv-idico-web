@@ -12,7 +12,7 @@ interface SectionProps {
     setCharacterSelected?: (e: Character) => void;
 }
 
-function SectionComponent({ detailElement, detailLabels, listElement, setSerieMovieSelected, setCharacterSelected, titleSection, titleListSection }: SectionProps) {
+const SectionComponent = ({ detailElement, detailLabels, listElement, setSerieMovieSelected, setCharacterSelected, titleSection, titleListSection }: SectionProps) => {
 
     return (
         <Grid container spacing={2}>

@@ -7,7 +7,7 @@ import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie';
 import { getSeriesMovies } from '../services/serie-movie';
 import { getCharacter, getCharacters } from '../services/character';
 
-function HomePage() {
+const HomePage = () => {
 
     const [sectionSelected, setSectionSelected] = useState("Peliculas");
     const [characterSelected, setCharacterSelected] = useState<Character>({

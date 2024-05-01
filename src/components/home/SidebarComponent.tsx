@@ -1,13 +1,13 @@
 import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/SidebarComponent.css';
+import '../../styles/sidebar-component.css';
 
 interface PropsComponent {
     setSectionSelected: (section: string) => void;
 }
 
-function SidebarComponent({ setSectionSelected }: PropsComponent) {
+const SidebarComponent = ({ setSectionSelected }: PropsComponent) => {
 
     const navigate = useNavigate();
 

@@ -21,7 +21,7 @@ interface SearchElementProps {
     flag: string
 }
 
-function SearchElementComponent({ seriesmovies, setFilteredSeriesMovies, characters, setFilteredCharacters, flag }: SearchElementProps) {
+const SearchElementComponent = ({ seriesmovies, setFilteredSeriesMovies, characters, setFilteredCharacters, flag }: SearchElementProps) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [filterTypeSerieMovie, setFilterTypeSerieMovie] = useState<string>('title');
     const [filterTypeCharacter, setFilterTypeCharacter] = useState<string>('name');

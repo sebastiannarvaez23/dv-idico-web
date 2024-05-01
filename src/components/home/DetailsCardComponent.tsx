@@ -1,11 +1,11 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
 interface ComponentDetailsCardProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
 }
 
-function DetailsCardComponent({ element, label }: ComponentDetailsCardProps) {
+const DetailsCardComponent = ({ element, label }: ComponentDetailsCardProps) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
@@ -36,6 +36,12 @@ function DetailsCardComponent({ element, label }: ComponentDetailsCardProps) {
                         <Typography variant="body2" color="textSecondary" component="p">
                             {label.label4} {element.list1?.join(', ')}
                         </Typography>
+                        <Button size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                            editar
+                        </Button>
+                        <Button size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                            Eliminar
+                        </Button>
                     </CardContent>
                 </Grid>
             </Grid>
