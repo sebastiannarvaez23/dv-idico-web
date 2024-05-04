@@ -1,4 +1,4 @@
-import { Button, Typography, Box, TextField, Input } from "@mui/material";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, FormLabel } from "@mui/material";
 import { useState } from "react";
 
 const EditSerieMovieFormComponent = () => {
@@ -7,7 +7,7 @@ const EditSerieMovieFormComponent = () => {
         title: "Esto es una prueba creando una serie o una pelicula",
         image: null as File | null,
         created_date: "1937-12-21T00:00:00.000Z",
-        qualification: "5",
+        qualification: 5,
         gender: 3,
         deleted: false
     });
@@ -31,14 +31,30 @@ const EditSerieMovieFormComponent = () => {
     };
 
     const handleSubmit = () => {
-        // Aquí puedes enviar los datos del formulario
         console.log(formData);
+    };
+
+    const handleRatingChange = (newValue: number | null) => {
+        if (newValue !== null) {
+            setFormData({
+                ...formData,
+                qualification: newValue,
+            });
+        }
     };
 
     return (
         <Box p={2}>
             <div>
                 <Typography variant="h6">Editar Serie / Película</Typography>
+                <hr />
+                <Rating
+                    name="qualification"
+                    value={formData.qualification}
+                    onChange={(event, newValue) => {
+                        handleRatingChange(newValue);
+                    }}
+                />
                 <TextField
                     label="Título"
                     name="title"
@@ -52,15 +68,6 @@ const EditSerieMovieFormComponent = () => {
                     name="created_date"
                     type="date"
                     value={formData.created_date}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                />
-                <TextField
-                    label="Calificación"
-                    name="qualification"
-                    type="number"
-                    value={formData.qualification}
                     onChange={handleChange}
                     fullWidth
                     margin="normal"

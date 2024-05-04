@@ -38,6 +38,7 @@ const EditCharacterFormComponent = () => {
         <Box p={2}>
             <div>
                 <Typography variant="h6">Editar Personaje</Typography>
+                <hr />
                 <TextField
                     label="Nombre"
                     name="name"
