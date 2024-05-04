@@ -6,8 +6,13 @@ import { mapCharacterToDetailsCardElement } from '../utils/mappers/character';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie';
 import { getSeriesMovies } from '../services/serie-movie';
 import { getCharacter, getCharacters } from '../services/character';
+import ModalComponent from '../components/home/ModalComponent';
+import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
+import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
 
 const HomePage = () => {
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     const [sectionSelected, setSectionSelected] = useState("Peliculas");
     const [characterSelected, setCharacterSelected] = useState<Character>({
@@ -78,6 +83,14 @@ const HomePage = () => {
         }
     }
 
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
     useEffect(() => {
         fetchSeriesMovies();
         fetchCharacters();
@@ -99,6 +112,9 @@ const HomePage = () => {
             </div>
             {sectionSelected === "Personajes" && (
                 <Fragment>
+                    <ModalComponent open={modalOpen} onClose={handleCloseModal}>
+                        <EditCharacterFormComponent />
+                    </ModalComponent>
                     <SearchElementComponent
                         characters={characters ?? []}
                         setFilteredCharacters={setCharactersFilters}
@@ -113,10 +129,14 @@ const HomePage = () => {
                         detailLabels={detailLabelsCharacter}
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                         setCharacterSelected={setCharacterSelected}
+                        editElement={handleOpenModal}
                     />
                 </Fragment>
             ) || sectionSelected === "Peliculas" && (
                 <Fragment>
+                    <ModalComponent open={modalOpen} onClose={handleCloseModal}>
+                        <EditSerieMovieFormComponent />
+                    </ModalComponent>
                     <SearchElementComponent
                         seriesmovies={seriesMovies ?? []}
                         setFilteredSeriesMovies={setSeriesMoviesFilters}
@@ -125,12 +145,13 @@ const HomePage = () => {
                         flag={"seriemovie"}
                     />
                     <SectionComponent
-                        titleSection={"Serie o Película"}
+                        titleSection={"Serie / Película"}
                         titleListSection={"Listado de Series y Peliculas"}
                         detailElement={serieMovieDto}
                         detailLabels={detailLabelsSerieMovie}
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
                         setSerieMovieSelected={setSerieMovieSelected}
+                        editElement={handleOpenModal}
                     />
                 </Fragment>
             )}

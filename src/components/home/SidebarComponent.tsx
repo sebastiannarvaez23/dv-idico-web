@@ -32,7 +32,7 @@ const SidebarComponent = ({ setSectionSelected }: PropsComponent) => {
                     </IconButton>
                 </Toolbar>
                 <List className="sidebar">
-                    {['Personajes', 'Peliculas', 'API'].map((text) => (
+                    {['Personajes', 'Peliculas'].map((text) => (
                         <ListItem button key={text} onClick={() => setSectionSelected(text)}>
                             <ListItemText primary={text} />
                         </ListItem>

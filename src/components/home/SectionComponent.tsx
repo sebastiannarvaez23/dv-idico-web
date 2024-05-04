@@ -10,9 +10,10 @@ interface SectionProps {
     titleListSection: string;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
+    editElement: () => void;
 }
 
-const SectionComponent = ({ detailElement, detailLabels, listElement, setSerieMovieSelected, setCharacterSelected, titleSection, titleListSection }: SectionProps) => {
+const SectionComponent = ({ detailElement, detailLabels, listElement, setSerieMovieSelected, setCharacterSelected, titleSection, titleListSection, editElement }: SectionProps) => {
 
     return (
         <Grid container spacing={2}>
@@ -21,7 +22,8 @@ const SectionComponent = ({ detailElement, detailLabels, listElement, setSerieMo
                     <h2>{titleSection}</h2>
                     <DetailsCard
                         element={detailElement}
-                        label={detailLabels} />
+                        label={detailLabels}
+                        editElement={editElement} />
                 </Paper>
             </Grid>
             <Grid item xs={6}>

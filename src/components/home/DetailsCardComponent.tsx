@@ -3,9 +3,10 @@ import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/mat
 interface ComponentDetailsCardProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
+    editElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label }: ComponentDetailsCardProps) => {
+const DetailsCardComponent = ({ element, label, editElement }: ComponentDetailsCardProps) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
@@ -36,7 +37,7 @@ const DetailsCardComponent = ({ element, label }: ComponentDetailsCardProps) => 
                         <Typography variant="body2" color="textSecondary" component="p">
                             {label.label4} {element.list1?.join(', ')}
                         </Typography>
-                        <Button size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
                         </Button>
                         <Button size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
