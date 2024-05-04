@@ -1,4 +1,4 @@
-import { Button, Typography, Box, TextField, Input, Rating, FormControl, FormLabel } from "@mui/material";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, FormLabel, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 
 const EditSerieMovieFormComponent = () => {
@@ -8,7 +8,7 @@ const EditSerieMovieFormComponent = () => {
         image: null as File | null,
         created_date: "1937-12-21T00:00:00.000Z",
         qualification: 5,
-        gender: 3,
+        gender: "",
         deleted: false
     });
 
@@ -43,6 +43,13 @@ const EditSerieMovieFormComponent = () => {
         }
     };
 
+    const handleGenreChange = (e: SelectChangeEvent<string>) => {
+        setFormData({
+            ...formData,
+            gender: e.target.value,
+        });
+    };
+
     return (
         <Box p={2}>
             <div>
@@ -72,15 +79,23 @@ const EditSerieMovieFormComponent = () => {
                     fullWidth
                     margin="normal"
                 />
-                <TextField
-                    label="Genero"
-                    name="gender"
-                    rows={4}
-                    value={formData.gender}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                />
+                <FormControl fullWidth margin="normal">
+                    <InputLabel id="gender-label">Género</InputLabel>
+                    <Select
+                        labelId="gender-label"
+                        id="gender"
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleGenreChange}
+                    >
+                        <MenuItem value="Aventura">Aventura</MenuItem>
+                        <MenuItem value="Comedia">Comedia</MenuItem>
+                        <MenuItem value="Drama">Drama</MenuItem>
+                        <MenuItem value="Acción">Acción</MenuItem>
+                        <MenuItem value="Ciencia Ficción">Ciencia Ficción</MenuItem>
+                        {/* Añade más géneros según necesites */}
+                    </Select>
+                </FormControl>
                 <Input
                     type="file"
                     onChange={handleImageChange}
