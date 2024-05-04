@@ -1,15 +1,19 @@
-import { Button, Typography, Box, TextField, Input, Rating, FormControl, FormLabel, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 
-const EditSerieMovieFormComponent = () => {
+interface EditSerieMovieFormProps {
+    serieMovie: SerieMovie
+}
 
-    const [formData, setFormData] = useState({
-        title: "Esto es una prueba creando una serie o una pelicula",
-        image: null as File | null,
-        created_date: "1937-12-21T00:00:00.000Z",
-        qualification: 5,
-        gender: "",
-        deleted: false
+const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) => {
+
+    const [formData, setFormData] = useState<SerieMovie>({
+        title: serieMovie.title,
+        image: serieMovie.image,
+        created_date: serieMovie.created_date,
+        qualification: serieMovie.qualification,
+        gender: serieMovie.gender,
+        characters: serieMovie.characters
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,10 +27,15 @@ const EditSerieMovieFormComponent = () => {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setFormData({
-                ...formData,
-                image: file,
-            });
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const imageDataURL = reader.result as string;
+                setFormData({
+                    ...formData,
+                    image: imageDataURL,
+                });
+            };
         }
     };
 
@@ -38,7 +47,7 @@ const EditSerieMovieFormComponent = () => {
         if (newValue !== null) {
             setFormData({
                 ...formData,
-                qualification: newValue,
+                qualification: newValue.toString(),
             });
         }
     };
@@ -57,7 +66,7 @@ const EditSerieMovieFormComponent = () => {
                 <hr />
                 <Rating
                     name="qualification"
-                    value={formData.qualification}
+                    value={parseInt(formData.qualification)}
                     onChange={(event, newValue) => {
                         handleRatingChange(newValue);
                     }}
