@@ -16,6 +16,7 @@ const HomePage = () => {
 
     const [sectionSelected, setSectionSelected] = useState("Peliculas");
     const [characterSelected, setCharacterSelected] = useState<Character>({
+        id: "",
         name: "",
         age: "",
         weight: "",
@@ -27,6 +28,7 @@ const HomePage = () => {
     const [characters, setCharacters] = useState<Character[]>();
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [serieMovieSelected, setSerieMovieSelected] = useState<SerieMovie>({
+        id: "",
         title: "",
         image: "",
         created_date: "",

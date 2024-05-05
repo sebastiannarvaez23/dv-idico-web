@@ -1,4 +1,5 @@
 interface Character {
+    id: string;
     name: string;
     age: string;
     weight: string;

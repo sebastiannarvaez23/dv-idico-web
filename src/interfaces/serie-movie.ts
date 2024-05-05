@@ -1,4 +1,5 @@
 interface SerieMovie {
+    id: string;
     title: string;
     image: string;
     created_date: string;

@@ -1,5 +1,6 @@
-import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import { useState } from "react";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, formControlClasses } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getGenders } from "../../services/gender";
 
 interface EditSerieMovieFormProps {
     serieMovie: SerieMovie
@@ -7,7 +8,10 @@ interface EditSerieMovieFormProps {
 
 const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) => {
 
+    const [genders, setGenders] = useState<Gender[]>([]);
+
     const [formData, setFormData] = useState<SerieMovie>({
+        id: serieMovie.id,
         title: serieMovie.title,
         image: serieMovie.image,
         created_date: serieMovie.created_date,
@@ -41,6 +45,7 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
 
     const handleSubmit = () => {
         console.log(formData);
+        //updateSerieMovie(formData);
     };
 
     const handleRatingChange = (newValue: number | null) => {
@@ -58,6 +63,19 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
             gender: e.target.value,
         });
     };
+
+    const fetchGenders = async () => {
+        try {
+            const genders: Gender[] = await getGenders();
+            setGenders(genders);
+        } catch (error) {
+            throw new Error(`Error al obtener listado de generos: ${error}`);
+        }
+    }
+
+    useEffect(() => {
+        fetchGenders();
+    }, []);
 
     return (
         <Box p={2}>
@@ -97,12 +115,9 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
                         value={formData.gender}
                         onChange={handleGenreChange}
                     >
-                        <MenuItem value="Aventura">Aventura</MenuItem>
-                        <MenuItem value="Comedia">Comedia</MenuItem>
-                        <MenuItem value="Drama">Drama</MenuItem>
-                        <MenuItem value="Acción">Acción</MenuItem>
-                        <MenuItem value="Ciencia Ficción">Ciencia Ficción</MenuItem>
-                        {/* Añade más géneros según necesites */}
+                        {(genders.map((gender, index) => {
+                            return <MenuItem key={index} value={gender.name}>{gender.name}</MenuItem>
+                        }))}
                     </Select>
                 </FormControl>
                 <Input
