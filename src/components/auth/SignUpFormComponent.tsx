@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { signup } from '../../services/auth';
-import { DataFormRegister } from '../../interfaces/data-form-register';
+import { DataFormRegister } from '../../interfaces/data-form-register.interface';
 
 interface ComponentSignUpFormProps {
     handleShowLogin: () => void;

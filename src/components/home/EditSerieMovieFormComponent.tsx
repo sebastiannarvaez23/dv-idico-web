@@ -1,6 +1,7 @@
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, formControlClasses } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getGenders } from "../../services/gender";
+import { updateSerieMovie } from "../../services/serie-movie";
 
 interface EditSerieMovieFormProps {
     serieMovie: SerieMovie
@@ -34,18 +35,24 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
-                const imageDataURL = reader.result as string;
                 setFormData({
                     ...formData,
-                    image: imageDataURL,
+                    image: file,
                 });
             };
         }
     };
 
     const handleSubmit = () => {
+        const formDataToSend = new FormData();
         console.log(formData);
-        //updateSerieMovie(formData);
+        formDataToSend.append('id', formData.id);
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('created_date', formData.created_date);
+        formDataToSend.append('qualification', formData.qualification);
+        formDataToSend.append('gender', formData.gender);
+        formDataToSend.append('image', formData.image);
+        updateSerieMovie(formDataToSend);
     };
 
     const handleRatingChange = (newValue: number | null) => {

@@ -10,15 +10,18 @@ export const getSeriesMovies = async (): Promise<SerieMovie[]> => {
     }
 };
 
-export const updateSerieMovie = async (serieMovie: SerieMovie): Promise<SerieMovie> => {
+export const updateSerieMovie = async (serieMovie: FormData): Promise<SerieMovie> => {
     try {
+        console.log(serieMovie);
         const response = await api.put(
-            '/serie-movie/' + serieMovie.id,
-            JSON.stringify(serieMovie)
+            '/serie-movie/' + serieMovie.get('id'),
+            serieMovie,
+            { headers: { 'Content-Type': 'multipart/form-data' } }
         );
         const serieMovieUpdated = response.data;
+        if (response.status === 200) alert('Serie o Película editada exitosamente!');
         return serieMovieUpdated;
     } catch (error: any) {
-        throw new Error(`Error al obtener serie o película: ${error.message}`);
+        throw new Error(`Error al editar serie o película: ${error.message}`);
     }
 }

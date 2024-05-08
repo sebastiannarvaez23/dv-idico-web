@@ -17,7 +17,6 @@ const parseDateString = (dateString: string): string => {
     const monthStr = dateParts[2];
     const month = (parseMonth(monthStr) + 1).toString().padStart(2, '0');
     const year = parseInt(dateParts[4]);
-    console.log(`${year}-${month}-${day}`);
     return `${year}-${month}-${day}`;
 }
 

@@ -6,9 +6,6 @@ const TIMEOUT = 10000;
 const api = axios.create({
     baseURL: BASE_URL,
     timeout: TIMEOUT,
-    headers: {
-        'Content-Type': 'application/json',
-    },
 });
 
 api.interceptors.request.use((config) => {
