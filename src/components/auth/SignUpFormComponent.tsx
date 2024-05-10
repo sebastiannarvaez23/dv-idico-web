@@ -1,13 +1,15 @@
 import React from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
-import { signup } from '../../services/auth';
 import { DataFormRegister } from '../../interfaces/data-form-register.interface';
+import useApiAuth from '../../hooks/useApiAuth.hook';
 
 interface ComponentSignUpFormProps {
     handleShowLogin: () => void;
 }
 
 const SignUpFormComponent = ({ handleShowLogin }: ComponentSignUpFormProps) => {
+
+    const { signup } = useApiAuth();
 
     const [name, setName] = React.useState('');
     const [lastname, setLastname] = React.useState('');
