@@ -18,7 +18,7 @@ const SidebarComponent = ({ setSectionSelected }: PropsComponent) => {
 
     return (
         <div className="root">
-            <AppBar position="fixed" className="appBar">
+            <AppBar sx={{ backgroundColor: '#161732' }} position="fixed" className="appBar">
                 <Toolbar>
                     <Typography variant="h6" noWrap>
                         Disney Verse

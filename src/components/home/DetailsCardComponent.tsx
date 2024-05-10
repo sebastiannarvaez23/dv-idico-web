@@ -38,10 +38,10 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: Co
                         <Typography variant="body2" color="textSecondary" component="p">
                             {label.label4} {element.list1?.join(', ')}
                         </Typography>
-                        <Button onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
                         </Button>
-                        <Button onClick={deleteElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button sx={{ backgroundColor: '#161732' }} onClick={deleteElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             Eliminar
                         </Button>
                     </CardContent>

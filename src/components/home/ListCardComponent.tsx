@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Card, Typography } from '@mui/material';
-import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie';
-import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character';
+import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
+import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 
 interface ComponentListProps {
     elements: DetailsCardElement[];
