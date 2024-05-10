@@ -119,6 +119,7 @@ const HomePage = () => {
                             character={characterSelected}
                             setCharacterSelected={setCharacterSelected}
                             fetchCharacters={fetchCharacters}
+                            setModalOpen={setModalOpen}
                         />
                     </ModalComponent>
                     <SearchElementComponent
@@ -144,7 +145,8 @@ const HomePage = () => {
                         <EditSerieMovieFormComponent
                             serieMovie={serieMovieSelected}
                             setSerieMovieSelected={setSerieMovieSelected}
-                            fetchSeriesMovies={fetchSeriesMovies} />
+                            fetchSeriesMovies={fetchSeriesMovies}
+                            setModalOpen={setModalOpen} />
 
                     </ModalComponent>
                     <SearchElementComponent

@@ -6,9 +6,10 @@ interface EditCharacterFormProps {
     character: Character;
     setCharacterSelected: (character: Character) => void;
     fetchCharacters: () => void;
+    setModalOpen: (fun: boolean) => void;
 }
 
-const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchCharacters }: EditCharacterFormProps) => {
+const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchCharacters, setModalOpen }: EditCharacterFormProps) => {
 
     const [formData, setFormData] = useState({
         id: character.id,
@@ -52,6 +53,7 @@ const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchChar
         const newCharacter = await updateCharacter(formDataToSend);
         await setCharacterSelected(newCharacter);
         await fetchCharacters();
+        await setModalOpen(false);
     };
 
     return (

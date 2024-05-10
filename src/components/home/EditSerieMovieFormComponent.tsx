@@ -7,9 +7,10 @@ interface EditSerieMovieFormProps {
     serieMovie: SerieMovie,
     setSerieMovieSelected: (serieMovie: SerieMovie) => void;
     fetchSeriesMovies: () => void;
+    setModalOpen: (fun: boolean) => void;
 }
 
-const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchSeriesMovies }: EditSerieMovieFormProps) => {
+const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchSeriesMovies, setModalOpen }: EditSerieMovieFormProps) => {
 
     const [genders, setGenders] = useState<Gender[]>([]);
 
@@ -56,6 +57,7 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
         const newSerieMovie = await updateSerieMovie(formDataToSend);
         await setSerieMovieSelected(newSerieMovie);
         await fetchSeriesMovies();
+        await setModalOpen(false);
     };
 
     const handleRatingChange = (newValue: number | null) => {
