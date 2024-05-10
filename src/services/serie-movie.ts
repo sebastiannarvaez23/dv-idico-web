@@ -12,7 +12,6 @@ export const getSeriesMovies = async (): Promise<SerieMovie[]> => {
 
 export const updateSerieMovie = async (serieMovie: FormData): Promise<SerieMovie> => {
     try {
-        console.log(serieMovie);
         const response = await api.put(
             '/serie-movie/' + serieMovie.get('id'),
             serieMovie,

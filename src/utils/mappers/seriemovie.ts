@@ -30,10 +30,11 @@ export const mapSerieMovieToDetailsCardElement = (serieMovie: SerieMovie): Detai
         field1: serieMovie.title,
         field2: formattingDate(serieMovie.created_date),
         field3: serieMovie.qualification,
-        field4: serieMovie.gender,
+        field4: serieMovie.gender.name,
+        extraField1: serieMovie.gender.id,
         endpoint: "",
-        image1: serieMovie.image,
-        list1: serieMovie.characters
+        image1: serieMovie.image as string,
+        list1: serieMovie.characters,
     };
 }
 
@@ -43,7 +44,7 @@ export const mapDetailsCardElementToSerieMovie = (detailsCardElement: DetailsCar
         title: detailsCardElement.field1,
         created_date: parseDateString(detailsCardElement.field2),
         qualification: detailsCardElement.field3,
-        gender: detailsCardElement.field4,
+        gender: { id: detailsCardElement.extraField1, name: detailsCardElement.field4 },
         image: detailsCardElement.image1,
         characters: detailsCardElement.list1
     };

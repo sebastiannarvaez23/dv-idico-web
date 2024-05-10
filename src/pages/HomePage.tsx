@@ -33,7 +33,7 @@ const HomePage = () => {
         image: "",
         created_date: "",
         qualification: "",
-        gender: "",
+        gender: { id: "", name: "" },
         characters: []
     });
     const [seriesMovies, setSeriesMovies] = useState<SerieMovie[]>();

@@ -1,4 +1,4 @@
-import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, formControlClasses } from "@mui/material";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getGenders } from "../../services/gender";
 import { updateSerieMovie } from "../../services/serie-movie";
@@ -50,8 +50,9 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
         formDataToSend.append('title', formData.title);
         formDataToSend.append('created_date', formData.created_date);
         formDataToSend.append('qualification', formData.qualification);
-        formDataToSend.append('gender', formData.gender);
+        formDataToSend.append('gender_id', formData.gender.id);
         formDataToSend.append('image', formData.image);
+
         updateSerieMovie(formDataToSend);
     };
 
@@ -64,10 +65,13 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
         }
     };
 
-    const handleGenreChange = (e: SelectChangeEvent<string>) => {
+    const handleGenreChange = (event: SelectChangeEvent<string>) => {
+        console.log("valor del select", event.target.value);
+        let selectGender = genders.find(e => e.id === event.target.value);
+        if (!selectGender) selectGender = { id: "", name: "" }
         setFormData({
             ...formData,
-            gender: e.target.value,
+            gender: selectGender,
         });
     };
 
@@ -119,12 +123,14 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
                         labelId="gender-label"
                         id="gender"
                         name="gender"
-                        value={formData.gender}
+                        value={formData.gender.id}
                         onChange={handleGenreChange}
                     >
-                        {(genders.map((gender, index) => {
-                            return <MenuItem key={index} value={gender.name}>{gender.name}</MenuItem>
-                        }))}
+                        {genders.map((gender, index) => (
+                            <MenuItem key={index} value={gender.id}>
+                                {gender.name}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
                 <Input

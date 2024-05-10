@@ -4,6 +4,6 @@ interface SerieMovie {
     image: File | string;
     created_date: string;
     qualification: string;
-    gender: string;
+    gender: Gender;
     characters: string[];
 }
