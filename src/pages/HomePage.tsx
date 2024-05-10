@@ -137,7 +137,9 @@ const HomePage = () => {
             ) || sectionSelected === "Peliculas" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditSerieMovieFormComponent serieMovie={serieMovieSelected} />
+                        <EditSerieMovieFormComponent
+                            setSerieMovieSelected={setSerieMovieSelected}
+                            serieMovie={serieMovieSelected} />
                     </ModalComponent>
                     <SearchElementComponent
                         seriesmovies={seriesMovies ?? []}

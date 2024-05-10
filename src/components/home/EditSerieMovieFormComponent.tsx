@@ -4,10 +4,11 @@ import { getGenders } from "../../services/gender";
 import { updateSerieMovie } from "../../services/serie-movie";
 
 interface EditSerieMovieFormProps {
-    serieMovie: SerieMovie
+    serieMovie: SerieMovie,
+    setSerieMovieSelected: (serieMovie: SerieMovie) => void;
 }
 
-const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) => {
+const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected }: EditSerieMovieFormProps) => {
 
     const [genders, setGenders] = useState<Gender[]>([]);
 
@@ -43,17 +44,16 @@ const EditSerieMovieFormComponent = ({ serieMovie }: EditSerieMovieFormProps) =>
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const formDataToSend = new FormData();
-        console.log(formData);
         formDataToSend.append('id', formData.id);
         formDataToSend.append('title', formData.title);
         formDataToSend.append('created_date', formData.created_date);
         formDataToSend.append('qualification', formData.qualification);
         formDataToSend.append('gender_id', formData.gender.id);
         formDataToSend.append('image', formData.image);
-
-        updateSerieMovie(formDataToSend);
+        const newSerieMovie = await updateSerieMovie(formDataToSend);
+        setSerieMovieSelected(newSerieMovie);
     };
 
     const handleRatingChange = (newValue: number | null) => {
