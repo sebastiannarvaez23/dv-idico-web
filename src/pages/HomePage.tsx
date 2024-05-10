@@ -60,7 +60,7 @@ const HomePage = () => {
         try {
             const seriesMoviesData = await getSeriesMovies();
             setSeriesMovies(seriesMoviesData);
-            setSerieMovieSelected(seriesMoviesData[0]);
+            if (serieMovieSelected.id === "") setSerieMovieSelected(seriesMoviesData[0]);
         } catch (error) {
             console.error('Error al obtener las películas y series:', error);
         }
@@ -138,8 +138,10 @@ const HomePage = () => {
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditSerieMovieFormComponent
+                            serieMovie={serieMovieSelected}
                             setSerieMovieSelected={setSerieMovieSelected}
-                            serieMovie={serieMovieSelected} />
+                            fetchSeriesMovies={fetchSeriesMovies} />
+
                     </ModalComponent>
                     <SearchElementComponent
                         seriesmovies={seriesMovies ?? []}
