@@ -47,7 +47,7 @@ const LoginFormComponent = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     margin="normal"
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth>
+                <Button sx={{ backgroundColor: '#161732' }} type="submit" variant="contained" color="primary" fullWidth>
                     Iniciar sesión
                 </Button>
             </form>

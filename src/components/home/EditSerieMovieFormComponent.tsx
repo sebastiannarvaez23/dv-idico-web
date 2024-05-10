@@ -145,6 +145,7 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
                 />
             </div>
             <Button
+                sx={{ backgroundColor: '#161732' }}
                 onClick={handleSubmit}
                 size="large"
                 style={{ marginTop: "20px" }}
