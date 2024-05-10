@@ -4,8 +4,8 @@ import SearchElementComponent from '../components/home/SerachElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie';
-import { getSeriesMovies } from '../services/serie-movie';
-import { getCharacter, getCharacters } from '../services/character';
+import { deleteSerieMovie, getSeriesMovies } from '../services/serie-movie';
+import { deleteCharacter, getCharacter, getCharacters } from '../services/character';
 import ModalComponent from '../components/home/ModalComponent';
 import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
 import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
@@ -60,7 +60,7 @@ const HomePage = () => {
         try {
             const seriesMoviesData = await getSeriesMovies();
             setSeriesMovies(seriesMoviesData);
-            if (serieMovieSelected.id === "") setSerieMovieSelected(seriesMoviesData[0]);
+            setSerieMovieSelected(seriesMoviesData[0]);
         } catch (error) {
             console.error('Error al obtener las películas y series:', error);
         }
@@ -83,6 +83,16 @@ const HomePage = () => {
         } catch (error) {
             console.error('Error al obtener las películas y series:', error);
         }
+    }
+
+    const handleDeleteCharacter = async () => {
+        await deleteCharacter(characterSelected.id);
+        await fetchCharacters();
+    }
+
+    const handleDeleteSerieMovie = async () => {
+        await deleteSerieMovie(serieMovieSelected.id);
+        await fetchSeriesMovies();
     }
 
     const handleOpenModal = () => {
@@ -137,6 +147,7 @@ const HomePage = () => {
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                         setCharacterSelected={setCharacterSelected}
                         editElement={handleOpenModal}
+                        deleteElement={handleDeleteCharacter}
                     />
                 </Fragment>
             ) || sectionSelected === "Peliculas" && (
@@ -164,6 +175,7 @@ const HomePage = () => {
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
                         setSerieMovieSelected={setSerieMovieSelected}
                         editElement={handleOpenModal}
+                        deleteElement={handleDeleteSerieMovie}
                     />
                 </Fragment>
             )}

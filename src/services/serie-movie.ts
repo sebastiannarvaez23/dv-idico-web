@@ -21,6 +21,17 @@ export const updateSerieMovie = async (serieMovie: FormData): Promise<SerieMovie
         if (response.status === 200) alert('Serie o Película editada exitosamente!');
         return serieMovieUpdated;
     } catch (error: any) {
-        throw new Error(`Error al editar serie o película: ${error.message}`);
+        throw new Error(`Error al editar Serie/Película: ${error.message}`);
+    }
+}
+
+export const deleteSerieMovie = async (id: string): Promise<SerieMovie> => {
+    try {
+        const response = await api.delete('/serie-movie/' + id)
+        const characterDeleted = response.data;
+        if (response.status === 200) alert('Serie/Película eliminada exitosamente!');
+        return characterDeleted;
+    } catch (error: any) {
+        throw new Error(`Error al eliminar Serie/Película: ${error.message}`);
     }
 }
