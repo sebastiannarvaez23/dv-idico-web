@@ -4,9 +4,10 @@ interface ComponentDetailsCardProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
     editElement: () => void;
+    deleteElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, editElement }: ComponentDetailsCardProps) => {
+const DetailsCardComponent = ({ element, label, editElement, deleteElement }: ComponentDetailsCardProps) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
@@ -40,7 +41,7 @@ const DetailsCardComponent = ({ element, label, editElement }: ComponentDetailsC
                         <Button onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
                         </Button>
-                        <Button size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button onClick={deleteElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             Eliminar
                         </Button>
                     </CardContent>

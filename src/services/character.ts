@@ -6,7 +6,7 @@ export const getCharacters = async (): Promise<Character[]> => {
         const characters = response.data.characters;
         return characters;
     } catch (error: any) {
-        throw new Error(`Error obtener listado de personajes: ${error.message}`);
+        throw new Error(`Error obtener listado de Personajes: ${error.message}`);
     }
 };
 
@@ -16,7 +16,7 @@ export const getCharacter = async (endpoint: string): Promise<Character> => {
         const character = response.data;
         return character;
     } catch (error: any) {
-        throw new Error(`Error al obtener personaje: ${error.message}`);
+        throw new Error(`Error al obtener Personaje: ${error.message}`);
     }
 };
 
@@ -29,6 +29,17 @@ export const updateCharacter = async (character: FormData): Promise<Character> =
         if (response.status === 200) alert('Personaje editado exitosamente!');
         return characterUpdated;
     } catch (error: any) {
-        throw new Error(`Error al obtener personaje: ${error.message}`);
+        throw new Error(`Error al obtener Personaje: ${error.message}`);
+    }
+}
+
+export const deleteCharacter = async (id: string): Promise<Character> => {
+    try {
+        const response = await api.delete('/character/' + id)
+        const characterDeleted = response.data;
+        if (response.status === 200) alert('Personaje eliminado exitosamente!');
+        return characterDeleted;
+    } catch (error: any) {
+        throw new Error(`Error al eliminar Personaje: ${error.message}`);
     }
 }
