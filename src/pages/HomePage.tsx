@@ -14,7 +14,7 @@ const HomePage = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [sectionSelected, setSectionSelected] = useState("Peliculas");
+    const [sectionSelected, setSectionSelected] = useState("Personajes");
     const [characterSelected, setCharacterSelected] = useState<Character>({
         id: "",
         name: "",
@@ -115,7 +115,11 @@ const HomePage = () => {
             {sectionSelected === "Personajes" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditCharacterFormComponent />
+                        <EditCharacterFormComponent
+                            character={characterSelected}
+                            setCharacterSelected={setCharacterSelected}
+                            fetchCharacters={fetchCharacters}
+                        />
                     </ModalComponent>
                     <SearchElementComponent
                         characters={characters ?? []}

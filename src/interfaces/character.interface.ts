@@ -4,7 +4,7 @@ interface Character {
     age: string;
     weight: string;
     history: string;
-    image: string;
+    image: File | string;
     endpoint: string;
     seriesMovies: string[];
 }
