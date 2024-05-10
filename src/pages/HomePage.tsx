@@ -14,8 +14,9 @@ const HomePage = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [sectionSelected, setSectionSelected] = useState("Peliculas");
+    const [sectionSelected, setSectionSelected] = useState("Personajes");
     const [characterSelected, setCharacterSelected] = useState<Character>({
+        id: "",
         name: "",
         age: "",
         weight: "",
@@ -27,11 +28,12 @@ const HomePage = () => {
     const [characters, setCharacters] = useState<Character[]>();
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [serieMovieSelected, setSerieMovieSelected] = useState<SerieMovie>({
+        id: "",
         title: "",
         image: "",
         created_date: "",
         qualification: "",
-        gender: "",
+        gender: { id: "", name: "" },
         characters: []
     });
     const [seriesMovies, setSeriesMovies] = useState<SerieMovie[]>();
@@ -58,7 +60,7 @@ const HomePage = () => {
         try {
             const seriesMoviesData = await getSeriesMovies();
             setSeriesMovies(seriesMoviesData);
-            setSerieMovieSelected(seriesMoviesData[0]);
+            if (serieMovieSelected.id === "") setSerieMovieSelected(seriesMoviesData[0]);
         } catch (error) {
             console.error('Error al obtener las películas y series:', error);
         }
@@ -113,7 +115,12 @@ const HomePage = () => {
             {sectionSelected === "Personajes" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditCharacterFormComponent />
+                        <EditCharacterFormComponent
+                            character={characterSelected}
+                            setCharacterSelected={setCharacterSelected}
+                            fetchCharacters={fetchCharacters}
+                            setModalOpen={setModalOpen}
+                        />
                     </ModalComponent>
                     <SearchElementComponent
                         characters={characters ?? []}
@@ -135,7 +142,12 @@ const HomePage = () => {
             ) || sectionSelected === "Peliculas" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditSerieMovieFormComponent />
+                        <EditSerieMovieFormComponent
+                            serieMovie={serieMovieSelected}
+                            setSerieMovieSelected={setSerieMovieSelected}
+                            fetchSeriesMovies={fetchSeriesMovies}
+                            setModalOpen={setModalOpen}
+                        />
                     </ModalComponent>
                     <SearchElementComponent
                         seriesmovies={seriesMovies ?? []}

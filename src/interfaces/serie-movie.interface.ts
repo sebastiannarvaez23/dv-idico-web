@@ -1,8 +1,9 @@
 interface SerieMovie {
+    id: string;
     title: string;
-    image: string;
+    image: File | string;
     created_date: string;
     qualification: string;
-    gender: string;
+    gender: Gender;
     characters: string[];
 }

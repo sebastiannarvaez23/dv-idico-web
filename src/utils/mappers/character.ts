@@ -1,6 +1,7 @@
 
 export const mapCharacterToDetailsCardElement = (character: Character): DetailsCardElement => {
     return {
+        id: character.id,
         field1: character.name,
         field2: character.age?.toString(),
         field3: character.weight?.toString(),
@@ -13,6 +14,7 @@ export const mapCharacterToDetailsCardElement = (character: Character): DetailsC
 
 export const mapDetailsCardElementToCharacter = (detailsCardElement: DetailsCardElement): Character => {
     return {
+        id: detailsCardElement.id,
         name: detailsCardElement.field1,
         age: detailsCardElement.field2,
         weight: detailsCardElement.field3,

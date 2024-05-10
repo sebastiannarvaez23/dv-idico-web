@@ -1,4 +1,4 @@
-import { DataFormRegister } from '../interfaces/data-form-register';
+import { DataFormRegister } from '../interfaces/data-form-register.interface';
 import api from './api';
 
 export const signin = async (mail: string, password: string): Promise<string> => {

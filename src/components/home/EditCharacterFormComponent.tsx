@@ -1,14 +1,23 @@
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useState } from "react";
+import { updateCharacter } from "../../services/character";
 
-const EditCharacterFormComponent = () => {
+interface EditCharacterFormProps {
+    character: Character;
+    setCharacterSelected: (character: Character) => void;
+    fetchCharacters: () => void;
+    setModalOpen: (fun: boolean) => void;
+}
+
+const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchCharacters, setModalOpen }: EditCharacterFormProps) => {
 
     const [formData, setFormData] = useState({
-        image: null as File | null,
-        name: "Registro de prueba",
-        age: 90,
-        weight: 10.2,
-        history: "Este es un registro de prueba de edición",
+        id: character.id,
+        name: character.name,
+        image: character.image,
+        age: character.age,
+        weight: character.weight,
+        history: character.history
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -22,22 +31,36 @@ const EditCharacterFormComponent = () => {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setFormData({
-                ...formData,
-                image: file,
-            });
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setFormData({
+                    ...formData,
+                    image: file,
+                })
+            }
         }
     };
 
-    const handleSubmit = () => {
-        // Aquí puedes enviar los datos del formulario
-        console.log(formData);
+    const handleSubmit = async () => {
+        const formDataToSend = new FormData();
+        formDataToSend.append('id', formData.id);
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('image', formData.image);
+        formDataToSend.append('age', formData.age);
+        formDataToSend.append('weight', formData.weight);
+        formDataToSend.append('history', formData.history);
+        const newCharacter = await updateCharacter(formDataToSend);
+        await setCharacterSelected(newCharacter);
+        await fetchCharacters();
+        await setModalOpen(false);
     };
 
     return (
         <Box p={2}>
             <div>
                 <Typography variant="h6">Editar Personaje</Typography>
+                <hr />
                 <TextField
                     label="Nombre"
                     name="name"

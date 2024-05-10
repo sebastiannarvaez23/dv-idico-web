@@ -1,15 +1,27 @@
-import { Button, Typography, Box, TextField, Input } from "@mui/material";
-import { useState } from "react";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getGenders } from "../../services/gender";
+import { updateSerieMovie } from "../../services/serie-movie";
 
-const EditSerieMovieFormComponent = () => {
+interface EditSerieMovieFormProps {
+    serieMovie: SerieMovie,
+    setSerieMovieSelected: (serieMovie: SerieMovie) => void;
+    fetchSeriesMovies: () => void;
+    setModalOpen: (fun: boolean) => void;
+}
 
-    const [formData, setFormData] = useState({
-        title: "Esto es una prueba creando una serie o una pelicula",
-        image: null as File | null,
-        created_date: "1937-12-21T00:00:00.000Z",
-        qualification: "5",
-        gender: 3,
-        deleted: false
+const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchSeriesMovies, setModalOpen }: EditSerieMovieFormProps) => {
+
+    const [genders, setGenders] = useState<Gender[]>([]);
+
+    const [formData, setFormData] = useState<SerieMovie>({
+        id: serieMovie.id,
+        title: serieMovie.title,
+        image: serieMovie.image,
+        created_date: serieMovie.created_date,
+        qualification: serieMovie.qualification,
+        gender: serieMovie.gender,
+        characters: serieMovie.characters
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,22 +35,74 @@ const EditSerieMovieFormComponent = () => {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setFormData({
+                    ...formData,
+                    image: file,
+                });
+            };
+        }
+    };
+
+    const handleSubmit = async () => {
+        const formDataToSend = new FormData();
+        formDataToSend.append('id', formData.id);
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('created_date', formData.created_date);
+        formDataToSend.append('qualification', formData.qualification);
+        formDataToSend.append('gender_id', formData.gender.id);
+        formDataToSend.append('image', formData.image);
+        const newSerieMovie = await updateSerieMovie(formDataToSend);
+        await setSerieMovieSelected(newSerieMovie);
+        await fetchSeriesMovies();
+        await setModalOpen(false);
+    };
+
+    const handleRatingChange = (newValue: number | null) => {
+        if (newValue !== null) {
             setFormData({
                 ...formData,
-                image: file,
+                qualification: newValue.toString(),
             });
         }
     };
 
-    const handleSubmit = () => {
-        // Aquí puedes enviar los datos del formulario
-        console.log(formData);
+    const handleGenreChange = (event: SelectChangeEvent<string>) => {
+        let selectGender = genders.find(e => e.id === event.target.value);
+        if (!selectGender) selectGender = { id: "", name: "" }
+        setFormData({
+            ...formData,
+            gender: selectGender,
+        });
     };
+
+    const fetchGenders = async () => {
+        try {
+            const genders: Gender[] = await getGenders();
+            setGenders(genders);
+        } catch (error) {
+            throw new Error(`Error al obtener listado de generos: ${error}`);
+        }
+    }
+
+    useEffect(() => {
+        fetchGenders();
+    }, []);
 
     return (
         <Box p={2}>
             <div>
                 <Typography variant="h6">Editar Serie / Película</Typography>
+                <hr />
+                <Rating
+                    name="qualification"
+                    value={parseInt(formData.qualification)}
+                    onChange={(event, newValue) => {
+                        handleRatingChange(newValue);
+                    }}
+                />
                 <TextField
                     label="Título"
                     name="title"
@@ -56,24 +120,22 @@ const EditSerieMovieFormComponent = () => {
                     fullWidth
                     margin="normal"
                 />
-                <TextField
-                    label="Calificación"
-                    name="qualification"
-                    type="number"
-                    value={formData.qualification}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                />
-                <TextField
-                    label="Genero"
-                    name="gender"
-                    rows={4}
-                    value={formData.gender}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                />
+                <FormControl fullWidth margin="normal">
+                    <InputLabel id="gender-label">Género</InputLabel>
+                    <Select
+                        labelId="gender-label"
+                        id="gender"
+                        name="gender"
+                        value={formData.gender.id}
+                        onChange={handleGenreChange}
+                    >
+                        {genders.map((gender, index) => (
+                            <MenuItem key={index} value={gender.id}>
+                                {gender.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <Input
                     type="file"
                     onChange={handleImageChange}

@@ -40,7 +40,7 @@ const SearchElementComponent = ({ seriesmovies, setFilteredSeriesMovies, charact
         if (filterTypeSerieMovie === 'gender') {
             if (searchValue) {
                 const filteredList = seriesmovies.filter(movie =>
-                    movie.gender.toLowerCase().includes(searchValue.toLowerCase())
+                    movie.gender.name.toLowerCase().includes(searchValue.toLowerCase())
                 );
                 setFilteredSeriesMovies(filteredList);
             } else {
