@@ -146,8 +146,8 @@ const HomePage = () => {
                             serieMovie={serieMovieSelected}
                             setSerieMovieSelected={setSerieMovieSelected}
                             fetchSeriesMovies={fetchSeriesMovies}
-                            setModalOpen={setModalOpen} />
-
+                            setModalOpen={setModalOpen}
+                        />
                     </ModalComponent>
                     <SearchElementComponent
                         seriesmovies={seriesMovies ?? []}
