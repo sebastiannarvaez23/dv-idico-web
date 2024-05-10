@@ -4,13 +4,23 @@ import SearchElementComponent from '../components/home/SerachElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie';
-import { deleteSerieMovie, getSeriesMovies } from '../services/serie-movie';
-import { deleteCharacter, getCharacter, getCharacters } from '../services/character';
 import ModalComponent from '../components/home/ModalComponent';
 import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
 import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
+import useAlert from '../hooks/useAlert.hook';
+import useApiCharacter from '../hooks/useApiCharacter.hook';
+import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
+import useApiSerieMovie from '../hooks/useApiSerieMovie.hook';
 
 const HomePage = () => {
+
+    // hook
+
+    const { showAlert, hideAlert, alert } = useAlert();
+    const { getCharacters, getCharacter, deleteCharacter, alertApiC, hideAlertApiC, updateCharacter } = useApiCharacter();
+    const { getSeriesMovies, deleteSerieMovie, alertApiSM, hideAlertApiSM, updateSerieMovie } = useApiSerieMovie();
+
+    // useState
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -103,12 +113,15 @@ const HomePage = () => {
         setModalOpen(false);
     };
 
+    // useEffect
+
     useEffect(() => {
         fetchSeriesMovies();
         fetchCharacters();
         if (characterSelected.endpoint !== '' && characterSelected.endpoint !== undefined) {
             fetchCharacter(characterSelected.endpoint)
         }
+        showAlert('success', '¡Has iniciado sesión con éxito!');
     }, [])
 
     useEffect(() => {
@@ -119,6 +132,27 @@ const HomePage = () => {
 
     return (
         <Fragment>
+            {alert ? (
+                <FloatingAlertComponent
+                    type={alert.type}
+                    message={alert.message}
+                    onClose={hideAlert}
+                />
+            ) : null}
+            {alertApiC ? (
+                <FloatingAlertComponent
+                    type={alertApiC.type}
+                    message={alertApiC.message}
+                    onClose={hideAlertApiC}
+                />
+            ) : null}
+            {alertApiSM ? (
+                <FloatingAlertComponent
+                    type={alertApiSM.type}
+                    message={alertApiSM.message}
+                    onClose={hideAlertApiSM}
+                />
+            ) : null}
             <div>
                 <SidebarComponent setSectionSelected={setSectionSelected} />
             </div>
@@ -130,6 +164,7 @@ const HomePage = () => {
                             setCharacterSelected={setCharacterSelected}
                             fetchCharacters={fetchCharacters}
                             setModalOpen={setModalOpen}
+                            updateCharacter={updateCharacter}
                         />
                     </ModalComponent>
                     <SearchElementComponent
@@ -158,6 +193,7 @@ const HomePage = () => {
                             setSerieMovieSelected={setSerieMovieSelected}
                             fetchSeriesMovies={fetchSeriesMovies}
                             setModalOpen={setModalOpen}
+                            updateSerieMovie={updateSerieMovie}
                         />
                     </ModalComponent>
                     <SearchElementComponent

@@ -1,16 +1,18 @@
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getGenders } from "../../services/gender";
-import { updateSerieMovie } from "../../services/serie-movie";
+import useApiGender from "../../hooks/useApiGender.hook";
 
 interface EditSerieMovieFormProps {
     serieMovie: SerieMovie,
     setSerieMovieSelected: (serieMovie: SerieMovie) => void;
     fetchSeriesMovies: () => void;
     setModalOpen: (fun: boolean) => void;
+    updateSerieMovie: (data: FormData) => Promise<SerieMovie>;
 }
 
-const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchSeriesMovies, setModalOpen }: EditSerieMovieFormProps) => {
+const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchSeriesMovies, setModalOpen, updateSerieMovie }: EditSerieMovieFormProps) => {
+
+    const { getGenders } = useApiGender();
 
     const [genders, setGenders] = useState<Gender[]>([]);
 
