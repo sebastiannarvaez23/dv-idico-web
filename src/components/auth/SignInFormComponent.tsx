@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { signin } from '../../services/auth';
+import useApiAuth from '../../hooks/useApiAuth.hook';
 
 const LoginFormComponent = () => {
+
+    const { signin } = useApiAuth();
+
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');

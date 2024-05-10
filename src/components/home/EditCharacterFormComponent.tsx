@@ -1,16 +1,17 @@
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useState } from "react";
-import { updateCharacter } from "../../services/character";
 
 interface EditCharacterFormProps {
     character: Character;
     setCharacterSelected: (character: Character) => void;
     fetchCharacters: () => void;
     setModalOpen: (fun: boolean) => void;
+    updateCharacter: (data: FormData) => Promise<Character>;
 }
 
-const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchCharacters, setModalOpen }: EditCharacterFormProps) => {
+const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchCharacters, setModalOpen, updateCharacter }: EditCharacterFormProps) => {
 
+    // state
     const [formData, setFormData] = useState({
         id: character.id,
         name: character.name,
