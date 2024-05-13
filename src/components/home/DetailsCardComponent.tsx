@@ -16,7 +16,7 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: De
                     <CardMedia
                         component="img"
                         style={{ width: '100%', height: '340px', objectFit: 'cover' }}
-                        image={element.image1}
+                        image={element.image1 as string}
                     />
                 </Grid>
                 {/* Parte derecha: Información */}

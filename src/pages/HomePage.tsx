@@ -1,109 +1,65 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
+import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie.mapper';
+import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import SidebarComponent from '../components/home/SidebarComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
-import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
-import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie.mapper';
 import ModalComponent from '../components/home/ModalComponent';
 import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
 import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
 import useAlert from '../hooks/useAlert.hook';
-import useApiCharacter from '../hooks/useFetchingCharacter.hook';
+import useFetchingCharacter from '../hooks/useFetchingCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
-import useApiSerieMovie from '../hooks/useFetchingSerieMovie.hook';
+import useFetchingSerieMovie from '../hooks/useFetchingSerieMovie.hook';
 
 const HomePage = () => {
 
-    // hook
+    const { hideAlert, alert } = useAlert();
+    const {
+        alertApiC,
+        characters,
+        characterSelected,
+        isLoadingCharacter,
+        hideAlertApiC,
+        updateCharacter,
+        setCharacterSelected,
+        fetchCharacters,
+        handleDeleteCharacter
+    } = useFetchingCharacter();
 
-    const { showAlert, hideAlert, alert } = useAlert();
-    const { getCharacters, getCharacter, deleteCharacter, alertApiC, hideAlertApiC, updateCharacter } = useApiCharacter();
-    const { getSeriesMovies, deleteSerieMovie, alertApiSM, hideAlertApiSM, updateSerieMovie } = useApiSerieMovie();
-
-    // useState
+    const {
+        alertApiSM,
+        seriesMovies,
+        serieMovieSelected,
+        isLoadingSerieMovie,
+        handleDeleteSerieMovie,
+        fetchSeriesMovies,
+        hideAlertApiSM,
+        setSerieMovieSelected,
+        updateSerieMovie
+    } = useFetchingSerieMovie();
 
     const [modalOpen, setModalOpen] = useState(false);
-
     const [sectionSelected, setSectionSelected] = useState("Personajes");
-    const [characterSelected, setCharacterSelected] = useState<Character>({
-        id: "",
-        name: "",
-        age: "",
-        weight: "",
-        history: "",
-        image: "",
-        endpoint: "",
-        seriesMovies: [],
-    });
-    const [characters, setCharacters] = useState<Character[]>();
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
-    const [serieMovieSelected, setSerieMovieSelected] = useState<SerieMovie>({
-        id: "",
-        title: "",
-        image: "",
-        created_date: "",
-        qualification: "",
-        gender: { id: "", name: "" },
-        characters: []
-    });
-    const [seriesMovies, setSeriesMovies] = useState<SerieMovie[]>();
     const [seriesMoviesFilters, setSeriesMoviesFilters] = useState<SerieMovie[]>();
 
     const detailLabelsCharacter: DetailsLabelCardElement = {
-        label1: "Edad:",
+        label1: "Edad: ",
         label2: "Peso (kg): ",
-        label3: "Historia del Personaje:",
-        label4: "Películas y/ o Series:"
+        label3: "Historia del Personaje: ",
+        label4: "Películas y/ o Series: "
     }
 
     const detailLabelsSerieMovie: DetailsLabelCardElement = {
-        label1: "Fecha de salida:",
-        label2: "Calificación:",
-        label3: "Género:",
-        label4: "Personajes:"
+        label1: "Fecha de salida: ",
+        label2: "Calificación: ",
+        label3: "Género: ",
+        label4: "Personajes: "
     }
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
     const serieMovieDto: DetailsCardElement = mapSerieMovieToDetailsCardElement(serieMovieSelected);
-
-    const fetchSeriesMovies = async () => {
-        try {
-            const seriesMoviesData = await getSeriesMovies();
-            setSeriesMovies(seriesMoviesData);
-            setSerieMovieSelected(seriesMoviesData[0]);
-        } catch (error) {
-            console.error('Error al obtener las películas y series:', error);
-        }
-    };
-
-    const fetchCharacters = async () => {
-        try {
-            const charactersData = await getCharacters();
-            setCharacters(charactersData);
-            setCharacterSelected(charactersData[0]);
-        } catch (error) {
-            console.error('Error al obtener las películas y series:', error);
-        }
-    }
-
-    const fetchCharacter = async (endpoint: string) => {
-        try {
-            const charactersData: Character = await getCharacter(endpoint);
-            setCharacterSelected(charactersData);
-        } catch (error) {
-            console.error('Error al obtener las películas y series:', error);
-        }
-    }
-
-    const handleDeleteCharacter = async () => {
-        await deleteCharacter(characterSelected.id);
-        await fetchCharacters();
-    }
-
-    const handleDeleteSerieMovie = async () => {
-        await deleteSerieMovie(serieMovieSelected.id);
-        await fetchSeriesMovies();
-    }
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -113,46 +69,29 @@ const HomePage = () => {
         setModalOpen(false);
     };
 
-    // useEffect
-
-    useEffect(() => {
-        fetchSeriesMovies();
-        fetchCharacters();
-        if (characterSelected.endpoint !== '' && characterSelected.endpoint !== undefined) {
-            fetchCharacter(characterSelected.endpoint)
-        }
-        showAlert('success', '¡Has iniciado sesión con éxito!');
-    }, [])
-
-    useEffect(() => {
-        if (characterSelected.endpoint !== '' && characterSelected.endpoint !== undefined) {
-            fetchCharacter(characterSelected.endpoint)
-        };
-    }, [characterSelected])
-
     return (
         <Fragment>
-            {alert ? (
+            {alert && (
                 <FloatingAlertComponent
                     type={alert.type}
                     message={alert.message}
                     onClose={hideAlert}
                 />
-            ) : null}
-            {alertApiC ? (
+            )}
+            {alertApiC && (
                 <FloatingAlertComponent
                     type={alertApiC.type}
                     message={alertApiC.message}
                     onClose={hideAlertApiC}
                 />
-            ) : null}
-            {alertApiSM ? (
+            )}
+            {alertApiSM && (
                 <FloatingAlertComponent
                     type={alertApiSM.type}
                     message={alertApiSM.message}
                     onClose={hideAlertApiSM}
                 />
-            ) : null}
+            )}
             <div>
                 <SidebarComponent setSectionSelected={setSectionSelected} />
             </div>
@@ -183,6 +122,7 @@ const HomePage = () => {
                         setCharacterSelected={setCharacterSelected}
                         editElement={handleOpenModal}
                         deleteElement={handleDeleteCharacter}
+                        isLoading={isLoadingCharacter}
                     />
                 </Fragment>
             ) || sectionSelected === "Peliculas" && (
@@ -212,6 +152,7 @@ const HomePage = () => {
                         setSerieMovieSelected={setSerieMovieSelected}
                         editElement={handleOpenModal}
                         deleteElement={handleDeleteSerieMovie}
+                        isLoading={isLoadingSerieMovie}
                     />
                 </Fragment>
             )}
