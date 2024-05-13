@@ -25,7 +25,7 @@ const SectionComponent = ({
     editElement, deleteElement }: SectionProps) => {
 
     return (
-        <Grid container spacing={2}>
+        <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>
             <Grid item xs={6}>
                 <Paper className="leftSection" elevation={3}>
                     <h2>{titleSection}</h2>

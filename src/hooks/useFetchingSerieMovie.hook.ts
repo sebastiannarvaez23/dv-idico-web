@@ -21,7 +21,7 @@ function useApiSerieMovie() {
                 throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
             })
             .finally(() => setLoading(false));
-        return promise.data.getSeriesMovies;
+        return promise.data.seriesMovies;
     };
 
     const updateSerieMovie = async (seriemovie: FormData): Promise<SerieMovie> => {

@@ -2,8 +2,8 @@ import { Fragment, useEffect, useState } from 'react';
 import { Grid, Paper, styled, InputBase, Select, MenuItem } from '@mui/material';
 
 const SearchContainer = styled(Paper)({
-    width: '80vw',
-    margin: '140px auto 0',
+    width: '100%',
+    margin: '140px auto 0 auto',
     padding: '10px',
 });
 

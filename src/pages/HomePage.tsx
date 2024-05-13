@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import SidebarComponent from '../components/home/SidebarComponent';
-import SearchElementComponent from '../components/home/SerachElementComponent';
+import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie.mapper';
