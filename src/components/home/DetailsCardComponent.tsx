@@ -1,13 +1,13 @@
 import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
-interface ComponentDetailsCardProps {
+interface DetailsCardComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
     editElement: () => void;
     deleteElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, editElement, deleteElement }: ComponentDetailsCardProps) => {
+const DetailsCardComponent = ({ element, label, editElement, deleteElement }: DetailsCardComponentProps) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
@@ -19,7 +19,7 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: Co
                         image={element.image1}
                     />
                 </Grid>
-                {/* Parte derecha: Contenido */}
+                {/* Parte derecha: Información */}
                 <Grid item xs={12} sm={7}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">

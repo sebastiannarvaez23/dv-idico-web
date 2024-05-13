@@ -3,11 +3,11 @@ import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/sidebar-component.css';
 
-interface PropsComponent {
+interface SidebarComponentProps {
     setSectionSelected: (section: string) => void;
 }
 
-const SidebarComponent = ({ setSectionSelected }: PropsComponent) => {
+const SidebarComponent = ({ setSectionSelected }: SidebarComponentProps) => {
 
     const navigate = useNavigate();
 

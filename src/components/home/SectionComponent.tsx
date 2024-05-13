@@ -2,7 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import DetailsCard from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
 
-interface SectionProps {
+interface SectionComponentProps {
     detailElement: DetailsCardElement;
     detailLabels: DetailsLabelCardElement;
     listElement: DetailsCardElement[];
@@ -18,11 +18,11 @@ const SectionComponent = ({
     detailElement,
     detailLabels,
     listElement,
-    setSerieMovieSelected,
-    setCharacterSelected,
     titleSection,
     titleListSection,
-    editElement, deleteElement }: SectionProps) => {
+    setSerieMovieSelected,
+    setCharacterSelected,
+    editElement, deleteElement }: SectionComponentProps) => {
 
     return (
         <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>

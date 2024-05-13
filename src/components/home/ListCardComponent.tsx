@@ -3,13 +3,13 @@ import { Grid, Card, Typography } from '@mui/material';
 import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 
-interface ComponentListProps {
+interface ListCardComponentProps {
     elements: DetailsCardElement[];
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ComponentListProps> = ({ elements, setSerieMovieSelected, setCharacterSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, setSerieMovieSelected, setCharacterSelected }) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <div style={{ maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>

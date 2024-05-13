@@ -14,11 +14,11 @@ const SearchInput = styled(InputBase)({
 });
 
 interface SearchElementProps {
-    seriesmovies: SerieMovie[],
-    setFilteredSeriesMovies: (arg: SerieMovie[]) => void,
-    characters: Character[],
-    setFilteredCharacters: (arg: Character[]) => void,
     flag: string
+    seriesmovies: SerieMovie[],
+    characters: Character[],
+    setFilteredSeriesMovies: (arg: SerieMovie[]) => void,
+    setFilteredCharacters: (arg: Character[]) => void,
 }
 
 const SearchElementComponent = ({ seriesmovies, setFilteredSeriesMovies, characters, setFilteredCharacters, flag }: SearchElementProps) => {
