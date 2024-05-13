@@ -1,6 +1,6 @@
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
-import useApiGender from "../../hooks/useApiGender.hook";
+import useApiGender from "../../hooks/useFetchingGender.hook";
 
 interface EditSerieMovieFormProps {
     serieMovie: SerieMovie,

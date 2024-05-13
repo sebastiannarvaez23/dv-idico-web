@@ -11,9 +11,9 @@ function useApiAuth() {
     const signin = async (mail: string, password: string): Promise<string> => {
         try {
             setLoading(true);
-            const response = await api.post('/auth/login', { mail, password });
+            const response = await api.post('/auth/login', { mail, password })
+                .finally(() => setLoading(false));
             const token = response.data.token;
-            setLoading(false);
             return token;
         } catch (error: any) {
             setError(`Error al iniciar sesión: ${error.message}`);
@@ -25,8 +25,8 @@ function useApiAuth() {
     const signup = async (dataFormRegister: DataFormRegister): Promise<void> => {
         try {
             setLoading(true);
-            await api.post('/auth/signup', dataFormRegister);
-            setLoading(false);
+            await api.post('/auth/signup', dataFormRegister)
+                .finally(() => setLoading(false));
         } catch (error: any) {
             setError(`Error al registrar nuevo usuario: ${error.message}`);
             setLoading(false);

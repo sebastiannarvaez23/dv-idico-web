@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { DataFormRegister } from '../../interfaces/data-form-register.interface';
-import useApiAuth from '../../hooks/useApiAuth.hook';
+import useApiAuth from '../../hooks/useFetchingAuth.hook';
 
 interface ComponentSignUpFormProps {
     handleShowLogin: () => void;

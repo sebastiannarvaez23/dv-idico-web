@@ -8,9 +8,9 @@ import ModalComponent from '../components/home/ModalComponent';
 import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
 import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
 import useAlert from '../hooks/useAlert.hook';
-import useApiCharacter from '../hooks/useApiCharacter.hook';
+import useApiCharacter from '../hooks/useFetchingCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
-import useApiSerieMovie from '../hooks/useApiSerieMovie.hook';
+import useApiSerieMovie from '../hooks/useFetchingSerieMovie.hook';
 
 const HomePage = () => {
 
