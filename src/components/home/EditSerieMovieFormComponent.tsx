@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import { useEffect, useState } from "react";
-import useApiGender from "../../hooks/useApiGender.hook";
+import useApiGender from "../../hooks/useFetchingGender.hook";
 
 interface EditSerieMovieFormProps {
     serieMovie: SerieMovie,
@@ -12,9 +12,7 @@ interface EditSerieMovieFormProps {
 
 const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchSeriesMovies, setModalOpen, updateSerieMovie }: EditSerieMovieFormProps) => {
 
-    const { getGenders } = useApiGender();
-
-    const [genders, setGenders] = useState<Gender[]>([]);
+    const { genders, isLoading } = useApiGender();
 
     const [formData, setFormData] = useState<SerieMovie>({
         id: serieMovie.id,
@@ -54,7 +52,7 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
         formDataToSend.append('title', formData.title);
         formDataToSend.append('created_date', formData.created_date);
         formDataToSend.append('qualification', formData.qualification);
-        formDataToSend.append('gender_id', formData.gender.id);
+        formDataToSend.append('gender_id', formData.gender.id as string);
         formDataToSend.append('image', formData.image);
         const newSerieMovie = await updateSerieMovie(formDataToSend);
         await setSerieMovieSelected(newSerieMovie);
@@ -71,7 +69,7 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
         }
     };
 
-    const handleGenreChange = (event: SelectChangeEvent<string>) => {
+    const handleGenderChange = (event: SelectChangeEvent<string>) => {
         let selectGender = genders.find(e => e.id === event.target.value);
         if (!selectGender) selectGender = { id: "", name: "" }
         setFormData({
@@ -79,19 +77,6 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
             gender: selectGender,
         });
     };
-
-    const fetchGenders = async () => {
-        try {
-            const genders: Gender[] = await getGenders();
-            setGenders(genders);
-        } catch (error) {
-            throw new Error(`Error al obtener listado de generos: ${error}`);
-        }
-    }
-
-    useEffect(() => {
-        fetchGenders();
-    }, []);
 
     return (
         <Box p={2}>
@@ -128,14 +113,19 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
                         labelId="gender-label"
                         id="gender"
                         name="gender"
-                        value={formData.gender.id}
-                        onChange={handleGenreChange}
+                        value={formData.gender.id as string}
+                        onChange={handleGenderChange}
                     >
-                        {genders.map((gender, index) => (
-                            <MenuItem key={index} value={gender.id}>
+                        {genders && genders.map((gender, index) => (
+                            <MenuItem key={index} value={gender.id as string}>
                                 {gender.name}
                             </MenuItem>
                         ))}
+                        {isLoading && (
+                            <MenuItem value={"Cargando..."}>
+                                {"Cargando.."}
+                            </MenuItem>
+                        )}
                     </Select>
                 </FormControl>
                 <Input
@@ -145,6 +135,7 @@ const EditSerieMovieFormComponent = ({ serieMovie, setSerieMovieSelected, fetchS
                 />
             </div>
             <Button
+                sx={{ backgroundColor: '#161732' }}
                 onClick={handleSubmit}
                 size="large"
                 style={{ marginTop: "20px" }}

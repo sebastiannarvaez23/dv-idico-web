@@ -1,20 +1,21 @@
 import React from 'react';
 import { Grid, Card, Typography } from '@mui/material';
-import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie';
-import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character';
+import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
+import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 
-interface ComponentListProps {
+interface ListCardComponentProps {
     elements: DetailsCardElement[];
+    isLoading: boolean;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ComponentListProps> = ({ elements, setSerieMovieSelected, setCharacterSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, setSerieMovieSelected, setCharacterSelected }) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <div style={{ maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
-                    {elements.map((element, index) => (
+                    {elements && elements.map((element, index) => (
                         <Card onClick={() => {
                             if (setSerieMovieSelected && typeof setSerieMovieSelected === 'function') {
                                 setSerieMovieSelected(mapDetailsCardElementToSerieMovie(element));
@@ -32,9 +33,9 @@ const ListCardComponent: React.FC<ComponentListProps> = ({ elements, setSerieMov
                                 <Grid container alignItems="center">
                                     <Grid item xs={1}>
                                         <img
-                                            src={element.image1}
+                                            src={element.image1 as string}
                                             alt={`Imagen de ${element.field1}`}
-                                            style={{ width: '100%', height: 'auto' }} />
+                                            style={{ width: '40px', height: '60px', objectFit: 'cover' }} />
                                     </Grid>
                                     <Grid item xs={10}>
                                         <Typography variant="body1">{element.field1}</Typography>
@@ -43,6 +44,24 @@ const ListCardComponent: React.FC<ComponentListProps> = ({ elements, setSerieMov
                             </Grid>
                         </Card>
                     ))}
+
+                    {isLoading && (
+                        <Card style={{
+                            width: '80%',
+                            height: '50px',
+                            margin: '4px auto',
+                            padding: '4px 8px',
+                        }}>
+                            <Grid item xs={12} style={{ cursor: 'pointer', padding: '20px 0' }}>
+                                <Grid container alignItems="center">
+                                    <Grid item xs={1}></Grid>
+                                    <Grid item xs={10}>
+                                        <Typography variant="body1">{"Cargando..."}</Typography>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Card>
+                    )}
                 </Grid >
             </div >
         </Card>

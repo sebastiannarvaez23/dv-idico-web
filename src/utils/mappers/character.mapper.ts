@@ -8,7 +8,8 @@ export const mapCharacterToDetailsCardElement = (character: Character): DetailsC
         field4: character.history,
         endpoint: character.endpoint,
         image1: character.image,
-        list1: character.seriesMovies
+        list1: character.seriesMovies,
+        extraField1: null
     };
 }
 

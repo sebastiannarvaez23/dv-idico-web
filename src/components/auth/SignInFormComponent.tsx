@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import useApiAuth from '../../hooks/useApiAuth.hook';
+import useApiAuth from '../../hooks/useFetchingAuth.hook';
 
 const LoginFormComponent = () => {
 
@@ -47,7 +47,7 @@ const LoginFormComponent = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     margin="normal"
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth>
+                <Button sx={{ backgroundColor: '#161732' }} type="submit" variant="contained" color="primary" fullWidth>
                     Iniciar sesión
                 </Button>
             </form>

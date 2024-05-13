@@ -5,37 +5,37 @@ import api from '../services/api';
 function useApiAuth() {
 
     // useState
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const signin = async (mail: string, password: string): Promise<string> => {
         try {
-            setLoading(true);
-            const response = await api.post('/auth/login', { mail, password });
+            setIsLoading(true);
+            const response = await api.post('/auth/login', { mail, password })
+                .finally(() => setIsLoading(false));
             const token = response.data.token;
-            setLoading(false);
             return token;
         } catch (error: any) {
             setError(`Error al iniciar sesión: ${error.message}`);
-            setLoading(false);
+            setIsLoading(false);
             throw new Error(`Error al iniciar sesión: ${error.message}`);
         }
     };
 
     const signup = async (dataFormRegister: DataFormRegister): Promise<void> => {
         try {
-            setLoading(true);
-            await api.post('/auth/signup', dataFormRegister);
-            setLoading(false);
+            setIsLoading(true);
+            await api.post('/auth/signup', dataFormRegister)
+                .finally(() => setIsLoading(false));
         } catch (error: any) {
             setError(`Error al registrar nuevo usuario: ${error.message}`);
-            setLoading(false);
+            setIsLoading(false);
             throw new Error(`Error al registrar nuevo usuario: ${error.message}`);
         }
     };
 
     return {
-        loading,
+        isLoading,
         error,
         signin,
         signup

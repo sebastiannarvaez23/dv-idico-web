@@ -1,13 +1,13 @@
 import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
-interface ComponentDetailsCardProps {
+interface DetailsCardComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
     editElement: () => void;
     deleteElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, editElement, deleteElement }: ComponentDetailsCardProps) => {
+const DetailsCardComponent = ({ element, label, editElement, deleteElement }: DetailsCardComponentProps) => {
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
@@ -16,10 +16,10 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: Co
                     <CardMedia
                         component="img"
                         style={{ width: '100%', height: '340px', objectFit: 'cover' }}
-                        image={element.image1}
+                        image={element.image1 as string}
                     />
                 </Grid>
-                {/* Parte derecha: Contenido */}
+                {/* Parte derecha: Información */}
                 <Grid item xs={12} sm={7}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
@@ -38,10 +38,10 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: Co
                         <Typography variant="body2" color="textSecondary" component="p">
                             {label.label4} {element.list1?.join(', ')}
                         </Typography>
-                        <Button onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
                         </Button>
-                        <Button onClick={deleteElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button sx={{ backgroundColor: '#161732' }} onClick={deleteElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             Eliminar
                         </Button>
                     </CardContent>

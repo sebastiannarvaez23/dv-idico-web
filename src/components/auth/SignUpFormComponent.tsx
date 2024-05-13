@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { DataFormRegister } from '../../interfaces/data-form-register.interface';
-import useApiAuth from '../../hooks/useApiAuth.hook';
+import useApiAuth from '../../hooks/useFetchingAuth.hook';
 
 interface ComponentSignUpFormProps {
     handleShowLogin: () => void;
@@ -112,7 +112,7 @@ const SignUpFormComponent = ({ handleShowLogin }: ComponentSignUpFormProps) => {
                     error={error !== ''}
                     helperText={error}
                 />
-                <Button type="submit" variant="contained" color="primary" fullWidth>
+                <Button sx={{ backgroundColor: '#161732' }} type="submit" variant="contained" color="primary" fullWidth>
                     Registrarse
                 </Button>
             </form>

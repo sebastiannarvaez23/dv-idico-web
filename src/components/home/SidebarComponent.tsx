@@ -3,11 +3,11 @@ import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/sidebar-component.css';
 
-interface PropsComponent {
+interface SidebarComponentProps {
     setSectionSelected: (section: string) => void;
 }
 
-const SidebarComponent = ({ setSectionSelected }: PropsComponent) => {
+const SidebarComponent = ({ setSectionSelected }: SidebarComponentProps) => {
 
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const SidebarComponent = ({ setSectionSelected }: PropsComponent) => {
 
     return (
         <div className="root">
-            <AppBar position="fixed" className="appBar">
+            <AppBar sx={{ backgroundColor: '#161732' }} position="fixed" className="appBar">
                 <Toolbar>
                     <Typography variant="h6" noWrap>
                         Disney Verse

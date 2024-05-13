@@ -9,15 +9,17 @@ const alertContainerStyle: React.CSSProperties = {
     zIndex: 9999,
     width: '90%',
     maxWidth: '400px',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
 };
 
-interface AlertProps {
+interface FloatingAlertComponentProps {
     type: 'success' | 'error' | 'info';
     message: string;
     onClose: () => void;
 }
 
-const FloatingAlertComponent: React.FC<AlertProps> = ({ type, message, onClose }) => {
+const FloatingAlertComponent: React.FC<FloatingAlertComponentProps> = ({ type, message, onClose }) => {
+
     return (
         <div style={alertContainerStyle}>
             <Alert severity={type} onClose={onClose}>
