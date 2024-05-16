@@ -1,34 +1,12 @@
-import React from 'react';
 import { Grid, Card, Typography } from '@mui/material';
-import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
-import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
-import { getCharacter } from '../../store/slices/character';
-import { getSerieMovie } from '../../store/slices/seriemovie';
+import React from 'react';
 
 interface RowListComponentProps {
     element: DetailsCardElement,
-    sectionSelected: TypSection
+    handleClickRow: (element: DetailsCardElement) => void;
 }
 
-const RowListComponent: React.FC<RowListComponentProps> = ({ element, sectionSelected }) => {
-
-    const dispatch = useDispatch<AppDispatch>();
-
-    const handleClickRow = (element: DetailsCardElement): void => {
-        if (sectionSelected === "products") {
-            dispatch(
-                getSerieMovie(
-                    mapDetailsCardElementToSerieMovie(element).endpoint));
-        }
-        if (sectionSelected === "characters") {
-            dispatch(
-                getCharacter(
-                    mapDetailsCardElementToCharacter(element).endpoint));
-        }
-    }
-
+const RowListComponent: React.FC<RowListComponentProps> = ({ element, handleClickRow }) => {
     return (
         <Card
             onClick={() => { handleClickRow(element) }}
