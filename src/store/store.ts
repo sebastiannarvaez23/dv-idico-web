@@ -5,7 +5,7 @@ import { serieMovieSlice } from './slices/seriemovie';
 export const store = configureStore({
     reducer: {
         character: characterSlice.reducer,
-        serieMovie: serieMovieSlice.reducer
+        serieMovie: serieMovieSlice.reducer,
     },
 });
 

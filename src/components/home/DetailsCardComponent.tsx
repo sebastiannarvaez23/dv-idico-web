@@ -1,6 +1,8 @@
 import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
+import Lottie from 'lottie-react';
+import loadingAnimation from '../../../public/loading.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { deleteCharacter } from '../../store/slices/character';
 
 interface DetailsCardComponentProps {
@@ -12,23 +14,38 @@ interface DetailsCardComponentProps {
 const DetailsCardComponent = ({ element, label, editElement }: DetailsCardComponentProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
+    const { isLoadingCharacterSelected } = useSelector(
+        (state: RootState) => state.character);
+
+    const { isLoadingSerieMovieSelected } = useSelector(
+        (state: RootState) => state.serieMovie);
 
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
                 {/* Parte izquierda: Imagen */}
                 <Grid item xs={12} sm={5}>
-                    <CardMedia
-                        component="img"
-                        style={{
-                            width: '100%',
-                            height: '340px',
-                            objectFit: 'cover',
-                            borderRadius: '10px',
-                            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.8)'
-                        }}
-                        image={element.image1 as string}
-                    />
+                    {(isLoadingCharacterSelected || isLoadingSerieMovieSelected) ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '340px' }}>
+                            <Lottie animationData={loadingAnimation} style={{
+                                width: '100%',
+                                height: '340px', borderRadius: '10px',
+                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.8)'
+                            }} />
+                        </div>
+                    ) : (
+                        <CardMedia
+                            component="img"
+                            style={{
+                                width: '100%',
+                                height: '340px',
+                                objectFit: 'cover',
+                                borderRadius: '10px',
+                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.8)'
+                            }}
+                            image={element.image1 as string}
+                        />
+                    )}
                 </Grid>
                 {/* Parte derecha: Información */}
                 <Grid item xs={12} sm={7}>
