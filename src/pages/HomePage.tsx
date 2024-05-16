@@ -21,10 +21,6 @@ const HomePage = () => {
         characterSelected,
         isLoadingCharacter,
         hideAlertApiC,
-        updateCharacter,
-        setCharacterSelected,
-        fetchCharacters,
-        handleDeleteCharacter
     } = useFetchingCharacter();
 
     const {
@@ -100,10 +96,7 @@ const HomePage = () => {
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditCharacterFormComponent
                             character={characterSelected}
-                            setCharacterSelected={setCharacterSelected}
-                            fetchCharacters={fetchCharacters}
                             setModalOpen={setModalOpen}
-                            updateCharacter={updateCharacter}
                         />
                     </ModalComponent>
                     <SearchElementComponent
@@ -119,10 +112,9 @@ const HomePage = () => {
                         detailElement={characterDto}
                         detailLabels={detailLabelsCharacter}
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
-                        setCharacterSelected={setCharacterSelected}
                         editElement={handleOpenModal}
-                        deleteElement={handleDeleteCharacter}
                         isLoading={isLoadingCharacter}
+                        sectionSelected={sectionSelected}
                     />
                 </Fragment>
             ) || sectionSelected === "Peliculas" && (
@@ -151,8 +143,8 @@ const HomePage = () => {
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
                         setSerieMovieSelected={setSerieMovieSelected}
                         editElement={handleOpenModal}
-                        deleteElement={handleDeleteSerieMovie}
                         isLoading={isLoadingSerieMovie}
+                        sectionSelected={sectionSelected}
                     />
                 </Fragment>
             )}

@@ -9,10 +9,10 @@ interface SectionComponentProps {
     titleSection: string;
     titleListSection: string;
     isLoading: boolean;
+    sectionSelected: string;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
     editElement: () => void;
-    deleteElement: () => void;
 }
 
 const SectionComponent = ({
@@ -22,10 +22,9 @@ const SectionComponent = ({
     titleSection,
     titleListSection,
     isLoading,
-    setSerieMovieSelected,
+    sectionSelected,
     setCharacterSelected,
-    editElement,
-    deleteElement }: SectionComponentProps) => {
+    editElement }: SectionComponentProps) => {
 
     return (
         <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>
@@ -35,8 +34,7 @@ const SectionComponent = ({
                     <DetailsCard
                         element={detailElement}
                         label={detailLabels}
-                        editElement={editElement}
-                        deleteElement={deleteElement} />
+                        editElement={editElement} />
                 </Paper>
             </Grid>
             <Grid item xs={6}>
@@ -44,7 +42,7 @@ const SectionComponent = ({
                     <h2>{titleListSection}</h2>
                     <ListCardComponent
                         elements={listElement}
-                        setSerieMovieSelected={setSerieMovieSelected}
+                        sectionSelected={sectionSelected}
                         setCharacterSelected={setCharacterSelected}
                         isLoading={isLoading} />
                 </Paper>

@@ -1,13 +1,18 @@
 import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { deleteCharacter } from '../../store/slices/character';
 
 interface DetailsCardComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
     editElement: () => void;
-    deleteElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, editElement, deleteElement }: DetailsCardComponentProps) => {
+const DetailsCardComponent = ({ element, label, editElement }: DetailsCardComponentProps) => {
+
+    const dispatch = useDispatch<AppDispatch>();
+
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
@@ -15,7 +20,13 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: De
                 <Grid item xs={12} sm={5}>
                     <CardMedia
                         component="img"
-                        style={{ width: '100%', height: '340px', objectFit: 'cover' }}
+                        style={{
+                            width: '100%',
+                            height: '340px',
+                            objectFit: 'cover',
+                            borderRadius: '10px',
+                            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.8)'
+                        }}
                         image={element.image1 as string}
                     />
                 </Grid>
@@ -41,7 +52,7 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: De
                         <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
                         </Button>
-                        <Button sx={{ backgroundColor: '#161732' }} onClick={deleteElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button sx={{ backgroundColor: '#161732' }} onClick={() => { dispatch(deleteCharacter()) }} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             Eliminar
                         </Button>
                     </CardContent>
