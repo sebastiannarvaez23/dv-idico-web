@@ -2,27 +2,39 @@ import React from 'react';
 import { Grid, Card, Typography } from '@mui/material';
 import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { getCharacter } from '../../store/slices/character';
 
 interface ListCardComponentProps {
     elements: DetailsCardElement[];
     isLoading: boolean;
+    sectionSelected: string;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, setSerieMovieSelected, setCharacterSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, setSerieMovieSelected, sectionSelected }) => {
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleClickRow = (element: DetailsCardElement): void => {
+        if (sectionSelected === "Peliculas") {
+            //setSerieMovieSelected(mapDetailsCardElementToSerieMovie(element));
+        }
+        if (sectionSelected === "Personajes") {
+            dispatch(
+                getCharacter(
+                    mapDetailsCardElementToCharacter(element).endpoint));
+        }
+    }
+
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <div style={{ maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
                     {elements && elements.map((element, index) => (
-                        <Card onClick={() => {
-                            if (setSerieMovieSelected && typeof setSerieMovieSelected === 'function') {
-                                setSerieMovieSelected(mapDetailsCardElementToSerieMovie(element));
-                            } else if (setCharacterSelected && typeof setCharacterSelected === 'function') {
-                                setCharacterSelected(mapDetailsCardElementToCharacter(element));
-                            }
-                        }}
+                        <Card onClick={() => { handleClickRow(element) }}
                             style={{
                                 width: '80%',
                                 margin: '4px auto',
@@ -35,7 +47,10 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoadi
                                         <img
                                             src={element.image1 as string}
                                             alt={`Imagen de ${element.field1}`}
-                                            style={{ width: '40px', height: '60px', objectFit: 'cover' }} />
+                                            style={{
+                                                width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px',
+                                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)'
+                                            }} />
                                     </Grid>
                                     <Grid item xs={10}>
                                         <Typography variant="body1">{element.field1}</Typography>

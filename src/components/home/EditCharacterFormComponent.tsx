@@ -1,17 +1,18 @@
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { getCharacter, getCharacters, updateCharacter } from "../../store/slices/character";
 
 interface EditCharacterFormProps {
     character: Character;
-    setCharacterSelected: (character: Character) => void;
-    fetchCharacters: () => void;
     setModalOpen: (fun: boolean) => void;
-    updateCharacter: (data: FormData) => Promise<Character>;
 }
 
-const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchCharacters, setModalOpen, updateCharacter }: EditCharacterFormProps) => {
+const EditCharacterFormComponent = ({ character, setModalOpen }: EditCharacterFormProps) => {
 
-    // state
+    const dispatch = useDispatch<AppDispatch>();
+
     const [formData, setFormData] = useState({
         id: character.id,
         name: character.name,
@@ -51,9 +52,7 @@ const EditCharacterFormComponent = ({ character, setCharacterSelected, fetchChar
         formDataToSend.append('age', formData.age);
         formDataToSend.append('weight', formData.weight);
         formDataToSend.append('history', formData.history);
-        const newCharacter = await updateCharacter(formDataToSend);
-        await setCharacterSelected(newCharacter);
-        await fetchCharacters();
+        dispatch(updateCharacter(formDataToSend));
         await setModalOpen(false);
     };
 
