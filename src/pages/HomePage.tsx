@@ -28,15 +28,11 @@ const HomePage = () => {
         seriesMovies,
         serieMovieSelected,
         isLoadingSerieMovie,
-        handleDeleteSerieMovie,
-        fetchSeriesMovies,
         hideAlertApiSM,
-        setSerieMovieSelected,
-        updateSerieMovie
     } = useFetchingSerieMovie();
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [sectionSelected, setSectionSelected] = useState("Personajes");
+    const [sectionSelected, setSectionSelected] = useState<TypSection>("characters");
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [seriesMoviesFilters, setSeriesMoviesFilters] = useState<SerieMovie[]>();
 
@@ -91,7 +87,7 @@ const HomePage = () => {
             <div>
                 <SidebarComponent setSectionSelected={setSectionSelected} />
             </div>
-            {sectionSelected === "Personajes" && (
+            {sectionSelected === "characters" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditCharacterFormComponent
@@ -117,15 +113,12 @@ const HomePage = () => {
                         sectionSelected={sectionSelected}
                     />
                 </Fragment>
-            ) || sectionSelected === "Peliculas" && (
+            ) || sectionSelected === "products" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditSerieMovieFormComponent
                             serieMovie={serieMovieSelected}
-                            setSerieMovieSelected={setSerieMovieSelected}
-                            fetchSeriesMovies={fetchSeriesMovies}
                             setModalOpen={setModalOpen}
-                            updateSerieMovie={updateSerieMovie}
                         />
                     </ModalComponent>
                     <SearchElementComponent
@@ -141,7 +134,6 @@ const HomePage = () => {
                         detailElement={serieMovieDto}
                         detailLabels={detailLabelsSerieMovie}
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
-                        setSerieMovieSelected={setSerieMovieSelected}
                         editElement={handleOpenModal}
                         isLoading={isLoadingSerieMovie}
                         sectionSelected={sectionSelected}

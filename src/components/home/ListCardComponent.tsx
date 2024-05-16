@@ -5,6 +5,7 @@ import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { getCharacter } from '../../store/slices/character';
+import { getSerieMovie } from '../../store/slices/seriemovie';
 
 interface ListCardComponentProps {
     elements: DetailsCardElement[];
@@ -14,15 +15,17 @@ interface ListCardComponentProps {
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, setSerieMovieSelected, sectionSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, sectionSelected }) => {
 
     const dispatch = useDispatch<AppDispatch>();
 
     const handleClickRow = (element: DetailsCardElement): void => {
-        if (sectionSelected === "Peliculas") {
-            //setSerieMovieSelected(mapDetailsCardElementToSerieMovie(element));
+        if (sectionSelected === "products") {
+            dispatch(
+                getSerieMovie(
+                    mapDetailsCardElementToSerieMovie(element).endpoint));
         }
-        if (sectionSelected === "Personajes") {
+        if (sectionSelected === "characters") {
             dispatch(
                 getCharacter(
                     mapDetailsCardElementToCharacter(element).endpoint));

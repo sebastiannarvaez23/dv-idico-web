@@ -28,11 +28,11 @@ export const mapSerieMovieToDetailsCardElement = (serieMovie: SerieMovie): Detai
     return {
         id: serieMovie.id,
         field1: serieMovie.title,
-        field2: formattingDate(serieMovie.created_date),
+        field2: (serieMovie.created_date) ? formattingDate(serieMovie.created_date) : "",
         field3: serieMovie.qualification,
-        field4: serieMovie.gender.name,
-        extraField1: serieMovie.gender.id,
-        endpoint: "",
+        field4: serieMovie.gender?.name,
+        extraField1: serieMovie.gender?.id,
+        endpoint: serieMovie.endpoint,
         image1: serieMovie.image as string,
         list1: serieMovie.characters,
     };
@@ -42,8 +42,9 @@ export const mapDetailsCardElementToSerieMovie = (detailsCardElement: DetailsCar
     return {
         id: detailsCardElement.id,
         title: detailsCardElement.field1,
-        created_date: parseDateString(detailsCardElement.field2),
+        created_date: (detailsCardElement.field2) ? parseDateString(detailsCardElement.field2) : "",
         qualification: detailsCardElement.field3,
+        endpoint: detailsCardElement.endpoint,
         gender: { id: detailsCardElement.extraField1, name: detailsCardElement.field4 },
         image: detailsCardElement.image1,
         characters: detailsCardElement.list1
