@@ -3,15 +3,16 @@ import Lottie from 'lottie-react';
 import loadingAnimation from '../../../public/loading.json';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { deleteCharacter } from '../../store/slices/character';
+import { DeleteElementFunction } from '../../types/DeleteElementFunction';
 
 interface DetailsCardComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
+    deleteElement: DeleteElementFunction;
     editElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, editElement }: DetailsCardComponentProps) => {
+const DetailsCardComponent = ({ element, label, editElement, deleteElement }: DetailsCardComponentProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { isLoadingCharacterSelected } = useSelector(
@@ -69,7 +70,7 @@ const DetailsCardComponent = ({ element, label, editElement }: DetailsCardCompon
                         <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
                         </Button>
-                        <Button sx={{ backgroundColor: '#161732' }} onClick={() => { dispatch(deleteCharacter()) }} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+                        <Button sx={{ backgroundColor: '#161732' }} onClick={() => { dispatch(deleteElement()) }} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             Eliminar
                         </Button>
                     </CardContent>

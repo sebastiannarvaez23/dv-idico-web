@@ -1,6 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import DetailsCard from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
+import { DeleteElementFunction } from '../../types/DeleteElementFunction';
 
 interface SectionComponentProps {
     detailElement: DetailsCardElement;
@@ -10,6 +11,7 @@ interface SectionComponentProps {
     titleListSection: string;
     isLoading: boolean;
     sectionSelected: string;
+    deleteElement: DeleteElementFunction;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
     editElement: () => void;
@@ -24,7 +26,8 @@ const SectionComponent = ({
     isLoading,
     sectionSelected,
     setCharacterSelected,
-    editElement }: SectionComponentProps) => {
+    editElement,
+    deleteElement }: SectionComponentProps) => {
 
     return (
         <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>
@@ -34,6 +37,7 @@ const SectionComponent = ({
                     <DetailsCard
                         element={detailElement}
                         label={detailLabels}
+                        deleteElement={deleteElement}
                         editElement={editElement} />
                 </Paper>
             </Grid>

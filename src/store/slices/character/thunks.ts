@@ -65,7 +65,7 @@ export const updateCharacter = (character: FormData) => {
 export const deleteCharacter = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         const { characters, characterSelected } = getState().character;
-        fetchDeleteCharacter(characterSelected.id);
+        await fetchDeleteCharacter(characterSelected.id);
         dispatch(getCharacters());
         dispatch(getCharacter(characters[1].endpoint));
     }

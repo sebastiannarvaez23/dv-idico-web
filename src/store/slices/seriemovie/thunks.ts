@@ -65,7 +65,7 @@ export const updateSerieMovie = (serieMovie: FormData) => {
 export const deleteSerieMovie = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         const { seriesMovies, serieMovieSelected } = getState().serieMovie;
-        fetchDeleteSerieMovie(serieMovieSelected.id);
+        await fetchDeleteSerieMovie(serieMovieSelected.id);
         dispatch(getSeriesMovies());
         dispatch(getSerieMovie(seriesMovies[1].endpoint));
     }

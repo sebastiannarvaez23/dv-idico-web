@@ -11,6 +11,8 @@ import useAlert from '../hooks/useAlert.hook';
 import useFetchingCharacter from '../hooks/useFetchingCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import useFetchingSerieMovie from '../hooks/useFetchingSerieMovie.hook';
+import { deleteCharacter } from '../store/slices/character';
+import { deleteSerieMovie } from '../store/slices/seriemovie';
 
 const HomePage = () => {
 
@@ -109,6 +111,7 @@ const HomePage = () => {
                         detailLabels={detailLabelsCharacter}
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                         editElement={handleOpenModal}
+                        deleteElement={deleteCharacter}
                         isLoading={isLoadingCharacter}
                         sectionSelected={sectionSelected}
                     />
@@ -135,6 +138,7 @@ const HomePage = () => {
                         detailLabels={detailLabelsSerieMovie}
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
                         editElement={handleOpenModal}
+                        deleteElement={deleteSerieMovie}
                         isLoading={isLoadingSerieMovie}
                         sectionSelected={sectionSelected}
                     />

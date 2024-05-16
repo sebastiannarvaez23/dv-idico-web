@@ -2,7 +2,7 @@ import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { getCharacter, getCharacters, updateCharacter } from "../../store/slices/character";
+import { updateCharacter } from "../../store/slices/character";
 
 interface EditCharacterFormProps {
     character: Character;
