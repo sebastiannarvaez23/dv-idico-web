@@ -10,10 +10,15 @@ const RowListComponent: React.FC<RowListComponentProps> = ({ element, handleClic
     return (
         <Card
             onClick={() => { handleClickRow(element) }}
-            style={{
+            sx={{
                 width: '80%',
                 margin: '4px auto',
-                padding: '4px 8px'
+                padding: '4px 8px',
+                transition: 'transform 0.3s',
+                '&:hover': {
+                    transform: 'scale(1.05)',
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)'
+                },
             }}>
             <Grid item xs={12} style={{ cursor: 'pointer' }}>
                 <Grid container alignItems="center">

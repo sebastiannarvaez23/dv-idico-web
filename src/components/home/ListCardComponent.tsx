@@ -41,8 +41,8 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
     }
 
     return (
-        <Card style={{ marginBottom: '20px', height: '47vh' }}>
-            <div style={{ maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <Card style={{ margin: '10px 0', height: '47vh' }}>
+            <div style={{ padding: '20px 0', maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
                     {elements && elements.map((element, index) => (
                         <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
@@ -53,7 +53,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
                     )}
                 </Grid >
             </div >
-        </Card>
+        </Card >
     );
 };
 

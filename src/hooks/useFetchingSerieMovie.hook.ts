@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useAlert from './useAlert.hook';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/store';
 import { getSeriesMovies } from '../store/slices/seriemovie';
 
 function useApiSerieMovie() {
