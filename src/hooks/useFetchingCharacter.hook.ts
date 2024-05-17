@@ -8,9 +8,6 @@ function useApiCharacter() {
 
     const dispatch = useDispatch<AppDispatch>();
     const { showAlert, alert, hideAlert } = useAlert();
-    const { isLoadingCharacters, characters, characterSelected } = useSelector(
-        (state: RootState) => state.character);
-
 
     useEffect(() => {
         dispatch(getCharacters());
@@ -18,10 +15,7 @@ function useApiCharacter() {
     }, [])
 
     return {
-        isLoadingCharacter: isLoadingCharacters,
         alertApiC: alert,
-        characterSelected,
-        characters,
         hideAlertApiC: hideAlert,
     };
 }

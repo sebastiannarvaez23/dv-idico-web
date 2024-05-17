@@ -8,18 +8,13 @@ function useApiSerieMovie() {
 
     const dispatch = useDispatch<AppDispatch>();
     const { alert, hideAlert } = useAlert();
-    const { isLoadingSeriesMovies, seriesMovies, serieMovieSelected } = useSelector(
-        (state: RootState) => state.serieMovie);
 
     useEffect(() => {
         dispatch(getSeriesMovies());
     }, [])
 
     return {
-        isLoadingSerieMovie: isLoadingSeriesMovies,
         alertApiSM: alert,
-        serieMovieSelected,
-        seriesMovies,
         hideAlertApiSM: hideAlert,
     };
 }

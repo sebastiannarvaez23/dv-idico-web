@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Card } from '@mui/material';
 import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { getCharacter } from '../../store/slices/character';
 import { getSerieMovie } from '../../store/slices/seriemovie';
 import RowListComponent from '../common/RowListComponent';
@@ -11,13 +11,19 @@ import RowListLoadingComponent from '../common/RowListLoadingComponent';
 
 interface ListCardComponentProps {
     elements: DetailsCardElement[];
-    isLoading: boolean;
     sectionSelected: string;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, sectionSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, sectionSelected }) => {
+
+    const { isLoadingCharacters } = useSelector(
+        (state: RootState) => state.character);
+
+    const { isLoadingSeriesMovies } = useSelector(
+        (state: RootState) => state.serieMovie);
+
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -42,7 +48,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoadi
                         <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
                     ))}
 
-                    {isLoading && (
+                    {isLoadingCharacters || isLoadingSeriesMovies && (
                         <RowListLoadingComponent />
                     )}
                 </Grid >

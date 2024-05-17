@@ -1,25 +1,27 @@
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
 import { updateCharacter } from "../../store/slices/character";
 
 interface EditCharacterFormProps {
-    character: Character;
     setModalOpen: (fun: boolean) => void;
 }
 
-const EditCharacterFormComponent = ({ character, setModalOpen }: EditCharacterFormProps) => {
+const EditCharacterFormComponent = ({ setModalOpen }: EditCharacterFormProps) => {
+
+    const { characterSelected } = useSelector(
+        (state: RootState) => state.character);
 
     const dispatch = useDispatch<AppDispatch>();
 
     const [formData, setFormData] = useState({
-        id: character.id,
-        name: character.name,
-        image: character.image,
-        age: character.age,
-        weight: character.weight,
-        history: character.history
+        id: characterSelected.id,
+        name: characterSelected.name,
+        image: characterSelected.image,
+        age: characterSelected.age,
+        weight: characterSelected.weight,
+        history: characterSelected.history
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

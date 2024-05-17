@@ -1,6 +1,10 @@
 import { Fragment, useState } from 'react';
+import { deleteCharacter } from '../store/slices/character';
+import { deleteSerieMovie } from '../store/slices/seriemovie';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie.mapper';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
+import { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
 import SidebarComponent from '../components/home/SidebarComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
@@ -11,26 +15,20 @@ import useAlert from '../hooks/useAlert.hook';
 import useFetchingCharacter from '../hooks/useFetchingCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import useFetchingSerieMovie from '../hooks/useFetchingSerieMovie.hook';
-import { deleteCharacter } from '../store/slices/character';
-import { deleteSerieMovie } from '../store/slices/seriemovie';
 
 const HomePage = () => {
 
+    const { characterSelected } = useSelector(
+        (state: RootState) => state.character);
+
+    const { serieMovieSelected } = useSelector(
+        (state: RootState) => state.serieMovie);
+
     const { hideAlert, alert } = useAlert();
     const {
-        alertApiC,
-        characters,
-        characterSelected,
-        isLoadingCharacter,
-        hideAlertApiC,
     } = useFetchingCharacter();
 
     const {
-        alertApiSM,
-        seriesMovies,
-        serieMovieSelected,
-        isLoadingSerieMovie,
-        hideAlertApiSM,
     } = useFetchingSerieMovie();
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -72,20 +70,6 @@ const HomePage = () => {
                     onClose={hideAlert}
                 />
             )}
-            {alertApiC && (
-                <FloatingAlertComponent
-                    type={alertApiC.type}
-                    message={alertApiC.message}
-                    onClose={hideAlertApiC}
-                />
-            )}
-            {alertApiSM && (
-                <FloatingAlertComponent
-                    type={alertApiSM.type}
-                    message={alertApiSM.message}
-                    onClose={hideAlertApiSM}
-                />
-            )}
             <div>
                 <SidebarComponent setSectionSelected={setSectionSelected} />
             </div>
@@ -93,16 +77,13 @@ const HomePage = () => {
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditCharacterFormComponent
-                            character={characterSelected}
                             setModalOpen={setModalOpen}
                         />
                     </ModalComponent>
                     <SearchElementComponent
-                        characters={characters ?? []}
                         setFilteredCharacters={setCharactersFilters}
-                        seriesmovies={[]}
                         setFilteredSeriesMovies={() => { }}
-                        flag={"character"}
+                        flag={sectionSelected}
                     />
                     <SectionComponent
                         titleSection={"Personaje"}
@@ -112,7 +93,6 @@ const HomePage = () => {
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                         editElement={handleOpenModal}
                         deleteElement={deleteCharacter}
-                        isLoading={isLoadingCharacter}
                         sectionSelected={sectionSelected}
                     />
                 </Fragment>
@@ -120,16 +100,13 @@ const HomePage = () => {
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditSerieMovieFormComponent
-                            serieMovie={serieMovieSelected}
                             setModalOpen={setModalOpen}
                         />
                     </ModalComponent>
                     <SearchElementComponent
-                        seriesmovies={seriesMovies ?? []}
                         setFilteredSeriesMovies={setSeriesMoviesFilters}
-                        characters={[]}
                         setFilteredCharacters={() => { }}
-                        flag={"seriemovie"}
+                        flag={sectionSelected}
                     />
                     <SectionComponent
                         titleSection={"Serie / Película"}
@@ -139,7 +116,6 @@ const HomePage = () => {
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
                         editElement={handleOpenModal}
                         deleteElement={deleteSerieMovie}
-                        isLoading={isLoadingSerieMovie}
                         sectionSelected={sectionSelected}
                     />
                 </Fragment>

@@ -1,28 +1,30 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
 import { updateSerieMovie } from "../../store/slices/seriemovie";
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import useApiGender from "../../hooks/useFetchingGender.hook";
 
 interface EditSerieMovieFormProps {
-    serieMovie: SerieMovie,
     setModalOpen: (fun: boolean) => void;
 }
 
-const EditSerieMovieFormComponent = ({ serieMovie, setModalOpen }: EditSerieMovieFormProps) => {
+const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) => {
+
+    const { serieMovieSelected } = useSelector(
+        (state: RootState) => state.serieMovie);
 
     const { genders, isLoading } = useApiGender();
     const dispatch = useDispatch<AppDispatch>();
 
     const [formData, setFormData] = useState({
-        id: serieMovie.id,
-        title: serieMovie.title,
-        image: serieMovie.image,
-        created_date: serieMovie.created_date,
-        qualification: serieMovie.qualification,
-        gender: serieMovie.gender,
-        characters: serieMovie.characters
+        id: serieMovieSelected.id,
+        title: serieMovieSelected.title,
+        image: serieMovieSelected.image,
+        created_date: serieMovieSelected.created_date,
+        qualification: serieMovieSelected.qualification,
+        gender: serieMovieSelected.gender,
+        characters: serieMovieSelected.characters
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

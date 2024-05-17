@@ -9,7 +9,6 @@ interface SectionComponentProps {
     listElement: DetailsCardElement[];
     titleSection: string;
     titleListSection: string;
-    isLoading: boolean;
     sectionSelected: string;
     deleteElement: DeleteElementFunction;
     setSerieMovieSelected?: (e: SerieMovie) => void;
@@ -23,7 +22,6 @@ const SectionComponent = ({
     listElement,
     titleSection,
     titleListSection,
-    isLoading,
     sectionSelected,
     setCharacterSelected,
     editElement,
@@ -47,8 +45,7 @@ const SectionComponent = ({
                     <ListCardComponent
                         elements={listElement}
                         sectionSelected={sectionSelected}
-                        setCharacterSelected={setCharacterSelected}
-                        isLoading={isLoading} />
+                        setCharacterSelected={setCharacterSelected} />
                 </Paper>
             </Grid>
         </Grid >
