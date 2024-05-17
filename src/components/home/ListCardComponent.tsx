@@ -1,28 +1,39 @@
 import React from 'react';
-import { Grid, Card, Typography } from '@mui/material';
+import { Grid, Card } from '@mui/material';
 import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { getCharacter } from '../../store/slices/character';
+import { getSerieMovie } from '../../store/slices/seriemovie';
+import RowListComponent from '../common/RowListComponent';
+import RowListLoadingComponent from '../common/RowListLoadingComponent';
 
 interface ListCardComponentProps {
     elements: DetailsCardElement[];
-    isLoading: boolean;
     sectionSelected: string;
     setSerieMovieSelected?: (e: SerieMovie) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoading, setSerieMovieSelected, sectionSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, sectionSelected }) => {
+
+    const { isLoadingCharacters } = useSelector(
+        (state: RootState) => state.character);
+
+    const { isLoadingSeriesMovies } = useSelector(
+        (state: RootState) => state.serieMovie);
+
 
     const dispatch = useDispatch<AppDispatch>();
 
     const handleClickRow = (element: DetailsCardElement): void => {
-        if (sectionSelected === "Peliculas") {
-            //setSerieMovieSelected(mapDetailsCardElementToSerieMovie(element));
+        if (sectionSelected === "products") {
+            dispatch(
+                getSerieMovie(
+                    mapDetailsCardElementToSerieMovie(element).endpoint));
         }
-        if (sectionSelected === "Personajes") {
+        if (sectionSelected === "characters") {
             dispatch(
                 getCharacter(
                     mapDetailsCardElementToCharacter(element).endpoint));
@@ -30,56 +41,19 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, isLoadi
     }
 
     return (
-        <Card style={{ marginBottom: '20px', height: '47vh' }}>
-            <div style={{ maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <Card style={{ margin: '10px 0', height: '47vh' }}>
+            <div style={{ padding: '20px 0', maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
                     {elements && elements.map((element, index) => (
-                        <Card onClick={() => { handleClickRow(element) }}
-                            style={{
-                                width: '80%',
-                                margin: '4px auto',
-                                padding: '4px 8px'
-                            }}
-                            key={index}>
-                            <Grid item xs={12} style={{ cursor: 'pointer' }}>
-                                <Grid container alignItems="center">
-                                    <Grid item xs={1}>
-                                        <img
-                                            src={element.image1 as string}
-                                            alt={`Imagen de ${element.field1}`}
-                                            style={{
-                                                width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px',
-                                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)'
-                                            }} />
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <Typography variant="body1">{element.field1}</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Card>
+                        <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
                     ))}
 
-                    {isLoading && (
-                        <Card style={{
-                            width: '80%',
-                            height: '50px',
-                            margin: '4px auto',
-                            padding: '4px 8px',
-                        }}>
-                            <Grid item xs={12} style={{ cursor: 'pointer', padding: '20px 0' }}>
-                                <Grid container alignItems="center">
-                                    <Grid item xs={1}></Grid>
-                                    <Grid item xs={10}>
-                                        <Typography variant="body1">{"Cargando..."}</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Card>
+                    {isLoadingCharacters || isLoadingSeriesMovies && (
+                        <RowListLoadingComponent />
                     )}
                 </Grid >
             </div >
-        </Card>
+        </Card >
     );
 };
 

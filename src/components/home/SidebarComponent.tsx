@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/sidebar-component.css';
 
 interface SidebarComponentProps {
-    setSectionSelected: (section: string) => void;
+    setSectionSelected: (section: TypSection) => void;
 }
 
 const SidebarComponent = ({ setSectionSelected }: SidebarComponentProps) => {
 
     const navigate = useNavigate();
+    const sections: TypSection[] = ["products", "characters"];
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -32,9 +33,10 @@ const SidebarComponent = ({ setSectionSelected }: SidebarComponentProps) => {
                     </IconButton>
                 </Toolbar>
                 <List className="sidebar">
-                    {['Personajes', 'Peliculas'].map((text) => (
+                    {sections.map((text: TypSection) => (
                         <ListItem button key={text} onClick={() => setSectionSelected(text)}>
-                            <ListItemText primary={text} />
+                            {(text === "products") && <ListItemText primary={"Series / Películas"} />}
+                            {(text === "characters") && <ListItemText primary={"Personajes"} />}
                         </ListItem>
                     ))}
                 </List>

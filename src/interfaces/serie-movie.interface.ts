@@ -5,5 +5,6 @@ interface SerieMovie {
     created_date: string;
     qualification: string;
     gender: Gender;
+    endpoint: string;
     characters: string[];
 }

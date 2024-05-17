@@ -1,6 +1,10 @@
 import { Fragment, useState } from 'react';
+import { deleteCharacter } from '../store/slices/character';
+import { deleteSerieMovie } from '../store/slices/seriemovie';
 import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie.mapper';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
+import { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
 import SidebarComponent from '../components/home/SidebarComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
@@ -14,29 +18,21 @@ import useFetchingSerieMovie from '../hooks/useFetchingSerieMovie.hook';
 
 const HomePage = () => {
 
+    const { characterSelected } = useSelector(
+        (state: RootState) => state.character);
+
+    const { serieMovieSelected } = useSelector(
+        (state: RootState) => state.serieMovie);
+
     const { hideAlert, alert } = useAlert();
     const {
-        alertApiC,
-        characters,
-        characterSelected,
-        isLoadingCharacter,
-        hideAlertApiC,
     } = useFetchingCharacter();
 
     const {
-        alertApiSM,
-        seriesMovies,
-        serieMovieSelected,
-        isLoadingSerieMovie,
-        handleDeleteSerieMovie,
-        fetchSeriesMovies,
-        hideAlertApiSM,
-        setSerieMovieSelected,
-        updateSerieMovie
     } = useFetchingSerieMovie();
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [sectionSelected, setSectionSelected] = useState("Personajes");
+    const [sectionSelected, setSectionSelected] = useState<TypSection>("characters");
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [seriesMoviesFilters, setSeriesMoviesFilters] = useState<SerieMovie[]>();
 
@@ -74,37 +70,20 @@ const HomePage = () => {
                     onClose={hideAlert}
                 />
             )}
-            {alertApiC && (
-                <FloatingAlertComponent
-                    type={alertApiC.type}
-                    message={alertApiC.message}
-                    onClose={hideAlertApiC}
-                />
-            )}
-            {alertApiSM && (
-                <FloatingAlertComponent
-                    type={alertApiSM.type}
-                    message={alertApiSM.message}
-                    onClose={hideAlertApiSM}
-                />
-            )}
             <div>
                 <SidebarComponent setSectionSelected={setSectionSelected} />
             </div>
-            {sectionSelected === "Personajes" && (
+            {sectionSelected === "characters" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditCharacterFormComponent
-                            character={characterSelected}
                             setModalOpen={setModalOpen}
                         />
                     </ModalComponent>
                     <SearchElementComponent
-                        characters={characters ?? []}
                         setFilteredCharacters={setCharactersFilters}
-                        seriesmovies={[]}
                         setFilteredSeriesMovies={() => { }}
-                        flag={"character"}
+                        flag={sectionSelected}
                     />
                     <SectionComponent
                         titleSection={"Personaje"}
@@ -113,27 +92,21 @@ const HomePage = () => {
                         detailLabels={detailLabelsCharacter}
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                         editElement={handleOpenModal}
-                        isLoading={isLoadingCharacter}
+                        deleteElement={deleteCharacter}
                         sectionSelected={sectionSelected}
                     />
                 </Fragment>
-            ) || sectionSelected === "Peliculas" && (
+            ) || sectionSelected === "products" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
                         <EditSerieMovieFormComponent
-                            serieMovie={serieMovieSelected}
-                            setSerieMovieSelected={setSerieMovieSelected}
-                            fetchSeriesMovies={fetchSeriesMovies}
                             setModalOpen={setModalOpen}
-                            updateSerieMovie={updateSerieMovie}
                         />
                     </ModalComponent>
                     <SearchElementComponent
-                        seriesmovies={seriesMovies ?? []}
                         setFilteredSeriesMovies={setSeriesMoviesFilters}
-                        characters={[]}
                         setFilteredCharacters={() => { }}
-                        flag={"seriemovie"}
+                        flag={sectionSelected}
                     />
                     <SectionComponent
                         titleSection={"Serie / Película"}
@@ -141,9 +114,8 @@ const HomePage = () => {
                         detailElement={serieMovieDto}
                         detailLabels={detailLabelsSerieMovie}
                         listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
-                        setSerieMovieSelected={setSerieMovieSelected}
                         editElement={handleOpenModal}
-                        isLoading={isLoadingSerieMovie}
+                        deleteElement={deleteSerieMovie}
                         sectionSelected={sectionSelected}
                     />
                 </Fragment>

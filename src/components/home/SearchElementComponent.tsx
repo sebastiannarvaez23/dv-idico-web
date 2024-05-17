@@ -1,5 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Grid, Paper, styled, InputBase, Select, MenuItem } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const SearchContainer = styled(Paper)({
     width: '100%',
@@ -14,14 +16,19 @@ const SearchInput = styled(InputBase)({
 });
 
 interface SearchElementProps {
-    flag: string
-    seriesmovies: SerieMovie[],
-    characters: Character[],
-    setFilteredSeriesMovies: (arg: SerieMovie[]) => void,
-    setFilteredCharacters: (arg: Character[]) => void,
+    flag: TypSection;
+    setFilteredSeriesMovies: (arg: SerieMovie[]) => void;
+    setFilteredCharacters: (arg: Character[]) => void;
 }
 
-const SearchElementComponent = ({ seriesmovies, setFilteredSeriesMovies, characters, setFilteredCharacters, flag }: SearchElementProps) => {
+const SearchElementComponent = ({ setFilteredSeriesMovies, setFilteredCharacters, flag }: SearchElementProps) => {
+
+    const { characters } = useSelector(
+        (state: RootState) => state.character);
+
+    const { seriesMovies } = useSelector(
+        (state: RootState) => state.serieMovie);
+
     const [searchValue, setSearchValue] = useState<string>('');
     const [filterTypeSerieMovie, setFilterTypeSerieMovie] = useState<string>('title');
     const [filterTypeCharacter, setFilterTypeCharacter] = useState<string>('name');
@@ -29,25 +36,25 @@ const SearchElementComponent = ({ seriesmovies, setFilteredSeriesMovies, charact
     useEffect(() => {
         if (filterTypeSerieMovie === 'title') {
             if (searchValue) {
-                const filteredList = seriesmovies.filter(movie =>
+                const filteredList = seriesMovies.filter(movie =>
                     movie.title.toLowerCase().includes(searchValue.toLowerCase())
                 );
                 setFilteredSeriesMovies(filteredList);
             } else {
-                setFilteredSeriesMovies(seriesmovies);
+                setFilteredSeriesMovies(seriesMovies);
             }
         }
         if (filterTypeSerieMovie === 'gender') {
             if (searchValue) {
-                const filteredList = seriesmovies.filter(movie =>
+                const filteredList = seriesMovies.filter(movie =>
                     movie.gender.name.toLowerCase().includes(searchValue.toLowerCase())
                 );
                 setFilteredSeriesMovies(filteredList);
             } else {
-                setFilteredSeriesMovies(seriesmovies);
+                setFilteredSeriesMovies(seriesMovies);
             }
         }
-    }, [searchValue, seriesmovies, setFilteredSeriesMovies]);
+    }, [searchValue, seriesMovies, setFilteredSeriesMovies]);
 
     useEffect(() => {
         if (searchValue) {
@@ -74,7 +81,7 @@ const SearchElementComponent = ({ seriesmovies, setFilteredSeriesMovies, charact
                     </Grid>
                     <Grid item xs={6}>
 
-                        {flag === 'seriemovie' && (
+                        {flag === 'products' && (
                             <Fragment>
                                 <Select
                                     variant="outlined"

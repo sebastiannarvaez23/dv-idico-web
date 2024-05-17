@@ -4,8 +4,8 @@ export interface CharacterState {
     isLoadingCharacters: boolean;
     isLoadingCharacterSelected: boolean;
     error: string | null;
-    characterSelected: Character,
-    characters: Character[]
+    characterSelected: Character;
+    characters: Character[];
 }
 
 const initialState: CharacterState = {
