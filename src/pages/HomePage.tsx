@@ -12,9 +12,9 @@ import ModalComponent from '../components/home/ModalComponent';
 import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
 import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
 import useAlert from '../hooks/useAlert.hook';
-import useFetchingCharacter from '../hooks/useFetchingCharacter.hook';
+import useCharacter from '../hooks/useCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
-import useFetchingSerieMovie from '../hooks/useFetchingSerieMovie.hook';
+import useSerieMovie from '../hooks/useSerieMovie.hook';
 
 const HomePage = () => {
 
@@ -24,12 +24,12 @@ const HomePage = () => {
     const { serieMovieSelected } = useSelector(
         (state: RootState) => state.serieMovie);
 
-    const { hideAlert, alert } = useAlert();
-    const {
-    } = useFetchingCharacter();
+    const { alert } = useSelector(
+        (state: RootState) => state.common);
 
-    const {
-    } = useFetchingSerieMovie();
+    const { hideAlert } = useAlert();
+    const { } = useCharacter();
+    const { } = useSerieMovie();
 
     const [modalOpen, setModalOpen] = useState(false);
     const [sectionSelected, setSectionSelected] = useState<TypSection>("characters");
@@ -63,7 +63,7 @@ const HomePage = () => {
 
     return (
         <Fragment>
-            {alert && (
+            {(alert) && (
                 <FloatingAlertComponent
                     type={alert.type}
                     message={alert.message}

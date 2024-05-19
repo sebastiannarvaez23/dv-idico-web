@@ -29,10 +29,10 @@ export const characterSlice = createSlice({
     name: 'character',
     initialState,
     reducers: {
-        startLoadingCharacters: (state, /* action */) => {
+        startLoadingCharacters: (state) => {
             state.isLoadingCharacters = true;
         },
-        startLoadingCharactersSelected: (state, /* action */) => {
+        startLoadingCharactersSelected: (state) => {
             state.isLoadingCharacterSelected = true;
         },
         setCharacters: (state, action) => {
@@ -46,7 +46,6 @@ export const characterSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
 export const {
     startLoadingCharacters,
     setCharacters,

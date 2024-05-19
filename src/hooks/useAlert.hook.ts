@@ -1,23 +1,21 @@
-import { useState, useEffect } from 'react';
-
-export type AlertType = 'success' | 'error' | 'info';
-
-interface AlertState {
-    type: AlertType;
-    message: string;
-}
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/store';
+import { setAlert } from '../store/slices/common';
+import { AlertType } from '../types/TypAlert';
 
 const useAlert = () => {
 
-    const [alert, setAlert] = useState<AlertState | null>(null);
+    const dispatch = useDispatch<AppDispatch>();
+    const { alert } = useSelector(
+        (state: RootState) => state.common);
 
     const showAlert = (type: AlertType, message: string) => {
-        setAlert({ type, message });
-        console.log("ALERTA", type, message);
+        dispatch(setAlert({ type, message }));
     };
 
     const hideAlert = () => {
-        setAlert(null);
+        dispatch(setAlert(null));
     };
 
     useEffect(() => {
@@ -36,7 +34,7 @@ const useAlert = () => {
         };
     }, [alert]);
 
-    return { showAlert, hideAlert, alert };
+    return { showAlert, hideAlert };
 };
 
 export default useAlert;

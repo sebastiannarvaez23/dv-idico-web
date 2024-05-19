@@ -46,7 +46,6 @@ export const serieMovieSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
 export const {
     startLoadingSeriesMovies,
     startLoadingSerieMovieSelected,

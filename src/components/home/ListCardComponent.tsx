@@ -48,7 +48,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
                         <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
                     ))}
 
-                    {isLoadingCharacters || isLoadingSeriesMovies && (
+                    {(isLoadingCharacters || isLoadingSeriesMovies) && (
                         <RowListLoadingComponent />
                     )}
                 </Grid >
