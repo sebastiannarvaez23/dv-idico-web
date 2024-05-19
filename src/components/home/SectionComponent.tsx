@@ -11,7 +11,7 @@ interface SectionComponentProps {
     titleListSection: string;
     sectionSelected: string;
     deleteElement: DeleteElementFunction;
-    setSerieMovieSelected?: (e: SerieMovie) => void;
+    setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
     editElement: () => void;
 }

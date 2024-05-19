@@ -24,21 +24,21 @@ const parseMonth = (monthStr: string): number => {
     return months.findIndex(month => month === monthStr.toLowerCase());
 }
 
-export const mapSerieMovieToDetailsCardElement = (serieMovie: SerieMovie): DetailsCardElement => {
+export const mapProductToDetailsCardElement = (product: Product): DetailsCardElement => {
     return {
-        id: serieMovie.id,
-        field1: serieMovie.title,
-        field2: (serieMovie.created_date) ? formattingDate(serieMovie.created_date) : "",
-        field3: serieMovie.qualification,
-        field4: serieMovie.gender?.name,
-        extraField1: serieMovie.gender?.id,
-        endpoint: serieMovie.endpoint,
-        image1: serieMovie.image as string,
-        list1: serieMovie.characters,
+        id: product.id,
+        field1: product.title,
+        field2: (product.created_date) ? formattingDate(product.created_date) : "",
+        field3: product.qualification,
+        field4: product.gender?.name,
+        extraField1: product.gender?.id,
+        endpoint: product.endpoint,
+        image1: product.image as string,
+        list1: product.characters,
     };
 }
 
-export const mapDetailsCardElementToSerieMovie = (detailsCardElement: DetailsCardElement): SerieMovie => {
+export const mapDetailsCardElementToProduct = (detailsCardElement: DetailsCardElement): Product => {
     return {
         id: detailsCardElement.id,
         title: detailsCardElement.field1,

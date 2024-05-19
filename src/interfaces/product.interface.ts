@@ -1,4 +1,4 @@
-interface SerieMovie {
+interface Product {
     id: string;
     title: string;
     image: File | string;

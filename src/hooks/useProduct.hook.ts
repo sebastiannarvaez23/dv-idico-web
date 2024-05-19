@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
-import { getSeriesMovies } from '../store/slices/seriemovie';
+import { getProducts } from '../store/slices/product';
 import useAlert from './useAlert.hook';
 
-function useSerieMovie() {
+function useProduct() {
 
     const dispatch = useDispatch<AppDispatch>();
     const { alert, hideAlert } = useAlert();
 
     useEffect(() => {
-        dispatch(getSeriesMovies());
+        dispatch(getProducts());
     }, [])
 
     return {
@@ -19,4 +19,4 @@ function useSerieMovie() {
     };
 }
 
-export default useSerieMovie;
+export default useProduct;

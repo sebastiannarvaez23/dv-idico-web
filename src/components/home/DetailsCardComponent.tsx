@@ -18,15 +18,15 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: De
     const { isLoadingCharacterSelected } = useSelector(
         (state: RootState) => state.character);
 
-    const { isLoadingSerieMovieSelected } = useSelector(
-        (state: RootState) => state.serieMovie);
+    const { isLoadingProductSelected } = useSelector(
+        (state: RootState) => state.product);
 
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>
             <Grid style={{ width: '90%', margin: '0 auto' }} container >
                 {/* Parte izquierda: Imagen */}
                 <Grid item xs={12} sm={5}>
-                    {(isLoadingCharacterSelected || isLoadingSerieMovieSelected) ? (
+                    {(isLoadingCharacterSelected || isLoadingProductSelected) ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '340px' }}>
                             <Lottie animationData={loadingAnimation} style={{
                                 width: '100%',

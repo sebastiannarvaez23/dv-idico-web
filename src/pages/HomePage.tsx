@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { deleteCharacter } from '../store/slices/character';
-import { deleteSerieMovie } from '../store/slices/seriemovie';
-import { mapSerieMovieToDetailsCardElement } from '../utils/mappers/seriemovie.mapper';
+import { deleteProduct } from '../store/slices/product';
+import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import { RootState } from '../store/store';
 import { useSelector } from 'react-redux';
@@ -10,31 +10,31 @@ import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import ModalComponent from '../components/home/ModalComponent';
 import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
-import EditSerieMovieFormComponent from '../components/home/EditSerieMovieFormComponent';
+import EditProductFormComponent from '../components/home/EditProductFormComponent';
 import useAlert from '../hooks/useAlert.hook';
 import useCharacter from '../hooks/useCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
-import useSerieMovie from '../hooks/useSerieMovie.hook';
+import useProduct from '../hooks/useProduct.hook';
 
 const HomePage = () => {
 
     const { characterSelected } = useSelector(
         (state: RootState) => state.character);
 
-    const { serieMovieSelected } = useSelector(
-        (state: RootState) => state.serieMovie);
+    const { productSelected } = useSelector(
+        (state: RootState) => state.product);
 
     const { alert } = useSelector(
         (state: RootState) => state.common);
 
     const { hideAlert } = useAlert();
     const { } = useCharacter();
-    const { } = useSerieMovie();
+    const { } = useProduct();
 
     const [modalOpen, setModalOpen] = useState(false);
     const [sectionSelected, setSectionSelected] = useState<TypSection>("characters");
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
-    const [seriesMoviesFilters, setSeriesMoviesFilters] = useState<SerieMovie[]>();
+    const [seriesMoviesFilters, setProductsFilters] = useState<Product[]>();
 
     const detailLabelsCharacter: DetailsLabelCardElement = {
         label1: "Edad: ",
@@ -43,7 +43,7 @@ const HomePage = () => {
         label4: "Películas y/ o Series: "
     }
 
-    const detailLabelsSerieMovie: DetailsLabelCardElement = {
+    const detailLabelsProduct: DetailsLabelCardElement = {
         label1: "Fecha de salida: ",
         label2: "Calificación: ",
         label3: "Género: ",
@@ -51,7 +51,7 @@ const HomePage = () => {
     }
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
-    const serieMovieDto: DetailsCardElement = mapSerieMovieToDetailsCardElement(serieMovieSelected);
+    const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -82,7 +82,7 @@ const HomePage = () => {
                     </ModalComponent>
                     <SearchElementComponent
                         setFilteredCharacters={setCharactersFilters}
-                        setFilteredSeriesMovies={() => { }}
+                        setFilteredProducts={() => { }}
                         flag={sectionSelected}
                     />
                     <SectionComponent
@@ -99,23 +99,23 @@ const HomePage = () => {
             ) || sectionSelected === "products" && (
                 <Fragment>
                     <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditSerieMovieFormComponent
+                        <EditProductFormComponent
                             setModalOpen={setModalOpen}
                         />
                     </ModalComponent>
                     <SearchElementComponent
-                        setFilteredSeriesMovies={setSeriesMoviesFilters}
+                        setFilteredProducts={setProductsFilters}
                         setFilteredCharacters={() => { }}
                         flag={sectionSelected}
                     />
                     <SectionComponent
                         titleSection={"Serie / Película"}
                         titleListSection={"Listado de Series y Peliculas"}
-                        detailElement={serieMovieDto}
-                        detailLabels={detailLabelsSerieMovie}
-                        listElement={seriesMoviesFilters?.map(e => mapSerieMovieToDetailsCardElement(e)) ?? []}
+                        detailElement={productDto}
+                        detailLabels={detailLabelsProduct}
+                        listElement={seriesMoviesFilters?.map(e => mapProductToDetailsCardElement(e)) ?? []}
                         editElement={handleOpenModal}
-                        deleteElement={deleteSerieMovie}
+                        deleteElement={deleteProduct}
                         sectionSelected={sectionSelected}
                     />
                 </Fragment>
