@@ -17,44 +17,44 @@ const SearchInput = styled(InputBase)({
 
 interface SearchElementProps {
     flag: TypSection;
-    setFilteredSeriesMovies: (arg: SerieMovie[]) => void;
+    setFilteredProducts: (arg: Product[]) => void;
     setFilteredCharacters: (arg: Character[]) => void;
 }
 
-const SearchElementComponent = ({ setFilteredSeriesMovies, setFilteredCharacters, flag }: SearchElementProps) => {
+const SearchElementComponent = ({ setFilteredProducts, setFilteredCharacters, flag }: SearchElementProps) => {
 
     const { characters } = useSelector(
         (state: RootState) => state.character);
 
     const { seriesMovies } = useSelector(
-        (state: RootState) => state.serieMovie);
+        (state: RootState) => state.product);
 
     const [searchValue, setSearchValue] = useState<string>('');
-    const [filterTypeSerieMovie, setFilterTypeSerieMovie] = useState<string>('title');
+    const [filterTypeProduct, setFilterTypeProduct] = useState<string>('title');
     const [filterTypeCharacter, setFilterTypeCharacter] = useState<string>('name');
 
     useEffect(() => {
-        if (filterTypeSerieMovie === 'title') {
+        if (filterTypeProduct === 'title') {
             if (searchValue) {
                 const filteredList = seriesMovies.filter(movie =>
                     movie.title.toLowerCase().includes(searchValue.toLowerCase())
                 );
-                setFilteredSeriesMovies(filteredList);
+                setFilteredProducts(filteredList);
             } else {
-                setFilteredSeriesMovies(seriesMovies);
+                setFilteredProducts(seriesMovies);
             }
         }
-        if (filterTypeSerieMovie === 'gender') {
+        if (filterTypeProduct === 'gender') {
             if (searchValue) {
                 const filteredList = seriesMovies.filter(movie =>
                     movie.gender.name.toLowerCase().includes(searchValue.toLowerCase())
                 );
-                setFilteredSeriesMovies(filteredList);
+                setFilteredProducts(filteredList);
             } else {
-                setFilteredSeriesMovies(seriesMovies);
+                setFilteredProducts(seriesMovies);
             }
         }
-    }, [searchValue, seriesMovies, setFilteredSeriesMovies]);
+    }, [searchValue, seriesMovies, setFilteredProducts]);
 
     useEffect(() => {
         if (searchValue) {
@@ -86,8 +86,8 @@ const SearchElementComponent = ({ setFilteredSeriesMovies, setFilteredCharacters
                                 <Select
                                     variant="outlined"
                                     style={{ width: '80%' }}
-                                    value={filterTypeSerieMovie}
-                                    onChange={(e) => setFilterTypeSerieMovie(e.target.value)}
+                                    value={filterTypeProduct}
+                                    onChange={(e) => setFilterTypeProduct(e.target.value)}
                                 >
                                     <MenuItem value="title">Titulo</MenuItem>
                                     <MenuItem value="gender">Género</MenuItem>

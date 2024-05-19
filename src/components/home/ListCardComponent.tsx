@@ -1,18 +1,18 @@
 import React from 'react';
 import { Grid, Card } from '@mui/material';
-import { mapDetailsCardElementToSerieMovie } from '../../utils/mappers/seriemovie.mapper';
+import { mapDetailsCardElementToProduct } from '../../utils/mappers/product.mapper';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { getCharacter } from '../../store/slices/character';
-import { getSerieMovie } from '../../store/slices/seriemovie';
+import { getProduct } from '../../store/slices/product';
 import RowListComponent from '../common/RowListComponent';
 import RowListLoadingComponent from '../common/RowListLoadingComponent';
 
 interface ListCardComponentProps {
     elements: DetailsCardElement[];
     sectionSelected: string;
-    setSerieMovieSelected?: (e: SerieMovie) => void;
+    setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
@@ -21,8 +21,8 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
     const { isLoadingCharacters } = useSelector(
         (state: RootState) => state.character);
 
-    const { isLoadingSeriesMovies } = useSelector(
-        (state: RootState) => state.serieMovie);
+    const { isLoadingProducts } = useSelector(
+        (state: RootState) => state.product);
 
 
     const dispatch = useDispatch<AppDispatch>();
@@ -30,8 +30,8 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
     const handleClickRow = (element: DetailsCardElement): void => {
         if (sectionSelected === "products") {
             dispatch(
-                getSerieMovie(
-                    mapDetailsCardElementToSerieMovie(element).endpoint));
+                getProduct(
+                    mapDetailsCardElementToProduct(element).endpoint));
         }
         if (sectionSelected === "characters") {
             dispatch(
@@ -48,7 +48,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
                         <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
                     ))}
 
-                    {(isLoadingCharacters || isLoadingSeriesMovies) && (
+                    {(isLoadingCharacters || isLoadingProducts) && (
                         <RowListLoadingComponent />
                     )}
                 </Grid >

@@ -1,14 +1,14 @@
 import api from "./api";
 
-export const fetchGetSeriesMovies = async (): Promise<SerieMovie[]> => {
-    const response = await api.get('/serie-movie')
+export const fetchGetProducts = async (): Promise<Product[]> => {
+    const response = await api.get('/product')
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
         })
-    return response.data.seriesMovies;
+    return response.data.products;
 };
 
-export const fetchGetSerieMovie = async (endpoint: string): Promise<SerieMovie> => {
+export const fetchGetProduct = async (endpoint: string): Promise<Product> => {
     const promise = await api.get(endpoint)
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
@@ -16,8 +16,8 @@ export const fetchGetSerieMovie = async (endpoint: string): Promise<SerieMovie> 
     return promise.data;
 };
 
-export const fetchUpdateSerieMovie = async (seriemovie: FormData): Promise<SerieMovie> => {
-    const response = await api.put(`/serie-movie/${seriemovie.get('id')}`, seriemovie, {
+export const fetchUpdateProduct = async (product: FormData): Promise<Product> => {
+    const response = await api.put(`/product/${product.get('id')}`, product, {
         headers: { 'Content-Type': 'multipart/form-data' }
     }).catch((error: any) => {
         throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
@@ -25,8 +25,8 @@ export const fetchUpdateSerieMovie = async (seriemovie: FormData): Promise<Serie
     return response.data;
 };
 
-export const fetchDeleteSerieMovie = async (id: string): Promise<SerieMovie> => {
-    const response = await api.delete(`/serie-movie/${id}`)
+export const fetchDeleteProduct = async (id: string): Promise<Product> => {
+    const response = await api.delete(`/product/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al eliminar Serie/Película: ${error.message}`);
         });

@@ -1,30 +1,30 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { updateSerieMovie } from "../../store/slices/seriemovie";
+import { updateProduct } from "../../store/slices/product";
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import useGender from "../../hooks/useGender.hook";
 
-interface EditSerieMovieFormProps {
+interface EditProductFormProps {
     setModalOpen: (fun: boolean) => void;
 }
 
-const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) => {
+const EditProductFormComponent = ({ setModalOpen }: EditProductFormProps) => {
 
-    const { serieMovieSelected } = useSelector(
-        (state: RootState) => state.serieMovie);
+    const { productSelected } = useSelector(
+        (state: RootState) => state.product);
 
     const { genders } = useGender();
     const dispatch = useDispatch<AppDispatch>();
 
     const [formData, setFormData] = useState({
-        id: serieMovieSelected.id,
-        title: serieMovieSelected.title,
-        image: serieMovieSelected.image,
-        created_date: serieMovieSelected.created_date,
-        qualification: serieMovieSelected.qualification,
-        gender: serieMovieSelected.gender,
-        characters: serieMovieSelected.characters
+        id: productSelected.id,
+        title: productSelected.title,
+        image: productSelected.image,
+        created_date: productSelected.created_date,
+        qualification: productSelected.qualification,
+        gender: productSelected.gender,
+        characters: productSelected.characters
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,7 +57,7 @@ const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) 
         formDataToSend.append('qualification', formData.qualification);
         formDataToSend.append('gender_id', formData.gender.id as string);
         formDataToSend.append('image', formData.image);
-        dispatch(updateSerieMovie(formDataToSend));
+        dispatch(updateProduct(formDataToSend));
         await setModalOpen(false);
     };
 
@@ -148,5 +148,5 @@ const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) 
     )
 }
 
-export default EditSerieMovieFormComponent;
+export default EditProductFormComponent;
 
