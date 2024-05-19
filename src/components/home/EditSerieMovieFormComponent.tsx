@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { updateSerieMovie } from "../../store/slices/seriemovie";
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import useApiGender from "../../hooks/useFetchingGender.hook";
+import useGender from "../../hooks/useGender.hook";
 
 interface EditSerieMovieFormProps {
     setModalOpen: (fun: boolean) => void;
@@ -14,7 +14,7 @@ const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) 
     const { serieMovieSelected } = useSelector(
         (state: RootState) => state.serieMovie);
 
-    const { genders, isLoading } = useApiGender();
+    const { genders } = useGender();
     const dispatch = useDispatch<AppDispatch>();
 
     const [formData, setFormData] = useState({
@@ -121,12 +121,11 @@ const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) 
                             <MenuItem key={index} value={gender.id as string}>
                                 {gender.name}
                             </MenuItem>
-                        ))}
-                        {isLoading && (
-                            <MenuItem value={"Cargando..."}>
-                                {"Cargando.."}
-                            </MenuItem>
-                        )}
+                        )) || (
+                                <MenuItem value={"Cargando..."}>
+                                    {"Cargando.."}
+                                </MenuItem>
+                            )}
                     </Select>
                 </FormControl>
                 <Input

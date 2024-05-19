@@ -1,7 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import DetailsCard from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
-import { DeleteElementFunction } from '../../types/DeleteElementFunction';
+import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 
 interface SectionComponentProps {
     detailElement: DetailsCardElement;

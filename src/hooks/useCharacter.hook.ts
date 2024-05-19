@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getCharacters } from '../store/slices/character';
 import { AppDispatch } from '../store/store';
 
-function useApiCharacter() {
+function useCharacter() {
 
     const dispatch = useDispatch<AppDispatch>();
     const { showAlert, alert, hideAlert } = useAlert();
@@ -20,4 +20,4 @@ function useApiCharacter() {
     };
 }
 
-export default useApiCharacter;
+export default useCharacter;

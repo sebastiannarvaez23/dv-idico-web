@@ -30,7 +30,7 @@ export const serieMovieSlice = createSlice({
     initialState,
     reducers: {
         startLoadingSeriesMovies: (state) => {
-            state.isLoadingSerieMovieSelected = true;
+            state.isLoadingSeriesMovies = true;
         },
         startLoadingSerieMovieSelected: (state) => {
             state.isLoadingSerieMovieSelected = true;
@@ -46,7 +46,6 @@ export const serieMovieSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
 export const {
     startLoadingSeriesMovies,
     startLoadingSerieMovieSelected,

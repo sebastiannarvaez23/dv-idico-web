@@ -3,7 +3,7 @@ import Lottie from 'lottie-react';
 import loadingAnimation from '../../../public/loading.json';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { DeleteElementFunction } from '../../types/DeleteElementFunction';
+import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 
 interface DetailsCardComponentProps {
     element: DetailsCardElement;

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import useAlert from './useAlert.hook';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { getSeriesMovies } from '../store/slices/seriemovie';
+import useAlert from './useAlert.hook';
 
-function useApiSerieMovie() {
+function useSerieMovie() {
 
     const dispatch = useDispatch<AppDispatch>();
     const { alert, hideAlert } = useAlert();
@@ -19,4 +19,4 @@ function useApiSerieMovie() {
     };
 }
 
-export default useApiSerieMovie;
+export default useSerieMovie;

@@ -1,15 +1,13 @@
 import React from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { DataFormRegister } from '../../interfaces/data-form-register.interface';
-import useApiAuth from '../../hooks/useFetchingAuth.hook';
+import { fetchSignup } from '../../services/auth';
 
 interface ComponentSignUpFormProps {
     handleShowLogin: () => void;
 }
 
 const SignUpFormComponent = ({ handleShowLogin }: ComponentSignUpFormProps) => {
-
-    const { signup } = useApiAuth();
 
     const [name, setName] = React.useState('');
     const [lastname, setLastname] = React.useState('');
@@ -38,7 +36,7 @@ const SignUpFormComponent = ({ handleShowLogin }: ComponentSignUpFormProps) => {
             phone: phone,
             password: password,
         }
-        signup(dataFormRegister);
+        fetchSignup(dataFormRegister);
         handleShowLogin();
     };
 
