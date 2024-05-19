@@ -30,7 +30,7 @@ export const serieMovieSlice = createSlice({
     initialState,
     reducers: {
         startLoadingSeriesMovies: (state) => {
-            state.isLoadingSerieMovieSelected = true;
+            state.isLoadingSeriesMovies = true;
         },
         startLoadingSerieMovieSelected: (state) => {
             state.isLoadingSerieMovieSelected = true;

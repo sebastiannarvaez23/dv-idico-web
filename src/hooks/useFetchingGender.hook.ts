@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import api from "../services/api";
+import { fetchGetGenders } from "../services/gender";
 
 function useApiGender() {
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
     const [genders, setGenders] = useState<Gender[]>([]);
 
-    const fetchGenders = async () => {
+    const getGenders = async () => {
         try {
-            const genders: Gender[] = await getGenders();
+            const genders: Gender[] = await fetchGetGenders();
             setGenders(genders);
         } catch (error) {
             throw new Error(`Error al obtener listado de generos: ${error}`);
@@ -17,24 +16,10 @@ function useApiGender() {
     }
 
     useEffect(() => {
-        fetchGenders();
+        getGenders();
     }, []);
 
-    const getGenders = async (): Promise<Gender[]> => {
-        setIsLoading(true);
-        const response = await api.get('/gender')
-            .catch((error: any) => {
-                setIsLoading(false);
-                setError(`Error obtener listado de Personajes: ${error.message}`);
-                throw new Error(`Error al obtener listado de generos: ${error.message}`);
-            })
-            .finally(() => setIsLoading(false));
-        return response.data.genders;
-    }
-
     return {
-        isLoading,
-        error,
         genders,
         getGenders
     }

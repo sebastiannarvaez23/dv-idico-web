@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import useApiAuth from '../../hooks/useFetchingAuth.hook';
+import { fetchSignin } from '../../services/auth';
 
 const LoginFormComponent = () => {
-
-    const { signin } = useApiAuth();
 
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +13,7 @@ const LoginFormComponent = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const newToken = await signin(mail, password);
+            const newToken = await fetchSignin(mail, password);
             localStorage.setItem('token', newToken);
             navigate('/');
         } catch (error) {

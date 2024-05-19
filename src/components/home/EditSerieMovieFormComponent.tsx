@@ -14,7 +14,7 @@ const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) 
     const { serieMovieSelected } = useSelector(
         (state: RootState) => state.serieMovie);
 
-    const { genders, isLoading } = useApiGender();
+    const { genders } = useApiGender();
     const dispatch = useDispatch<AppDispatch>();
 
     const [formData, setFormData] = useState({
@@ -121,12 +121,11 @@ const EditSerieMovieFormComponent = ({ setModalOpen }: EditSerieMovieFormProps) 
                             <MenuItem key={index} value={gender.id as string}>
                                 {gender.name}
                             </MenuItem>
-                        ))}
-                        {isLoading && (
-                            <MenuItem value={"Cargando..."}>
-                                {"Cargando.."}
-                            </MenuItem>
-                        )}
+                        )) || (
+                                <MenuItem value={"Cargando..."}>
+                                    {"Cargando.."}
+                                </MenuItem>
+                            )}
                     </Select>
                 </FormControl>
                 <Input
