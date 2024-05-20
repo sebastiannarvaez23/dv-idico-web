@@ -1,4 +1,4 @@
-# WEB SPA para Explorar el Universo Disney
+# WEB SPA Explora el Universo Disney
 
 Esta es una aplicación desarrollada para explorar el universo de Disney, permitiendo conocer y modificar los personajes, así como comprender las películas en las que participaron. La API expone la información de manera que cualquier frontend pueda consumirla de manera sencilla.
 
