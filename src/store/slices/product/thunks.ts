@@ -1,6 +1,6 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateProduct, fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
-import { setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
+import { setEmptyProductSelected, setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
 import { setAlert } from '../common';
 
 export const getProducts = () => {
@@ -8,11 +8,11 @@ export const getProducts = () => {
         try {
             const { productSelected } = getState().product;
             dispatch(startLoadingProducts());
-            const seriesMovies = await fetchGetProducts();
-            dispatch(setProducts({ seriesMovies }));
-            if (!productSelected?.id) dispatch(getProduct(seriesMovies[0].endpoint));
+            const products = await fetchGetProducts();
+            await dispatch(setProducts({ products }));
+            if (!productSelected?.id) await dispatch(getProduct(products[0].endpoint));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista Series y Películas' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de productos.' }));
         }
     };
 };
@@ -22,9 +22,9 @@ export const getProduct = (endpoint: string) => {
         try {
             dispatch(startLoadingProductSelected());
             const product: Product = await fetchGetProduct(endpoint);
-            dispatch(setProductSelected({ product }));
+            await dispatch(setProductSelected({ product }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la Serie/Película' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el producto.' }));
         }
     };
 };
@@ -33,8 +33,8 @@ export const createProduct = (product: FormData) => {
     return async (dispatch: AppDispatch) => {
         try {
             const productCreated: Product = await fetchCreateProduct(product);
-            dispatch(getProducts());
-            dispatch(setAlert({ type: 'success', message: `Producto ${productCreated.title} creado exitosamente!` }));
+            await dispatch(getProducts());
+            await dispatch(setAlert({ type: 'success', message: `Producto ${productCreated.title} creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el producto.' }));
         }
@@ -45,11 +45,11 @@ export const updateProduct = (product: FormData) => {
     return async (dispatch: AppDispatch) => {
         try {
             const productUpdated = await fetchUpdateProduct(product);
-            dispatch(setProductSelected({ product: productUpdated }));
-            dispatch(getProducts());
-            dispatch(setAlert({ type: 'success', message: 'Serie/Película Actualizada exitosamente!' }));
+            await dispatch(setProductSelected({ product: productUpdated }));
+            await dispatch(getProducts());
+            await dispatch(setAlert({ type: 'success', message: 'Producto actualizado exitosamente!' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando la Serie/Película' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el producto.' }));
         }
     };
 };
@@ -57,12 +57,13 @@ export const updateProduct = (product: FormData) => {
 export const deleteProduct = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { seriesMovies, productSelected } = getState().product;
+            const { productSelected } = getState().product;
             await fetchDeleteProduct(productSelected.id);
-            dispatch(getProducts());
-            dispatch(getProduct(seriesMovies[1].endpoint));
+            await dispatch(setEmptyProductSelected());
+            await dispatch(getProducts());
+            await dispatch(setAlert({ type: 'success', message: 'Producto eliminado exitosamente!' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando la Serie/Película' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el producto.' }));
         }
     };
 };

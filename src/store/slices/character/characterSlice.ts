@@ -42,6 +42,9 @@ export const characterSlice = createSlice({
         setCharacterSelected: (state, action) => {
             state.isLoadingCharacterSelected = false;
             state.characterSelected = action.payload.character;
+        },
+        setEmptyCharacterSelected: (state) => {
+            state.characterSelected = initialState.characterSelected;
         }
     },
 })
@@ -50,5 +53,6 @@ export const {
     startLoadingCharacters,
     setCharacters,
     setCharacterSelected,
-    startLoadingCharactersSelected
+    startLoadingCharactersSelected,
+    setEmptyCharacterSelected
 } = characterSlice.actions;

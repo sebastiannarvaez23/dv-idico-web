@@ -5,7 +5,7 @@ export interface ProductState {
     isLoadingProductSelected: boolean;
     error: string | null;
     productSelected: Product;
-    seriesMovies: Product[];
+    products: Product[];
 }
 
 const initialState: ProductState = {
@@ -22,7 +22,7 @@ const initialState: ProductState = {
         endpoint: "",
         characters: []
     },
-    seriesMovies: [],
+    products: [],
 }
 
 export const productSlice = createSlice({
@@ -37,11 +37,14 @@ export const productSlice = createSlice({
         },
         setProducts: (state, action) => {
             state.isLoadingProducts = false;
-            state.seriesMovies = action.payload.seriesMovies;
+            state.products = action.payload.products;
         },
         setProductSelected: (state, action) => {
             state.isLoadingProductSelected = false;
             state.productSelected = action.payload.product;
+        },
+        setEmptyProductSelected: (state) => {
+            state.productSelected = initialState.productSelected;
         }
     },
 })
@@ -50,5 +53,6 @@ export const {
     startLoadingProducts,
     startLoadingProductSelected,
     setProducts,
-    setProductSelected
+    setProductSelected,
+    setEmptyProductSelected
 } = productSlice.actions;

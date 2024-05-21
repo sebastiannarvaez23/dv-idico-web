@@ -26,7 +26,7 @@ const SearchElementComponent = ({ setFilteredProducts, setFilteredCharacters, fl
     const { characters } = useSelector(
         (state: RootState) => state.character);
 
-    const { seriesMovies } = useSelector(
+    const { products } = useSelector(
         (state: RootState) => state.product);
 
     const [searchValue, setSearchValue] = useState<string>('');
@@ -36,25 +36,25 @@ const SearchElementComponent = ({ setFilteredProducts, setFilteredCharacters, fl
     useEffect(() => {
         if (filterTypeProduct === 'title') {
             if (searchValue) {
-                const filteredList = seriesMovies.filter(movie =>
+                const filteredList = products.filter(movie =>
                     movie.title.toLowerCase().includes(searchValue.toLowerCase())
                 );
                 setFilteredProducts(filteredList);
             } else {
-                setFilteredProducts(seriesMovies);
+                setFilteredProducts(products);
             }
         }
         if (filterTypeProduct === 'gender') {
             if (searchValue) {
-                const filteredList = seriesMovies.filter(movie =>
+                const filteredList = products.filter(movie =>
                     movie.gender.name.toLowerCase().includes(searchValue.toLowerCase())
                 );
                 setFilteredProducts(filteredList);
             } else {
-                setFilteredProducts(seriesMovies);
+                setFilteredProducts(products);
             }
         }
-    }, [searchValue, seriesMovies, setFilteredProducts]);
+    }, [searchValue, products, setFilteredProducts]);
 
     useEffect(() => {
         if (searchValue) {
