@@ -6,5 +6,5 @@ interface Character {
     history: string;
     image: File | string;
     endpoint: string;
-    seriesMovies: string[];
+    products: string[];
 }
