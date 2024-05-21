@@ -1,4 +1,4 @@
-import { useNavigate, RouterProvider, createHashRouter, RouteObject } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, RouteObject, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import React from 'react';
@@ -10,14 +10,7 @@ import './index.css';
 const isAuthenticated = !!localStorage.getItem('token');
 
 const PrivateRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
-  const navigate = useNavigate();
-  if (isAuthenticated) {
-    navigate('/');
-    return <>{element}</>;
-  } else {
-    navigate('/auth');
-    return null;
-  }
+  return isAuthenticated ? <>{element}</> : <Navigate to="/auth" />;
 };
 
 const routes: RouteObject[] = [
@@ -31,7 +24,9 @@ const routes: RouteObject[] = [
   }
 ];
 
-const router = createHashRouter(routes);
+const router = createBrowserRouter(routes, {
+  basename: '/dv-idico-web'
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
