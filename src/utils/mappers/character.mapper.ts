@@ -8,7 +8,7 @@ export const mapCharacterToDetailsCardElement = (character: Character): DetailsC
         field4: character.history,
         endpoint: character.endpoint,
         image1: character.image,
-        list1: character.seriesMovies,
+        list1: character.products,
         extraField1: null
     };
 }
@@ -22,6 +22,6 @@ export const mapDetailsCardElementToCharacter = (detailsCardElement: DetailsCard
         history: detailsCardElement.field4,
         image: detailsCardElement.image1,
         endpoint: detailsCardElement.endpoint,
-        seriesMovies: detailsCardElement.list1
+        products: detailsCardElement.list1
     };
 }
