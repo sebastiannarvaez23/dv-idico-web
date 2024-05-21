@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { updateProduct } from "../../store/slices/product";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import useGender from "../../hooks/useGender.hook";
 import { useFormik } from "formik";
 
-interface EditProductFormProps {
+interface FormProductProps {
+    productSelected: Product;
+    title: string;
     setModalOpen: (fun: boolean) => void;
+    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
 }
 
-const EditProductFormComponent = ({ setModalOpen }: EditProductFormProps) => {
+const FormProductComponent = ({ productSelected, title, action, setModalOpen }: FormProductProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const { productSelected } = useSelector((state: RootState) => state.product);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const { genders } = useGender();
@@ -46,7 +47,7 @@ const EditProductFormComponent = ({ setModalOpen }: EditProductFormProps) => {
         formDataToSend.append('qualification', values.qualification);
         formDataToSend.append('gender_id', values.gender.id as string);
         (selectedFile) && formDataToSend.append('image', selectedFile);
-        dispatch(updateProduct(formDataToSend));
+        dispatch(action(formDataToSend));
         await setModalOpen(false);
     };
 
@@ -65,7 +66,7 @@ const EditProductFormComponent = ({ setModalOpen }: EditProductFormProps) => {
         <form onSubmit={formik.handleSubmit}>
             <Box p={2}>
                 <div>
-                    <Typography variant="h6">Editar Serie / Película</Typography>
+                    <Typography variant="h6">{title}</Typography>
                     <hr />
                     <Rating
                         name="qualification"
@@ -125,12 +126,12 @@ const EditProductFormComponent = ({ setModalOpen }: EditProductFormProps) => {
                     variant="contained"
                     color="primary"
                 >
-                    Editar Serie / Película
+                    {title}
                 </Button>
             </Box>
         </form>
     )
 }
 
-export default EditProductFormComponent;
+export default FormProductComponent;
 

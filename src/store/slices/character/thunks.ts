@@ -15,7 +15,7 @@ export const getCharacters = () => {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo la lista de Personajes' }));
         }
     };
-}
+};
 
 export const getCharacter = (endpoint: string) => {
     return async (dispatch: AppDispatch) => {
@@ -27,7 +27,7 @@ export const getCharacter = (endpoint: string) => {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo el personaje.' }));
         }
     };
-}
+};
 
 export const createCharacter = (character: FormData) => {
     return async (dispatch: AppDispatch) => {
@@ -38,8 +38,8 @@ export const createCharacter = (character: FormData) => {
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el personaje.' }));
         }
-    }
-}
+    };
+};
 
 export const updateCharacter = (character: FormData) => {
     return async (dispatch: AppDispatch) => {
@@ -52,7 +52,7 @@ export const updateCharacter = (character: FormData) => {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el personaje.' }));
         }
     };
-}
+};
 
 export const deleteCharacter = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -65,5 +65,5 @@ export const deleteCharacter = () => {
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el personaje.' }));
         }
-    }
-}
+    };
+};
