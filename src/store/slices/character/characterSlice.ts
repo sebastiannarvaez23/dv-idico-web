@@ -20,7 +20,7 @@ const initialState: CharacterState = {
         history: "",
         image: "",
         endpoint: "",
-        seriesMovies: [],
+        products: [],
     },
     characters: [],
 }

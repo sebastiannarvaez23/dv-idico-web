@@ -1,18 +1,19 @@
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { updateCharacter } from "../../store/slices/character";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 import { useState } from "react";
 
 interface EditCharacterFormProps {
+    characterSelected: Character;
+    title: string;
     setModalOpen: (fun: boolean) => void;
+    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
 }
 
-const EditCharacterFormComponent = ({ setModalOpen }: EditCharacterFormProps) => {
+const CharacterFormComponent = ({ setModalOpen, action, title, characterSelected }: EditCharacterFormProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const { characterSelected } = useSelector((state: RootState) => state.character);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const formik = useFormik<Character>({
@@ -29,16 +30,16 @@ const EditCharacterFormComponent = ({ setModalOpen }: EditCharacterFormProps) =>
         onSubmit: (values) => handleSubmit(values)
     });
 
-    const handleSubmit = async (values: Character) => {
-        console.log(values);
+    const handleSubmit = async (character: Character) => {
+        console.log(character);
         const formDataToSend = new FormData();
-        formDataToSend.append('id', values.id);
-        formDataToSend.append('name', values.name);
-        formDataToSend.append('age', values.age);
-        formDataToSend.append('weight', values.weight);
-        formDataToSend.append('history', values.history);
+        formDataToSend.append('id', character.id);
+        formDataToSend.append('name', character.name);
+        formDataToSend.append('age', character.age);
+        formDataToSend.append('weight', character.weight);
+        formDataToSend.append('history', character.history);
         (selectedFile) && formDataToSend.append('image', selectedFile);
-        dispatch(updateCharacter(formDataToSend));
+        dispatch(action(formDataToSend));
         await setModalOpen(false);
     };
 
@@ -52,7 +53,7 @@ const EditCharacterFormComponent = ({ setModalOpen }: EditCharacterFormProps) =>
         <form onSubmit={formik.handleSubmit}>
             <Box p={2}>
                 <div>
-                    <Typography variant="h6">Editar Personaje</Typography>
+                    <Typography variant="h6">{title}</Typography>
                     <hr />
                     <TextField
                         label="Nombre"
@@ -104,11 +105,11 @@ const EditCharacterFormComponent = ({ setModalOpen }: EditCharacterFormProps) =>
                     variant="contained"
                     color="primary"
                 >
-                    Editar Personaje
+                    {title}
                 </Button>
             </Box>
         </form>
     )
 }
 
-export default EditCharacterFormComponent;
+export default CharacterFormComponent;

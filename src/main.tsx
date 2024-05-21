@@ -25,7 +25,7 @@ const routes: RouteObject[] = [
 ];
 
 const router = createBrowserRouter(routes, {
-  basename: '/dv-idico-web'
+  basename: '/dv-idico-web/'
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

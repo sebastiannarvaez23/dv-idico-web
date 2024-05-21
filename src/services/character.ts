@@ -16,6 +16,16 @@ export const fetchGetCharacter = async (endpoint: string): Promise<Character> =>
     return response.data;
 };
 
+export const fetchCreateCharacter = async (character: FormData): Promise<Character> => {
+    const response = await api.post('/character', character, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    })
+        .catch((error: any) => {
+            throw new Error(`Error al crear Personaje: ${error.message}`);
+        })
+    return response.data;
+}
+
 export const fetchUpdateCharacter = async (character: FormData): Promise<Character> => {
     const response = await api.put(`/character/${character.get('id')}`, character, {
         headers: { 'Content-Type': 'multipart/form-data' }
