@@ -16,6 +16,16 @@ export const fetchGetProduct = async (endpoint: string): Promise<Product> => {
     return promise.data;
 };
 
+export const fetchCreateProduct = async (product: FormData) => {
+    const response = await api.post('/product', product, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    })
+        .catch((error: any) => {
+            throw new Error(`Error al crear Producto: ${error.message}`);
+        })
+    return response.data;
+};
+
 export const fetchUpdateProduct = async (product: FormData): Promise<Product> => {
     const response = await api.put(`/product/${product.get('id')}`, product, {
         headers: { 'Content-Type': 'multipart/form-data' }

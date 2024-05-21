@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { createCharacter, deleteCharacter, updateCharacter } from '../store/slices/character';
-import { deleteProduct } from '../store/slices/product';
+import { createProduct, deleteProduct, updateProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import { RootState } from '../store/store';
@@ -10,12 +10,12 @@ import SidebarComponent from '../components/home/SidebarComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import ModalComponent from '../components/home/ModalComponent';
-import EditProductFormComponent from '../components/home/EditProductFormComponent';
 import useAlert from '../hooks/useAlert.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import useProduct from '../hooks/useProduct.hook';
-import CharacterFormComponent from '../components/home/CharacterFormComponent';
 import useCharacter from '../hooks/useCharacter.hook';
+import FormCharacterComponent from '../components/home/FormCharacterComponent';
+import FormProductComponent from '../components/home/FormProductComponent';
 
 const HomePage = () => {
 
@@ -29,7 +29,18 @@ const HomePage = () => {
         (state: RootState) => state.common);
 
     const { hideAlert } = useAlert();
-    const { } = useProduct();
+    const {
+        productEmpty,
+        detailLabelsProduct,
+        modalCreateProduct,
+        modalEditProduct,
+        setModalEditProduct,
+        setModalCreateProduct,
+        handleOpenModalEditProduct,
+        handleCloseModalEditProduct,
+        handleOpenModalCreateProduct,
+        handleCloseModalCreateProduct
+    } = useProduct();
     const {
         characterEmpty,
         detailLabelsCharacter,
@@ -47,17 +58,8 @@ const HomePage = () => {
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [seriesMoviesFilters, setProductsFilters] = useState<Product[]>();
 
-    const detailLabelsProduct: DetailsLabelCardElement = {
-        label1: "Fecha de salida: ",
-        label2: "Calificación: ",
-        label3: "Género: ",
-        label4: "Personajes: "
-    }
-
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
     const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
-
-
 
     return (
         <Fragment>
@@ -76,7 +78,7 @@ const HomePage = () => {
                     <ModalComponent
                         open={modalCreateCharacter}
                         onClose={handleCloseModalCreateCharacter}>
-                        <CharacterFormComponent
+                        <FormCharacterComponent
                             title="Agregar Personaje"
                             setModalOpen={setModalCreateCharacter}
                             characterSelected={characterEmpty}
@@ -85,7 +87,7 @@ const HomePage = () => {
                     <ModalComponent
                         open={modalEditCharacter}
                         onClose={handleCloseModalEditCharacter}>
-                        <CharacterFormComponent title="Editar Personaje"
+                        <FormCharacterComponent title="Editar Personaje"
                             setModalOpen={setModalEditCharacter}
                             characterSelected={characterSelected}
                             action={updateCharacter}
@@ -118,9 +120,22 @@ const HomePage = () => {
                 </Fragment>
             ) || sectionSelected === "products" && (
                 <Fragment>
-                    <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditProductFormComponent
-                            setModalOpen={setModalOpen}
+                    <ModalComponent
+                        open={modalCreateProduct}
+                        onClose={handleCloseModalCreateProduct}>
+                        <FormProductComponent
+                            title="Agregar Producto"
+                            setModalOpen={setModalCreateProduct}
+                            productSelected={productEmpty}
+                            action={createProduct} />
+                    </ModalComponent>
+                    <ModalComponent
+                        open={modalEditProduct}
+                        onClose={handleCloseModalEditProduct}>
+                        <FormProductComponent title="Editar Producto"
+                            setModalOpen={setModalEditProduct}
+                            productSelected={productSelected}
+                            action={updateProduct}
                         />
                     </ModalComponent>
                     <SearchElementComponent
@@ -134,14 +149,27 @@ const HomePage = () => {
                         detailElement={productDto}
                         detailLabels={detailLabelsProduct}
                         listElement={seriesMoviesFilters?.map(e => mapProductToDetailsCardElement(e)) ?? []}
-                        editElement={handleOpenModal}
+                        editElement={handleOpenModalEditProduct}
                         deleteElement={deleteProduct}
                         sectionSelected={sectionSelected}
                     />
-                    <Button sx={{ backgroundColor: '#161732' }} size='large' style={{ margin: '20px 4px' }} variant="contained" color="primary">Agregar Producto</Button>
-                    <Button sx={{ backgroundColor: '#161732' }} size='large' style={{ margin: '20px 4px' }} variant="contained" color="primary">Generos</Button>
+                    <Button
+                        onClick={handleOpenModalCreateProduct}
+                        sx={{ backgroundColor: '#161732' }}
+                        size='large' style={{ margin: '20px 4px' }}
+                        variant="contained"
+                        color="primary">
+                        Agregar Producto
+                    </Button>
+                    <Button
+                        sx={{ backgroundColor: '#161732' }}
+                        size='large'
+                        style={{ margin: '20px 4px' }}
+                        variant="contained"
+                        color="primary">
+                        Géneros
+                    </Button>
                 </Fragment>
-
             )}
         </Fragment>
     );

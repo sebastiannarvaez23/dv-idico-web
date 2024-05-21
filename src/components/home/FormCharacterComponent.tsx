@@ -4,14 +4,14 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { useState } from "react";
 
-interface EditCharacterFormProps {
+interface FormCharacterProps {
     characterSelected: Character;
     title: string;
     setModalOpen: (fun: boolean) => void;
     action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
 }
 
-const CharacterFormComponent = ({ setModalOpen, action, title, characterSelected }: EditCharacterFormProps) => {
+const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected }: FormCharacterProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -31,7 +31,6 @@ const CharacterFormComponent = ({ setModalOpen, action, title, characterSelected
     });
 
     const handleSubmit = async (character: Character) => {
-        console.log(character);
         const formDataToSend = new FormData();
         formDataToSend.append('id', character.id);
         formDataToSend.append('name', character.name);
@@ -112,4 +111,4 @@ const CharacterFormComponent = ({ setModalOpen, action, title, characterSelected
     )
 }
 
-export default CharacterFormComponent;
+export default FormCharacterComponent;

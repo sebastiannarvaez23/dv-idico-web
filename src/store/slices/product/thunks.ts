@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../../store";
-import { fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
+import { fetchCreateProduct, fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
 import { setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
 import { setAlert } from '../common';
 
@@ -14,9 +14,8 @@ export const getProducts = () => {
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista Series y Películas' }));
         }
-
     };
-}
+};
 
 export const getProduct = (endpoint: string) => {
     return async (dispatch: AppDispatch) => {
@@ -27,9 +26,20 @@ export const getProduct = (endpoint: string) => {
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la Serie/Película' }));
         }
-
     };
-}
+};
+
+export const createProduct = (product: FormData) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const productCreated: Product = await fetchCreateProduct(product);
+            dispatch(getProducts());
+            dispatch(setAlert({ type: 'success', message: `Producto ${productCreated.title} creado exitosamente!` }));
+        } catch (error: any) {
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el producto.' }));
+        }
+    };
+};
 
 export const updateProduct = (product: FormData) => {
     return async (dispatch: AppDispatch) => {
@@ -42,7 +52,7 @@ export const updateProduct = (product: FormData) => {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando la Serie/Película' }));
         }
     };
-}
+};
 
 export const deleteProduct = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -54,5 +64,5 @@ export const deleteProduct = () => {
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando la Serie/Película' }));
         }
-    }
-}
+    };
+};
