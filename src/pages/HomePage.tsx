@@ -1,20 +1,21 @@
 import { Fragment, useState } from 'react';
-import { deleteCharacter } from '../store/slices/character';
+import { createCharacter, deleteCharacter, updateCharacter } from '../store/slices/character';
 import { deleteProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import { RootState } from '../store/store';
 import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
 import SidebarComponent from '../components/home/SidebarComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import SectionComponent from '../components/home/SectionComponent';
 import ModalComponent from '../components/home/ModalComponent';
-import EditCharacterFormComponent from '../components/home/EditCharacterFormComponent';
 import EditProductFormComponent from '../components/home/EditProductFormComponent';
 import useAlert from '../hooks/useAlert.hook';
-import useCharacter from '../hooks/useCharacter.hook';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import useProduct from '../hooks/useProduct.hook';
+import CharacterFormComponent from '../components/home/CharacterFormComponent';
+import useCharacter from '../hooks/useCharacter.hook';
 
 const HomePage = () => {
 
@@ -28,20 +29,23 @@ const HomePage = () => {
         (state: RootState) => state.common);
 
     const { hideAlert } = useAlert();
-    const { } = useCharacter();
     const { } = useProduct();
+    const {
+        characterEmpty,
+        detailLabelsCharacter,
+        modalCreateCharacter,
+        modalEditCharacter,
+        setModalEditCharacter,
+        setModalCreateCharacter,
+        handleOpenModalEditCharacter,
+        handleCloseModalEditCharacter,
+        handleOpenModalCreateCharacter,
+        handleCloseModalCreateCharacter
+    } = useCharacter();
 
-    const [modalOpen, setModalOpen] = useState(false);
     const [sectionSelected, setSectionSelected] = useState<TypSection>("characters");
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
     const [seriesMoviesFilters, setProductsFilters] = useState<Product[]>();
-
-    const detailLabelsCharacter: DetailsLabelCardElement = {
-        label1: "Edad: ",
-        label2: "Peso (kg): ",
-        label3: "Historia del Personaje: ",
-        label4: "Películas y/ o Series: "
-    }
 
     const detailLabelsProduct: DetailsLabelCardElement = {
         label1: "Fecha de salida: ",
@@ -53,13 +57,7 @@ const HomePage = () => {
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
     const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
 
     return (
         <Fragment>
@@ -75,9 +73,22 @@ const HomePage = () => {
             </div>
             {sectionSelected === "characters" && (
                 <Fragment>
-                    <ModalComponent open={modalOpen} onClose={handleCloseModal}>
-                        <EditCharacterFormComponent
-                            setModalOpen={setModalOpen}
+                    <ModalComponent
+                        open={modalCreateCharacter}
+                        onClose={handleCloseModalCreateCharacter}>
+                        <CharacterFormComponent
+                            title="Agregar Personaje"
+                            setModalOpen={setModalCreateCharacter}
+                            characterSelected={characterEmpty}
+                            action={createCharacter} />
+                    </ModalComponent>
+                    <ModalComponent
+                        open={modalEditCharacter}
+                        onClose={handleCloseModalEditCharacter}>
+                        <CharacterFormComponent title="Editar Personaje"
+                            setModalOpen={setModalEditCharacter}
+                            characterSelected={characterSelected}
+                            action={updateCharacter}
                         />
                     </ModalComponent>
                     <SearchElementComponent
@@ -91,10 +102,19 @@ const HomePage = () => {
                         detailElement={characterDto}
                         detailLabels={detailLabelsCharacter}
                         listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
-                        editElement={handleOpenModal}
+                        editElement={handleOpenModalEditCharacter}
                         deleteElement={deleteCharacter}
                         sectionSelected={sectionSelected}
                     />
+                    <Button
+                        onClick={handleOpenModalCreateCharacter}
+                        sx={{ backgroundColor: '#161732' }}
+                        size='large'
+                        style={{ margin: '20px 4px' }}
+                        variant="contained"
+                        color="primary">
+                        Agregar Personaje
+                    </Button>
                 </Fragment>
             ) || sectionSelected === "products" && (
                 <Fragment>
@@ -118,7 +138,10 @@ const HomePage = () => {
                         deleteElement={deleteProduct}
                         sectionSelected={sectionSelected}
                     />
+                    <Button sx={{ backgroundColor: '#161732' }} size='large' style={{ margin: '20px 4px' }} variant="contained" color="primary">Agregar Producto</Button>
+                    <Button sx={{ backgroundColor: '#161732' }} size='large' style={{ margin: '20px 4px' }} variant="contained" color="primary">Generos</Button>
                 </Fragment>
+
             )}
         </Fragment>
     );

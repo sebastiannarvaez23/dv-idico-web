@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../../store";
-import { fetchDeleteCharacter, fetchGetCharacter, fetchGetCharacters, fetchUpdateCharacter } from "../../../services/character";
+import { fetchCreateCharacter, fetchDeleteCharacter, fetchGetCharacter, fetchGetCharacters, fetchUpdateCharacter } from "../../../services/character";
 import { setCharacters, startLoadingCharacters, setCharacterSelected, startLoadingCharactersSelected } from "./characterSlice";
 import { setAlert } from '../common';
 
@@ -29,13 +29,25 @@ export const getCharacter = (endpoint: string) => {
     };
 }
 
+export const createCharacter = (character: FormData) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const characterCreated: Character = await fetchCreateCharacter(character);
+            dispatch(getCharacters());
+            dispatch(setAlert({ type: 'success', message: `Personaje ${characterCreated.name} creado exitosamente!` }));
+        } catch (error: any) {
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el personaje.' }));
+        }
+    }
+}
+
 export const updateCharacter = (character: FormData) => {
     return async (dispatch: AppDispatch) => {
         try {
             const characterUpdated = await fetchUpdateCharacter(character);
             dispatch(setCharacterSelected({ character: characterUpdated }));
             dispatch(getCharacters());
-            dispatch(setAlert({ type: 'success', message: 'Personaje Actualizado exitosamente!' }));
+            dispatch(setAlert({ type: 'success', message: 'Personaje actualizado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el personaje.' }));
         }
@@ -49,7 +61,7 @@ export const deleteCharacter = () => {
             await fetchDeleteCharacter(characterSelected.id);
             dispatch(getCharacters());
             dispatch(getCharacter(characters[1].endpoint));
-            dispatch(setAlert({ type: 'success', message: 'Personaje Eliminado exitosamente!' }));
+            dispatch(setAlert({ type: 'success', message: 'Personaje eliminado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el personaje.' }));
         }
