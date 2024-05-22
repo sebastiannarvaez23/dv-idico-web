@@ -34,6 +34,8 @@ const useAlert = () => {
         };
     }, [alert]);
 
+    useEffect(() => showAlert('success', '¡Has iniciado sesión con éxito!'), []);
+
     return { showAlert, hideAlert };
 };
 

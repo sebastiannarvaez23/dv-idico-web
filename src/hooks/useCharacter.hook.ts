@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCharacters } from '../store/slices/character';
 import { AppDispatch } from '../store/store';
-import useAlert from './useAlert.hook';
 
 function useCharacter() {
 
     const dispatch = useDispatch<AppDispatch>();
-    const { showAlert } = useAlert();
 
     const [modalEditCharacter, setModalEditCharacter] = useState(false);
     const [modalCreateCharacter, setModalCreateCharacter] = useState(false);
@@ -48,7 +46,6 @@ function useCharacter() {
 
     useEffect(() => {
         dispatch(getCharacters());
-        showAlert('success', '¡Has iniciado sesión con éxito!');
     }, [])
 
     return {

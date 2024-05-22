@@ -3,7 +3,7 @@ import DetailsCard from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 
-interface SectionComponentProps {
+interface ContainerSectionComponentProps {
     detailElement: DetailsCardElement;
     detailLabels: DetailsLabelCardElement;
     listElement: DetailsCardElement[];
@@ -16,7 +16,7 @@ interface SectionComponentProps {
     editElement: () => void;
 }
 
-const SectionComponent = ({
+const ContainerSectionComponent = ({
     detailElement,
     detailLabels,
     listElement,
@@ -25,7 +25,7 @@ const SectionComponent = ({
     sectionSelected,
     setCharacterSelected,
     editElement,
-    deleteElement }: SectionComponentProps) => {
+    deleteElement }: ContainerSectionComponentProps) => {
 
     return (
         <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>
@@ -52,4 +52,4 @@ const SectionComponent = ({
     );
 }
 
-export default SectionComponent;
+export default ContainerSectionComponent;
