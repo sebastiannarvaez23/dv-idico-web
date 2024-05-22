@@ -77,14 +77,6 @@ const ProductPage = () => {
                 color="primary">
                 Agregar Producto
             </Button>
-            <Button
-                sx={{ backgroundColor: '#161732' }}
-                size='large'
-                style={{ margin: '20px 4px' }}
-                variant="contained"
-                color="primary">
-                Géneros
-            </Button>
         </Fragment>
     );
 }
