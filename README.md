@@ -106,7 +106,6 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 ## Interfaces de usuario
 
 ![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/df292aad-62e8-4b64-8653-e44c01fa8218)
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/e77d68b3-26f7-4c1b-b651-27753998321f)
 ![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/ff05c066-1ef2-4fc6-9d69-5da4faf63c6e)
 ![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/07be3f45-4204-4be3-af8f-4224073cde05)
 ![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/7b664b98-fe2e-4c55-9163-6d3118fb2e90)
