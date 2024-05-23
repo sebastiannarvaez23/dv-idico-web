@@ -45,15 +45,12 @@ Existen otras aplicaciones y sitios web dedicados a la información sobre Disney
    ```bash
    $ npm run dev
 
-### Uso
-
 ## Apoyo
 
 Para obtener ayuda, puedes utilizar las siguientes vías:
 
-- [GitHub Issues](https://github.com/usuario/web-spa-explora-universo-disney/issues)
-- [Correo Electrónico](mailto:soporte@disneyapp.com)
-- [Sala de Chat](https://gitter.im/disneyapp/community)
+- [GitHub Issues](https://github.com/sebastiannarvaez23/dv-idico-web/issues)
+- [Correo Electrónico](narvaezsebas8@gmail.com)
 
 ## Mapa vial
 
