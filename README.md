@@ -40,16 +40,16 @@ Existen otras aplicaciones y sitios web dedicados a la información sobre Disney
 ### Pasos
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/usuario/web-spa-explora-universo-disney.git
+   $ git clone https://github.com/usuario/web-spa-explora-universo-disney.git
 2. Navega al directorio del proyecto:
    ```bash
-   cd dv-idico-web
+   $ cd dv-idico-web
 3. Instala las dependencias:
    ```bash
-   npm install
+   $ npm install
 4. Inicia el servidor de desarrollo:
    ```bash
-   npm run dev
+   $ npm run dev
 
 ### Uso
 ## Ejemplo Básico
