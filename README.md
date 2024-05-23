@@ -18,13 +18,18 @@ Existen otras aplicaciones y sitios web dedicados a la información sobre Disney
 ![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-## Imágenes
+## Tecnologías Utilizadas
+- **React con @mui React Text Field component - Material UI**: Para la construcción del frontend.
+- **TypeScript**: Para el manejo de tipado.
+- **Vite**: Como framework para el desarrollo.
 
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/df292aad-62e8-4b64-8653-e44c01fa8218)
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/e77d68b3-26f7-4c1b-b651-27753998321f)
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/ff05c066-1ef2-4fc6-9d69-5da4faf63c6e)
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/07be3f45-4204-4be3-af8f-4224073cde05)
-![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/7b664b98-fe2e-4c55-9163-6d3118fb2e90)
+<p align="left">
+  <img src="https://github.com/sebastiannarvaez23/window-quote-machine/assets/88569352/8be2479b-f1da-4d44-a379-a2050d40ec5e" width="auto" height="80">
+  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/76eab810-4409-4ecd-9949-7dbf85a37800" width="auto" height="80">
+  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/4a76714b-8dee-433e-a353-fbcee2b57c0c" width="auto" height="80">
+  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/cc64327f-28bd-43df-bd5f-1c9283988c34" width="auto" height="80">
+  <img src="https://static-00.iconduck.com/assets.00/git-icon-1024x1024-pqp7u4hl.png" width="auto" height="90">
+</p>
 
 ## Instalación
 
@@ -98,15 +103,10 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 **Estado:** Activo. Estamos continuamente trabajando en mejoras y nuevas funcionalidades. Si deseas contribuir, no dudes en ponerte en contacto.
 
-## Tecnologías Utilizadas
-- **React con @mui React Text Field component - Material UI**: Para la construcción del frontend.
-- **TypeScript**: Para el manejo de tipado.
-- **Vite**: Como framework para el desarrollo.
+## Interfaces de usuario
 
-<p align="left">
-  <img src="https://github.com/sebastiannarvaez23/window-quote-machine/assets/88569352/8be2479b-f1da-4d44-a379-a2050d40ec5e" width="auto" height="80">
-  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/76eab810-4409-4ecd-9949-7dbf85a37800" width="auto" height="80">
-  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/4a76714b-8dee-433e-a353-fbcee2b57c0c" width="auto" height="80">
-  <img src="https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/cc64327f-28bd-43df-bd5f-1c9283988c34" width="auto" height="80">
-  <img src="https://static-00.iconduck.com/assets.00/git-icon-1024x1024-pqp7u4hl.png" width="auto" height="90">
-</p>
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/df292aad-62e8-4b64-8653-e44c01fa8218)
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/e77d68b3-26f7-4c1b-b651-27753998321f)
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/ff05c066-1ef2-4fc6-9d69-5da4faf63c6e)
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/07be3f45-4204-4be3-af8f-4224073cde05)
+![image](https://github.com/sebastiannarvaez23/dv-idico-web/assets/88569352/7b664b98-fe2e-4c55-9163-6d3118fb2e90)
