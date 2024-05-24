@@ -44,6 +44,7 @@ Existen otras aplicaciones y sitios web dedicados a la información sobre Disney
 2. Inicia el servidor de desarrollo:
    ```bash
    $ npm run dev
+Para hacer la aplicación funcional a nivel de datos es necesario contar con el servicio [dv-idico-api](https://github.com/sebastiannarvaez23/dv-idico-api) corriendo en el puerto 8000.
 
 ## Apoyo
 
