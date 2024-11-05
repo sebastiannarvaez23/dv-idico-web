@@ -14,17 +14,15 @@ function useCharacter() {
         id: "",
         name: "",
         age: "",
-        weight: "",
         history: "",
         image: "",
-        endpoint: "",
         products: []
     }
 
     const detailLabelsCharacter: DetailsLabelCardElement = {
         label1: "Edad: ",
-        label2: "Peso (kg): ",
-        label3: "Historia del Personaje: ",
+        label2: "Historia del Personaje: ",
+        label3: "",
         label4: "Películas y/ o Series: "
     }
 

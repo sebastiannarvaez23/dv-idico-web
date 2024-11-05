@@ -10,7 +10,7 @@ export const getCharacters = () => {
             dispatch(startLoadingCharacters());
             const characters = await fetchGetCharacters();
             await dispatch(setCharacters({ characters }));
-            if (!characterSelected?.id) await dispatch(getCharacter(characters[0].endpoint));
+            if (!characterSelected?.id) await dispatch(getCharacter(characters[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo la lista de Personajes' }));
         }

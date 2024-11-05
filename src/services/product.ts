@@ -5,11 +5,11 @@ export const fetchGetProducts = async (): Promise<Product[]> => {
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
         })
-    return response.data.products;
+    return response.data.rows;
 };
 
-export const fetchGetProduct = async (endpoint: string): Promise<Product> => {
-    const promise = await api.get(endpoint)
+export const fetchGetProduct = async (id: string): Promise<Product> => {
+    const promise = await api.get('/product/' + id)
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
         })
@@ -27,7 +27,9 @@ export const fetchCreateProduct = async (product: FormData) => {
 };
 
 export const fetchUpdateProduct = async (product: FormData): Promise<Product> => {
-    const response = await api.put(`/product/${product.get('id')}`, product, {
+    const id = product.get('id');
+    product.delete('id');
+    const response = await api.put(`/product/${id}`, product, {
         headers: { 'Content-Type': 'multipart/form-data' }
     }).catch((error: any) => {
         throw new Error(`Error al actualizar Serie/Película: ${error.message}`);

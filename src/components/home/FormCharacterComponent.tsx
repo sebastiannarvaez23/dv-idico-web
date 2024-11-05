@@ -22,7 +22,6 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
             name: characterSelected.name,
             image: characterSelected.image,
             age: characterSelected.age,
-            weight: characterSelected.weight,
             history: characterSelected.history,
             endpoint: characterSelected.endpoint,
             products: characterSelected.products
@@ -35,7 +34,6 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
         formDataToSend.append('id', character.id);
         formDataToSend.append('name', character.name);
         formDataToSend.append('age', character.age);
-        formDataToSend.append('weight', character.weight);
         formDataToSend.append('history', character.history);
         (selectedFile) && formDataToSend.append('image', selectedFile);
         dispatch(action(formDataToSend));
@@ -67,15 +65,6 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
                         name="age"
                         type="number"
                         value={formik.values.age}
-                        onChange={formik.handleChange}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        label="Peso"
-                        name="weight"
-                        type="number"
-                        value={formik.values.weight}
                         onChange={formik.handleChange}
                         fullWidth
                         margin="normal"

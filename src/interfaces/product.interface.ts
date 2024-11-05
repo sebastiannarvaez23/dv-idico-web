@@ -2,9 +2,8 @@ interface Product {
     id: string;
     title: string;
     image: File | string;
-    created_date: string;
+    createdDate: string;
     qualification: string;
     gender: Gender;
-    endpoint: string;
-    characters: string[];
+    characters: Character[];
 }

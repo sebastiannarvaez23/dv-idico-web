@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button } from '@mui/material';
+import { Container, Typography, TextField, Button, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { fetchSignin } from '../../services/auth';
 
@@ -13,6 +13,10 @@ const LoginFormComponent = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
+            if (mail === '' || password === '') {
+                setError('Complete el formulario para iniciar sesión.');
+                return;
+            }
             const newToken = await fetchSignin(mail, password);
             localStorage.setItem('token', newToken);
             navigate('/');
@@ -26,10 +30,10 @@ const LoginFormComponent = () => {
             <Typography variant="h4" align="center" gutterBottom>
                 Iniciar sesión
             </Typography>
-            {error && <Typography variant="body1" color="error">{error}</Typography>}
+            {error && <Alert severity="error">{error}</Alert>}
             <form onSubmit={handleSubmit}>
                 <TextField
-                    label="Correo Electrónico"
+                    label="Usuario"
                     variant="outlined"
                     fullWidth
                     value={mail}
@@ -45,7 +49,7 @@ const LoginFormComponent = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     margin="normal"
                 />
-                <Button sx={{ backgroundColor: '#161732' }} type="submit" variant="contained" color="primary" fullWidth>
+                <Button sx={{ backgroundColor: '#161732', marginTop: '12px' }} type="submit" variant="contained" color="primary" fullWidth>
                     Iniciar sesión
                 </Button>
             </form>

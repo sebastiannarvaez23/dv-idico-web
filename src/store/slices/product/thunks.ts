@@ -10,18 +10,18 @@ export const getProducts = () => {
             dispatch(startLoadingProducts());
             const products = await fetchGetProducts();
             await dispatch(setProducts({ products }));
-            if (!productSelected?.id) await dispatch(getProduct(products[0].endpoint));
+            if (!productSelected?.id) await dispatch(getProduct(products[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de productos.' }));
         }
     };
 };
 
-export const getProduct = (endpoint: string) => {
+export const getProduct = (id: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(startLoadingProductSelected());
-            const product: Product = await fetchGetProduct(endpoint);
+            const product: Product = await fetchGetProduct(id);
             await dispatch(setProductSelected({ product }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el producto.' }));

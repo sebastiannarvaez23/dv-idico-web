@@ -110,7 +110,7 @@ const SignUpFormComponent = ({ handleShowLogin }: ComponentSignUpFormProps) => {
                     error={error !== ''}
                     helperText={error}
                 />
-                <Button sx={{ backgroundColor: '#161732' }} type="submit" variant="contained" color="primary" fullWidth>
+                <Button sx={{ backgroundColor: '#161732', marginTop: '12px' }} type="submit" variant="contained" color="primary" fullWidth>
                     Registrarse
                 </Button>
             </form>

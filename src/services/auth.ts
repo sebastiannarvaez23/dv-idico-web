@@ -1,8 +1,8 @@
 import { DataFormRegister } from "../interfaces/data-form-register.interface";
 import api from "./api";
 
-export const fetchSignin = async (mail: string, password: string): Promise<string> => {
-    const response = await api.post('/auth/login', { mail, password })
+export const fetchSignin = async (nickname: string, password: string): Promise<string> => {
+    const response = await api.post('/auth/token', { nickname, password })
         .catch((error: any) => {
             throw new Error(`Error al iniciar sesión: ${error.message}`);
         })

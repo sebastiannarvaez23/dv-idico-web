@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginFormComponent from "../components/auth/SignInFormComponent";
 import SignUpFormComponent from "../components/auth/SignUpFormComponent";
+import { Box } from "@mui/material";
 
 const AuthPage = () => {
     const [showLogin, setShowLogin] = useState(true);
@@ -21,16 +22,26 @@ const AuthPage = () => {
             {showLogin && (
                 <div>
                     <LoginFormComponent />
-                    <a onClick={handleShowSignUp}>¿No tienes una cuenta? Regístrate aquí</a>
+                    <Box mt={2}>
+                        <a onClick={handleShowSignUp}>¿No tienes una cuenta? Regístrate aquí</a>
+                    </Box>
+                    <Box mt={2}>
+                        <a onClick={handleShowLogin}>¿Olvidaste tu contraseña?</a>
+                    </Box>
                 </div>
-            )}
-            {showSignUp && (
-                <div>
-                    <SignUpFormComponent handleShowLogin={handleShowLogin} />
-                    <a onClick={handleShowLogin}>¿Ya tienes una cuenta? Inicia sesión aquí</a>
-                </div>
-            )}
-        </div>
+            )
+            }
+            {
+                showSignUp && (
+                    <div>
+                        <SignUpFormComponent handleShowLogin={handleShowLogin} />
+                        <Box mt={2}>
+                            <a onClick={handleShowLogin}>¿Ya tienes una cuenta? Inicia sesión aquí</a>
+                        </Box>
+                    </div>
+                )
+            }
+        </div >
     );
 }
 

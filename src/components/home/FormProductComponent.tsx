@@ -24,10 +24,9 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
             id: productSelected.id,
             title: productSelected.title,
             image: productSelected.image,
-            created_date: productSelected.created_date,
+            createdDate: productSelected.createdDate,
             qualification: productSelected.qualification,
             gender: productSelected.gender,
-            endpoint: productSelected.endpoint,
             characters: productSelected.characters
         },
         onSubmit: (values) => handleSubmit(values)
@@ -43,9 +42,9 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
         const formDataToSend = new FormData();
         formDataToSend.append('id', values.id);
         formDataToSend.append('title', values.title);
-        formDataToSend.append('created_date', values.created_date);
+        formDataToSend.append('createdDate', values.createdDate);
         formDataToSend.append('qualification', values.qualification);
-        formDataToSend.append('gender_id', values.gender.id as string);
+        formDataToSend.append('genderId', values.gender.id as string);
         (selectedFile) && formDataToSend.append('image', selectedFile);
         dispatch(action(formDataToSend));
         await setModalOpen(false);
@@ -85,9 +84,9 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
                     />
                     <TextField
                         label="Fecha de estreno"
-                        name="created_date"
+                        name="createdDate"
                         type="date"
-                        value={formik.values.created_date}
+                        value={formik.values.createdDate}
                         onChange={formik.handleChange}
                         fullWidth
                         margin="normal"

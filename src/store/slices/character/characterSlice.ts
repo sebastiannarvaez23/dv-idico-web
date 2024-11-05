@@ -16,7 +16,6 @@ const initialState: CharacterState = {
         id: "",
         name: "",
         age: "",
-        weight: "",
         history: "",
         image: "",
         endpoint: "",

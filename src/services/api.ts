@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = 'http://localhost:3000/api/v1';
 const TIMEOUT = 10000;
 
 const api = axios.create({

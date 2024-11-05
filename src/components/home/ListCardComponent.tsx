@@ -31,12 +31,12 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
         if (sectionSelected === "products") {
             dispatch(
                 getProduct(
-                    mapDetailsCardElementToProduct(element).endpoint));
+                    mapDetailsCardElementToProduct(element).id));
         }
         if (sectionSelected === "characters") {
             dispatch(
                 getCharacter(
-                    mapDetailsCardElementToCharacter(element).endpoint));
+                    mapDetailsCardElementToCharacter(element).id));
         }
     }
 
