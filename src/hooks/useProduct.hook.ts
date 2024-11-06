@@ -15,8 +15,8 @@ function useProduct() {
         title: "",
         createdDate: Date.now().toString(),
         qualification: "",
-        endpoint: "",
         gender: { id: "", name: "" },
+        kind: { id: "", name: "" },
         image: "",
         characters: []
     }

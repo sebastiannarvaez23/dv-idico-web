@@ -18,7 +18,6 @@ const initialState: CharacterState = {
         age: "",
         history: "",
         image: "",
-        endpoint: "",
         products: [],
     },
     characters: [],

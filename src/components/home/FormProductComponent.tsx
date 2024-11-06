@@ -4,6 +4,7 @@ import { AppDispatch } from "../../store/store";
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import useGender from "../../hooks/useGender.hook";
 import { useFormik } from "formik";
+import useKind from "../../hooks/useKind.hook";
 
 interface FormProductProps {
     productSelected: Product;
@@ -18,6 +19,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const { genders } = useGender();
+    const { kinds } = useKind();
 
     const formik = useFormik<Product>({
         initialValues: {
@@ -27,6 +29,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
             createdDate: productSelected.createdDate,
             qualification: productSelected.qualification,
             gender: productSelected.gender,
+            kind: productSelected.kind,
             characters: productSelected.characters
         },
         onSubmit: (values) => handleSubmit(values)
@@ -45,6 +48,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
         formDataToSend.append('createdDate', values.createdDate);
         formDataToSend.append('qualification', values.qualification);
         formDataToSend.append('genderId', values.gender.id as string);
+        formDataToSend.append('kindId', values.kind.id as string);
         (selectedFile) && formDataToSend.append('image', selectedFile);
         dispatch(action(formDataToSend));
         await setModalOpen(false);
@@ -59,6 +63,11 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
     const handleGenderChange = (event: SelectChangeEvent<string>) => {
         const selectedGender = genders.find(e => e.id === event.target.value) || { id: "", name: "" };
         formik.setFieldValue('gender', selectedGender);
+    };
+
+    const handleKindChange = (event: SelectChangeEvent<string>) => {
+        const selectedKind = kinds.find(e => e.id === event.target.value) || { id: "", name: "" };
+        formik.setFieldValue('gender', selectedKind);
     };
 
     return (
@@ -103,6 +112,26 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen }: 
                             {genders && genders.map((gender, index) => (
                                 <MenuItem key={index} value={gender.id as string}>
                                     {gender.name}
+                                </MenuItem>
+                            )) || (
+                                    <MenuItem value={"Cargando..."}>
+                                        {"Cargando.."}
+                                    </MenuItem>
+                                )}
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel id="kind-label">Tipo de Producto</InputLabel>
+                        <Select
+                            labelId="kind-label"
+                            id="kind"
+                            name="kind.id"
+                            value={formik.values.kind.id as string}
+                            onChange={handleKindChange}
+                        >
+                            {kinds && kinds.map((kind, index) => (
+                                <MenuItem key={index} value={kind.id as string}>
+                                    {kind.name}
                                 </MenuItem>
                             )) || (
                                     <MenuItem value={"Cargando..."}>

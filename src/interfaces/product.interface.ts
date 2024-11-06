@@ -5,5 +5,6 @@ interface Product {
     createdDate: string;
     qualification: string;
     gender: Gender;
+    kind: Kind;
     characters: Character[];
 }

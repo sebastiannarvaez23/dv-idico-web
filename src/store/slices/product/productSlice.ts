@@ -19,7 +19,7 @@ const initialState: ProductState = {
         createdDate: "",
         qualification: "",
         gender: { id: "", name: "" },
-        endpoint: "",
+        kind: { id: "", name: "" },
         characters: []
     },
     products: [],

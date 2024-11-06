@@ -23,7 +23,6 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
             image: characterSelected.image,
             age: characterSelected.age,
             history: characterSelected.history,
-            endpoint: characterSelected.endpoint,
             products: characterSelected.products
         },
         onSubmit: (values) => handleSubmit(values)
