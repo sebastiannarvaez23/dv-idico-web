@@ -9,20 +9,20 @@ export const getCharacters = () => {
             const { characterSelected } = getState().character;
             dispatch(startLoadingCharacters());
             const characters = await fetchGetCharacters();
-            await dispatch(setCharacters({ characters }));
-            if (characterSelected?.id !== '') await dispatch(getCharacter(characters[0].id));
-            else dispatch(setAlert({ type: 'warning', message: 'No hay Personajes almacenados' }));
+            dispatch(setCharacters({ characters }));
+            if (characters.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Personajes almacenados' }));
+            else if (characterSelected?.id === '') dispatch(getCharacter(characters[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo la lista de Personajes' }));
         }
     };
 };
 
-export const getCharacter = (endpoint: string) => {
+export const getCharacter = (id: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(startLoadingCharactersSelected());
-            const character: Character = await fetchGetCharacter(endpoint);
+            const character: Character = await fetchGetCharacter(id);
             await dispatch(setCharacterSelected({ character }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo el personaje.' }));
