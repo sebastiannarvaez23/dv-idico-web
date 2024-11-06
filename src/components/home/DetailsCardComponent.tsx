@@ -65,7 +65,7 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: De
                         </Typography>
                         <hr />
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {label.label4} {element.list1.map(e => "title" in e ? e.title : e.name).filter(Boolean).join(", ")}.
+                            {label.label4} {(element.list1) && element.list1.map(e => "title" in e ? e.title : e.name).filter(Boolean).join(", ") + "."}
                         </Typography>
                         <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                             editar
