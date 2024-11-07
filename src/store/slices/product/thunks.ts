@@ -10,8 +10,8 @@ export const getProducts = () => {
             dispatch(startLoadingProducts());
             const products = await fetchGetProducts();
             await dispatch(setProducts({ products }));
-            if (productSelected?.id !== '') await dispatch(getProduct(products[0].id));
-            else dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
+            if (products.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
+            else if (productSelected?.id === '') dispatch(getProduct(products[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de productos.' }));
         }

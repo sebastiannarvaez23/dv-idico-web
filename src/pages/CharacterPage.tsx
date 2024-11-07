@@ -37,6 +37,7 @@ const CharacterPage = () => {
     return (
         <Fragment>
             <ModalComponent
+                width={50}
                 open={modalCreateCharacter}
                 onClose={handleCloseModalCreateCharacter}>
                 <FormCharacterComponent
@@ -46,6 +47,7 @@ const CharacterPage = () => {
                     action={createCharacter} />
             </ModalComponent>
             <ModalComponent
+                width={50}
                 open={modalEditCharacter}
                 onClose={handleCloseModalEditCharacter}>
                 <FormCharacterComponent title="Editar Personaje"

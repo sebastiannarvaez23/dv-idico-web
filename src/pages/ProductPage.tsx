@@ -26,6 +26,9 @@ const ProductPage = () => {
         detailLabelsProduct,
         modalCreateProduct,
         modalEditProduct,
+        modalAssigmentCharacter,
+        handleOpenModalAssigmentCharacter,
+        handleCloseModalAssigmentCharacter,
         setModalEditProduct,
         setModalCreateProduct,
         handleOpenModalEditProduct,
@@ -37,6 +40,7 @@ const ProductPage = () => {
     return (
         <Fragment>
             <ModalComponent
+                width={50}
                 open={modalCreateProduct}
                 onClose={handleCloseModalCreateProduct}>
                 <FormProductComponent
@@ -46,12 +50,17 @@ const ProductPage = () => {
                     action={createProduct} />
             </ModalComponent>
             <ModalComponent
+                width={50}
                 open={modalEditProduct}
                 onClose={handleCloseModalEditProduct}>
-                <FormProductComponent title="Editar Producto"
+                <FormProductComponent
+                    title="Editar Producto"
                     setModalOpen={setModalEditProduct}
                     productSelected={productSelected}
                     action={updateProduct}
+                    modalAssigmentCharacter={modalAssigmentCharacter}
+                    handleCloseModalAssigmentCharacter={handleCloseModalAssigmentCharacter}
+                    handleOpenModalAssigmentCharacter={handleOpenModalAssigmentCharacter}
                 />
             </ModalComponent>
             <SearchElementComponent

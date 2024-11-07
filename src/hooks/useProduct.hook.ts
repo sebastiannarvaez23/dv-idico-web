@@ -9,11 +9,12 @@ function useProduct() {
 
     const [modalEditProduct, setModalEditProduct] = useState(false);
     const [modalCreateProduct, setModalCreateProduct] = useState(false);
+    const [modalAssigmentCharacter, setModalAssigmentCharacter] = useState(false);
 
     const productEmpty: Product = {
         id: "",
         title: "",
-        createdDate: "",
+        createdDate: new Date,
         qualification: "",
         gender: { id: "", name: "" },
         kind: { id: "", name: "" },
@@ -44,6 +45,14 @@ function useProduct() {
         setModalCreateProduct(false);
     };
 
+    const handleOpenModalAssigmentCharacter = () => {
+        setModalAssigmentCharacter(true);
+    }
+
+    const handleCloseModalAssigmentCharacter = () => {
+        setModalAssigmentCharacter(false);
+    }
+
     useEffect(() => {
         dispatch(getProducts());
     }, [])
@@ -51,10 +60,14 @@ function useProduct() {
     return {
         productEmpty,
         detailLabelsProduct,
+        modalAssigmentCharacter,
         modalCreateProduct,
         modalEditProduct,
+        handleOpenModalAssigmentCharacter,
+        setModalAssigmentCharacter,
         setModalEditProduct,
         setModalCreateProduct,
+        handleCloseModalAssigmentCharacter,
         handleOpenModalEditProduct,
         handleCloseModalEditProduct,
         handleOpenModalCreateProduct,
