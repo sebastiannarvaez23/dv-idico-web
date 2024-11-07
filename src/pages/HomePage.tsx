@@ -14,7 +14,7 @@ const HomePage = () => {
 
     const { hideAlert } = useAlert();
 
-    const [sectionSelected, setSectionSelected] = useState<TypSection>("characters");
+    const [sectionSelected, setSectionSelected] = useState<TypSection>("products");
 
     return (
         <Fragment>

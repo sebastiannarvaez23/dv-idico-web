@@ -17,6 +17,7 @@ export const fetchGetProduct = async (id: string): Promise<Product> => {
 };
 
 export const fetchCreateProduct = async (product: FormData) => {
+    product.delete('id');
     const response = await api.post('/product', product, {
         headers: { 'Content-Type': 'multipart/form-data' }
     })

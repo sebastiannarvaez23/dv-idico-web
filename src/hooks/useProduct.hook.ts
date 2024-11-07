@@ -13,7 +13,7 @@ function useProduct() {
     const productEmpty: Product = {
         id: "",
         title: "",
-        createdDate: Date.now().toString(),
+        createdDate: "",
         qualification: "",
         gender: { id: "", name: "" },
         kind: { id: "", name: "" },
