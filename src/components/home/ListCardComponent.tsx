@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, Pagination } from '@mui/material';
 import { mapDetailsCardElementToProduct } from '../../utils/mappers/product.mapper';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,7 +42,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
 
     return (
         <Card style={{ margin: '10px 0', height: '47vh' }}>
-            <div style={{ padding: '20px 0', maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div style={{ padding: '20px 0', height: '350px', maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
                     {elements && elements.map((element, index) => (
                         <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
@@ -53,6 +53,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
                     )}
                 </Grid >
             </div >
+            <Pagination sx={{ justifyItems: 'center' }} count={10} />
         </Card >
     );
 };
