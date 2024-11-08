@@ -8,6 +8,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 
+interface TransferListElementComponentProps {
+    notAssigment: ListItem[],
+    assigment: ListItem[]
+}
+
 interface ListItem {
     id: string;
     status: 'A' | 'P';
@@ -34,17 +39,17 @@ const list1: ListItem[] = [
 const list2: ListItem[] = [
     {
         id: '62832b04-98bd-4b73-94e9-3008caaa2e3a',
-        status: 'A',
+        status: 'P',
         value: 'goofy'
     },
     {
         id: '992920ac-fcbd-47ea-8a49-60dffc655a3c',
-        status: 'A',
+        status: 'P',
         value: 'donald duck'
     },
     {
         id: 'e529088b-c564-4c2c-86b1-f10c827d60c6',
-        status: 'A',
+        status: 'P',
         value: 'pete'
     },
 ];
@@ -61,6 +66,9 @@ const TransferListElementComponent = () => {
     const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
     const [left, setLeft] = React.useState<readonly ListItem[]>(list1);
     const [right, setRight] = React.useState<readonly ListItem[]>(list2);
+
+    const [leftFinal, setLeftFinal] = React.useState<readonly ListItem[]>(list1);
+    const [rightFinal, setRightFinal] = React.useState<readonly ListItem[]>(list1);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -101,10 +109,23 @@ const TransferListElementComponent = () => {
     };
 
     React.useEffect(() => {
-        console.log({ left });
-        console.log({ right });
+        const initialAssigned = list1.filter(item => item.status === 'A');
+        const initialUnassigned = list2.filter(item => item.status === 'P');
 
-    }, [left, right])
+        const currentAssigned = left;
+        const currentUnassigned = right;
+
+        const toRemove = initialUnassigned.filter(initItem =>
+            currentAssigned.some(currentItem => currentItem.id === initItem.id)
+        );
+
+        const toAdd = initialAssigned.filter(initItem =>
+            currentUnassigned.some(currentItem => currentItem.id === initItem.id)
+        );
+
+        setLeftFinal(toRemove);
+        setRightFinal(toAdd);
+    }, [left, right]);
 
     const customList = (items: readonly ListItem[]) => (
         <Paper sx={{ width: 200, height: 230, overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
