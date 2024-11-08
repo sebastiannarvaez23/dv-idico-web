@@ -31,7 +31,7 @@ const ContainerSectionComponent = ({
         <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>
             <Grid item xs={6}>
                 <Paper className="leftSection" elevation={3}>
-                    <h2>{titleSection}</h2>
+                    <h2 style={{ paddingTop: '15px' }}>{titleSection}</h2>
                     <DetailsCard
                         element={detailElement}
                         label={detailLabels}
@@ -41,7 +41,7 @@ const ContainerSectionComponent = ({
             </Grid>
             <Grid item xs={6}>
                 <Paper className="rightSection" elevation={3}>
-                    <h2>{titleListSection}</h2>
+                    <h2 style={{ paddingTop: '15px' }}>{titleListSection}</h2>
                     <ListCardComponent
                         elements={listElement}
                         sectionSelected={sectionSelected}
