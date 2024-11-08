@@ -255,6 +255,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
                             setModalOpen={setModalOpen}
                             action={action}
                             productSelected={productSelected}
+
                         />
                     </ModalComponent>
                 )}

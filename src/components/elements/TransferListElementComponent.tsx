@@ -7,52 +7,18 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
+import { Typography } from '@mui/material';
 
 interface TransferListElementComponentProps {
-    notAssigment: ListItem[],
-    assigment: ListItem[]
+    left: ListItem[],
+    right: ListItem[],
+    leftFinal: ListItem[],
+    rightFinal: ListItem[],
+    setLeft: (param: ListItem[]) => void,
+    setRight: (param: ListItem[]) => void,
+    setLeftFinal: (param: ListItem[]) => void,
+    setRightFinal: (param: ListItem[]) => void,
 }
-
-interface ListItem {
-    id: string;
-    status: 'A' | 'P';
-    value: string;
-}
-
-const list1: ListItem[] = [
-    {
-        id: '4f851d66-0d95-4de9-b1f7-ec6fdfa2fdf6',
-        status: 'A',
-        value: 'mickey mouse'
-    },
-    {
-        id: '0f0edb81-1855-4f49-845c-a35ddaf4204f',
-        status: 'A',
-        value: 'mini mouse'
-    },
-    {
-        id: 'f06220a3-f854-4762-add8-ab4927919f82',
-        status: 'A',
-        value: 'pluto'
-    },
-];
-const list2: ListItem[] = [
-    {
-        id: '62832b04-98bd-4b73-94e9-3008caaa2e3a',
-        status: 'P',
-        value: 'goofy'
-    },
-    {
-        id: '992920ac-fcbd-47ea-8a49-60dffc655a3c',
-        status: 'P',
-        value: 'donald duck'
-    },
-    {
-        id: 'e529088b-c564-4c2c-86b1-f10c827d60c6',
-        status: 'P',
-        value: 'pete'
-    },
-];
 
 function not(a: readonly ListItem[], b: readonly ListItem[]) {
     return a.filter((value) => !b.some((item) => item.id === value.id));
@@ -62,13 +28,14 @@ function intersection(a: readonly ListItem[], b: readonly ListItem[]) {
     return a.filter((value) => b.some((item) => item.id === value.id));
 }
 
-const TransferListElementComponent = () => {
+const TransferListElementComponent = ({
+    left,
+    right,
+    setLeft,
+    setRight,
+    setLeftFinal,
+    setRightFinal }: TransferListElementComponentProps) => {
     const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
-    const [left, setLeft] = React.useState<readonly ListItem[]>(list1);
-    const [right, setRight] = React.useState<readonly ListItem[]>(list2);
-
-    const [leftFinal, setLeftFinal] = React.useState<readonly ListItem[]>(list1);
-    const [rightFinal, setRightFinal] = React.useState<readonly ListItem[]>(list1);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -109,8 +76,8 @@ const TransferListElementComponent = () => {
     };
 
     React.useEffect(() => {
-        const initialAssigned = list1.filter(item => item.status === 'A');
-        const initialUnassigned = list2.filter(item => item.status === 'P');
+        const initialAssigned = left.filter(item => item.status === 'A');
+        const initialUnassigned = right.filter(item => item.status === 'P');
 
         const currentAssigned = left;
         const currentUnassigned = right;
@@ -127,8 +94,9 @@ const TransferListElementComponent = () => {
         setRightFinal(toAdd);
     }, [left, right]);
 
-    const customList = (items: readonly ListItem[]) => (
+    const customList = (items: readonly ListItem[], title: string) => (
         <Paper sx={{ width: 200, height: 230, overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <Typography>{title}</Typography>
             <List dense component="div" role="list">
                 {items.map((item: ListItem) => {
                     const labelId = `transfer-list-item-${item.id}-label`;
@@ -163,7 +131,7 @@ const TransferListElementComponent = () => {
             spacing={2}
             sx={{ justifyContent: 'center', alignItems: 'center' }}
         >
-            <Grid item>{customList(left)}</Grid>
+            <Grid item>{customList(left, "libres")}</Grid>
             <Grid item>
                 <Grid container direction="column" sx={{ alignItems: 'center' }}>
                     <Button
@@ -208,7 +176,7 @@ const TransferListElementComponent = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <Grid item>{customList(right)}</Grid>
+            <Grid item>{customList(right, "asignados")}</Grid>
         </Grid>
     );
 }
