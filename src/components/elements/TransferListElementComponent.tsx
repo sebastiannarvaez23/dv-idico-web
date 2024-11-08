@@ -10,35 +10,67 @@ import Paper from '@mui/material/Paper';
 
 interface ListItem {
     id: string;
-    status: string;
+    status: 'A' | 'P';
     value: string;
 }
 
-const list1: ListItem[] = [];
-const list2: ListItem[] = [];
+const list1: ListItem[] = [
+    {
+        id: '4f851d66-0d95-4de9-b1f7-ec6fdfa2fdf6',
+        status: 'A',
+        value: 'mickey mouse'
+    },
+    {
+        id: '0f0edb81-1855-4f49-845c-a35ddaf4204f',
+        status: 'A',
+        value: 'mini mouse'
+    },
+    {
+        id: 'f06220a3-f854-4762-add8-ab4927919f82',
+        status: 'A',
+        value: 'pluto'
+    },
+];
+const list2: ListItem[] = [
+    {
+        id: '62832b04-98bd-4b73-94e9-3008caaa2e3a',
+        status: 'A',
+        value: 'goofy'
+    },
+    {
+        id: '992920ac-fcbd-47ea-8a49-60dffc655a3c',
+        status: 'A',
+        value: 'donald duck'
+    },
+    {
+        id: 'e529088b-c564-4c2c-86b1-f10c827d60c6',
+        status: 'A',
+        value: 'pete'
+    },
+];
 
-function not(a: readonly string[], b: readonly string[]) {
-    return a.filter((value) => !b.includes(value));
+function not(a: readonly ListItem[], b: readonly ListItem[]) {
+    return a.filter((value) => !b.some((item) => item.id === value.id));
 }
 
-function intersection(a: readonly string[], b: readonly string[]) {
-    return a.filter((value) => b.includes(value));
+function intersection(a: readonly ListItem[], b: readonly ListItem[]) {
+    return a.filter((value) => b.some((item) => item.id === value.id));
 }
 
 const TransferListElementComponent = () => {
-    const [checked, setChecked] = React.useState<readonly string[]>([]);
-    const [left, setLeft] = React.useState<readonly string[]>(["0", "1", "2", "3"]);
-    const [right, setRight] = React.useState<readonly string[]>(["4", "5", "6", "7"]);
+    const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
+    const [left, setLeft] = React.useState<readonly ListItem[]>(list1);
+    const [right, setRight] = React.useState<readonly ListItem[]>(list2);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
 
-    const handleToggle = (value: string) => () => {
-        const currentIndex = checked.indexOf(value);
+    const handleToggle = (item: ListItem) => () => {
+        const currentIndex = checked.findIndex((checkedItem) => checkedItem.id === item.id);
         const newChecked = [...checked];
 
         if (currentIndex === -1) {
-            newChecked.push(value);
+            newChecked.push(item);
         } else {
             newChecked.splice(currentIndex, 1);
         }
@@ -74,21 +106,21 @@ const TransferListElementComponent = () => {
 
     }, [left, right])
 
-    const customList = (items: readonly string[]) => (
+    const customList = (items: readonly ListItem[]) => (
         <Paper sx={{ width: 200, height: 230, overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <List dense component="div" role="list">
-                {items.map((value: string) => {
-                    const labelId = `transfer-list-item-${value}-label`;
+                {items.map((item: ListItem) => {
+                    const labelId = `transfer-list-item-${item.id}-label`;
 
                     return (
                         <ListItemButton
-                            key={value}
+                            key={item.id}
                             role="listitem"
-                            onClick={handleToggle(value)}
+                            onClick={handleToggle(item)}
                         >
                             <ListItemIcon>
                                 <Checkbox
-                                    checked={checked.includes(value)}
+                                    checked={checked.some((checkedItem) => checkedItem.id === item.id)}
                                     tabIndex={-1}
                                     disableRipple
                                     inputProps={{
@@ -96,7 +128,7 @@ const TransferListElementComponent = () => {
                                     }}
                                 />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`List item ${value}`} />
+                            <ListItemText id={labelId} primary={item.value} />
                         </ListItemButton>
                     );
                 })}
