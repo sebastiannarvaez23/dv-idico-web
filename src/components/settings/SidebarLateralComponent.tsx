@@ -5,60 +5,102 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SecurityIcon from '@mui/icons-material/Security';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
+import PeopleIcon from '@mui/icons-material/People';
+import BallotIcon from '@mui/icons-material/Ballot';
+import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import CategoryIcon from '@mui/icons-material/Category';
 
-export default function NestedList() {
-    const [open, setOpen] = React.useState(true);
+const NestedList = () => {
 
-    const handleClick = () => {
-        setOpen(!open);
+    const [openParameters, setOpenParameters] = React.useState(true);
+    const [openSecurity, setOpenSecurity] = React.useState(true);
+
+    const handleClickParameters = () => {
+        setOpenParameters(!openParameters);
+    };
+
+    const handleClickSecurity = () => {
+        setOpenSecurity(!openSecurity);
     };
 
     return (
         <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', position: "fixed", top: 64, left: 0 }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
-                    Nested List Items
+                    Configuración
                 </ListSubheader>
-            }
-        >
+            }>
             <ListItemButton>
                 <ListItemIcon>
-                    <SendIcon />
+                    <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Sent mail" />
+                <ListItemText primary="Usuarios" />
             </ListItemButton>
-            <ListItemButton>
+
+            <ListItemButton onClick={handleClickSecurity}>
                 <ListItemIcon>
-                    <DraftsIcon />
+                    <SecurityIcon />
                 </ListItemIcon>
-                <ListItemText primary="Drafts" />
+                <ListItemText primary="Seguridad" />
+                {openSecurity ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <ListItemButton onClick={handleClick}>
-                <ListItemIcon>
-                    <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Inbox" />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={openSecurity} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
+                    <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                            <ManageAccountsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Gestionar Servicios" />
+                    </ListItemButton>
+                    <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                            <AssignmentIndIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Gestionar Roles" />
+                    </ListItemButton>
+                    <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                            <SettingsAccessibilityIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Gestionar Permisos" />
+                    </ListItemButton>
+                </List>
+            </Collapse>
+
+            <ListItemButton onClick={handleClickParameters}>
+                <ListItemIcon>
+                    <BallotIcon />
+                </ListItemIcon>
+                <ListItemText primary="Parametros" />
+                {openParameters ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openParameters} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                    <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                            <CategoryIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Tipos de Producto" />
+                    </ListItemButton>
                     <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
                             <StarBorder />
                         </ListItemIcon>
-                        <ListItemText primary="Starred" />
+                        <ListItemText primary="Géneros" />
                     </ListItemButton>
                 </List>
             </Collapse>
         </List>
     );
 }
+
+export default NestedList;
