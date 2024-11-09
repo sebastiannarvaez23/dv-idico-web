@@ -12,7 +12,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import ModalComponent from "./ModalComponent";
 import FormCharacterAssigment from "./FormCharacterAssigment";
-import { characterAssignment } from "../../store/slices/product";
+import { characterAddAssignment, characterDeleteAssignment } from "../../store/slices/product";
 
 interface FormProductProps {
     productSelected: Product;
@@ -247,18 +247,17 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
                 </Box>
             </form >
             {formik.values.id &&
-                (
-                    <ModalComponent
-                        width={40}
-                        open={modalAssigmentCharacter!}
-                        onClose={handleCloseModalAssigmentCharacter!}>
-                        <FormCharacterAssigment
-                            setModalOpen={setModalOpen}
-                            action={characterAssignment}
-                            productSelected={productSelected}
-                        />
-                    </ModalComponent>
-                )}
+                (<ModalComponent
+                    width={40}
+                    open={modalAssigmentCharacter!}
+                    onClose={handleCloseModalAssigmentCharacter!}>
+                    <FormCharacterAssigment
+                        setModalOpen={setModalOpen}
+                        addAction={characterAddAssignment}
+                        deleteAction={characterDeleteAssignment}
+                        productSelected={productSelected}
+                    />
+                </ModalComponent>)}
         </div>
     )
 }

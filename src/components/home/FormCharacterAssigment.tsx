@@ -10,10 +10,11 @@ import useCharacter from "../../hooks/useCharacter.hook";
 interface FormCharacterProps {
     productSelected: Product;
     setModalOpen: (fun: boolean) => void;
-    action: (characters: { characters: string[] }) => (dispatch: AppDispatch, getState: () => RootState) => Promise<void>;
+    addAction: (characters: { characters: string[] }) => (dispatch: AppDispatch, getState: () => RootState) => Promise<void>;
+    deleteAction: (characters: { characters: string[] }) => (dispatch: AppDispatch, getState: () => RootState) => Promise<void>;
 }
 
-const FormCharacterAssigment = ({ productSelected, setModalOpen, action }: FormCharacterProps) => {
+const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, deleteAction }: FormCharacterProps) => {
 
     useCharacter();
     const dispatch = useDispatch<AppDispatch>();
@@ -23,21 +24,24 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, action }: FormC
     const [leftFinal, setLeftFinal] = useState<ListItem[]>([]);
     const [rightFinal, setRightFinal] = useState<ListItem[]>([]);
 
-    const formik = useFormik<{ characters: string[] }>({
+    const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
         initialValues: {
-            characters: [],
+            addCharacters: [],
+            deleteCharacters: [],
         },
-        onSubmit: (values) => handleSubmit(values.characters)
+        onSubmit: (values) => handleSubmit(values)
     });
 
-    const handleSubmit = async (characters: string[]) => {
-        if (characters.length > 0) dispatch(action({ characters }));
+    const handleSubmit = async (characters: { addCharacters: string[], deleteCharacters: string[] }) => {
+        if (characters.addCharacters.length > 0) dispatch(addAction({ characters: characters.addCharacters }));
+        if (characters.deleteCharacters.length > 0) dispatch(deleteAction({ characters: characters.deleteCharacters }));
         await setModalOpen(false);
     };
 
     useEffect(() => {
-        formik.setFieldValue('characters', rightFinal.map(item => item.id));
-    }, [rightFinal]);
+        formik.setFieldValue('addCharacters', rightFinal.map(item => item.id));
+        formik.setFieldValue('deleteCharacters', leftFinal.map(item => item.id));
+    }, [rightFinal, leftFinal]);
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -47,7 +51,9 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, action }: FormC
                     <hr />
                     {!isLoadingCharacters &&
                         (<TransferListElementComponent
-                            initialLeft={characters.map((e: Character) => mapCharacterToListItem(e, 'P'))}
+                            initialLeft={characters
+                                .filter((e: Character) => !productSelected.characters.some(pc => pc.id === e.id))
+                                .map((e: Character) => mapCharacterToListItem(e, 'P'))}
                             initialRight={productSelected.characters.map(e => mapCharacterToListItem(e, 'A'))}
                             leftFinal={leftFinal}
                             rightFinal={rightFinal}
