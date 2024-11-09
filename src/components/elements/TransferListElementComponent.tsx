@@ -10,12 +10,10 @@ import Paper from '@mui/material/Paper';
 import { Typography } from '@mui/material';
 
 interface TransferListElementComponentProps {
-    left: ListItem[],
-    right: ListItem[],
+    initialLeft: ListItem[],
+    initialRight: ListItem[],
     leftFinal: ListItem[],
     rightFinal: ListItem[],
-    setLeft: (param: ListItem[]) => void,
-    setRight: (param: ListItem[]) => void,
     setLeftFinal: (param: ListItem[]) => void,
     setRightFinal: (param: ListItem[]) => void,
 }
@@ -29,13 +27,14 @@ function intersection(a: readonly ListItem[], b: readonly ListItem[]) {
 }
 
 const TransferListElementComponent = ({
-    left,
-    right,
-    setLeft,
-    setRight,
+    initialLeft,
+    initialRight,
     setLeftFinal,
     setRightFinal }: TransferListElementComponentProps) => {
+
     const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
+    const [left, setLeft] = React.useState<readonly ListItem[]>(initialLeft);
+    const [right, setRight] = React.useState<readonly ListItem[]>(initialRight);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -76,8 +75,8 @@ const TransferListElementComponent = ({
     };
 
     React.useEffect(() => {
-        const initialAssigned = left.filter(item => item.status === 'A');
-        const initialUnassigned = right.filter(item => item.status === 'P');
+        const initialAssigned = initialLeft.filter(item => item.status === 'P');
+        const initialUnassigned = initialRight.filter(item => item.status === 'A');
 
         const currentAssigned = left;
         const currentUnassigned = right;
@@ -92,6 +91,9 @@ const TransferListElementComponent = ({
 
         setLeftFinal(toRemove);
         setRightFinal(toAdd);
+
+        console.log("delete", toRemove);
+        console.log("post", toAdd);
     }, [left, right]);
 
     const customList = (items: readonly ListItem[], title: string) => (

@@ -241,7 +241,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
                             color="primary"
                             style={{ marginTop: "20px", marginLeft: "12px", color: "#161732", borderColor: "#161732" }}
                             onClick={handleOpenModalAssigmentCharacter}
-                        >Agregar personaje</Button>)
+                        >Asignar personajes</Button>)
                     }
                 </Box>
             </form >

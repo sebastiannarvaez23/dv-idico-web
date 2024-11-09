@@ -34,12 +34,12 @@ export const characterSlice = createSlice({
             state.isLoadingCharacterSelected = true;
         },
         setCharacters: (state, action) => {
-            state.isLoadingCharacters = false;
             state.characters = action.payload.characters;
+            state.isLoadingCharacters = false;
         },
         setCharacterSelected: (state, action) => {
-            state.isLoadingCharacterSelected = false;
             state.characterSelected = action.payload.character;
+            state.isLoadingCharacterSelected = false;
         },
         setEmptyCharacterSelected: (state) => {
             state.characterSelected = initialState.characterSelected;
