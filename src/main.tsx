@@ -1,11 +1,12 @@
-import { RouterProvider, createBrowserRouter, RouteObject, Navigate } from 'react-router-dom';
+import './index.css';
 import { Provider } from 'react-redux';
+import { RouterProvider, createBrowserRouter, RouteObject, Navigate } from 'react-router-dom';
 import { store } from './store/store';
+import AuthPage from './pages/AuthPage.tsx';
+import HomePage from './pages/HomePage.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import HomePage from './pages/HomePage.tsx';
-import AuthPage from './pages/AuthPage.tsx';
-import './index.css';
+import SettingsPage from './pages/SettingsPage.tsx';
 
 const isAuthenticated = !!localStorage.getItem('token');
 
@@ -17,6 +18,10 @@ const routes: RouteObject[] = [
   {
     path: '/',
     element: <PrivateRoute element={<HomePage />} />
+  },
+  {
+    path: '/settings',
+    element: <PrivateRoute element={<SettingsPage />} />
   },
   {
     path: '/auth',
