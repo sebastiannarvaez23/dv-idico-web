@@ -45,3 +45,11 @@ export const fetchDeleteProduct = async (id: string): Promise<Product> => {
         });
     return response.data;
 };
+
+export const fetchCharacterAssignment = async (id: string, characters: { characters: string[] }): Promise<Product> => {
+    const response = await api.post(`/product/character-assignment/${id}`, characters)
+        .catch((error: any) => {
+            throw new Error(`Error al asignar personajes a pelicula: ${error.message}`);
+        });
+    return response.data;
+};

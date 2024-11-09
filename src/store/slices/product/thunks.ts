@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../../store";
-import { fetchCreateProduct, fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
+import { fetchCharacterAssignment, fetchCreateProduct, fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
 import { setEmptyProductSelected, setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
 import { setAlert } from '../common';
 
@@ -65,6 +65,19 @@ export const deleteProduct = () => {
             await dispatch(setAlert({ type: 'success', message: 'Producto eliminado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el producto.' }));
+        }
+    };
+};
+
+export const characterAssignment = (characters: { characters: string[] }) => {
+    return async (dispatch: AppDispatch, getState: () => RootState): Promise<void> => {
+        try {
+            const { productSelected } = getState().product;
+            await fetchCharacterAssignment(productSelected.id, characters);
+            await dispatch(getProducts());
+            await dispatch(setAlert({ type: 'success', message: 'Personajes asignados exitosamente!' }));
+        } catch (error: any) {
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error asignando los personajes al producto.' }));
         }
     };
 };

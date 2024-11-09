@@ -16,7 +16,7 @@ const initialState: ProductState = {
         id: "",
         title: "",
         image: "",
-        createdDate: "",
+        createdDate: new Date,
         qualification: "",
         gender: { id: "", name: "" },
         kind: { id: "", name: "" },
