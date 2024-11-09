@@ -8,11 +8,12 @@ import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 interface DetailsCardComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
+    children?: React.ReactNode;
     deleteElement: DeleteElementFunction;
     editElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, editElement, deleteElement }: DetailsCardComponentProps) => {
+const DetailsCardComponent = ({ element, label, children, editElement, deleteElement }: DetailsCardComponentProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { isLoadingCharacterSelected } = useSelector(
@@ -57,8 +58,12 @@ const DetailsCardComponent = ({ element, label, editElement, deleteElement }: De
                         <Typography variant="body2" color="textSecondary" component="p">
                             {label.label1} {element.field2}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {label.label2} {element.field3}
+                        <Typography sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }} variant="body2" color="textSecondary" component="p">
+                            {label.label2} {children ? (children) : element.field3}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             {label.label3} {element.field4}

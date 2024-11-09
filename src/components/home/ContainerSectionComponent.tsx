@@ -1,4 +1,4 @@
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Rating } from '@mui/material';
 import DetailsCard from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
@@ -36,7 +36,13 @@ const ContainerSectionComponent = ({
                         element={detailElement}
                         label={detailLabels}
                         deleteElement={deleteElement}
-                        editElement={editElement} />
+                        editElement={editElement}>
+                        {sectionSelected == "products" && (<Rating
+                            readOnly
+                            name="qualification"
+                            value={(detailElement.field3) ? parseInt(detailElement.field3) : 0}
+                        />)}
+                    </DetailsCard>
                 </Paper>
             </Grid>
             <Grid item xs={6}>
