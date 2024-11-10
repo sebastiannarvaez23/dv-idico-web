@@ -22,33 +22,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-interface Data {
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    birthDate: string,
+function createData(row: Data): Data {
+    return { ...row };
 }
-
-function createData(
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    birthDate: string,
-): Data {
-    return {
-        id,
-        firstName,
-        lastName,
-        email,
-        phone,
-        birthDate,
-    };
-}
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -80,40 +56,8 @@ interface HeadCell {
     numeric: boolean;
 }
 
-const headCells: readonly HeadCell[] = [
-    {
-        id: 'firstName',
-        numeric: false,
-        disablePadding: true,
-        label: 'Nombres',
-    },
-    {
-        id: 'lastName',
-        numeric: false,
-        disablePadding: false,
-        label: 'Apellidos',
-    },
-    {
-        id: 'email',
-        numeric: false,
-        disablePadding: false,
-        label: 'Email',
-    },
-    {
-        id: 'phone',
-        numeric: false,
-        disablePadding: false,
-        label: 'Teléfono',
-    },
-    {
-        id: 'birthDate',
-        numeric: false,
-        disablePadding: false,
-        label: 'Fec Nacimiento',
-    },
-];
-
 interface EnhancedTableProps {
+    headCells: HeadCell[];
     numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -144,7 +88,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {headCells.map((headCell) => (
+                {props.headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
@@ -230,14 +174,16 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     );
 }
 
-const TableComponent = ({ data, title }: { data: Data[], title: string }) => {
+const TableComponent = ({ headers, data, title, totalRows, changePage }: { data: Data[], title: string, headers: HeadCell[], totalRows: number, changePage: (page: number) => void }) => {
+
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('firstName');
     const [selected, setSelected] = React.useState<readonly string[]>([]);
-    const [page, setPage] = React.useState(0);
+    const [page, setPage] = React.useState(1);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [rows, setRows] = React.useState<Data[]>([]);
+    const [totalPages, setTotalPages] = React.useState(1);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -276,13 +222,11 @@ const TableComponent = ({ data, title }: { data: Data[], title: string }) => {
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
+    const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+            changePage(newPage);
+        }
     };
 
     const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -290,26 +234,23 @@ const TableComponent = ({ data, title }: { data: Data[], title: string }) => {
     };
 
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 1 ? Math.max(0, (page - 1) * rowsPerPage - rows.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
             [...rows]
-                .sort(getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+                .sort(getComparator(order, orderBy)),
         [order, orderBy, page, rowsPerPage, rows]
     );
 
     React.useEffect(() => {
-        setRows(data.map(e => createData(
-            e.id,
-            e.firstName,
-            e.lastName,
-            e.email,
-            e.phone,
-            e.birthDate,
-        )));
-    }, [data])
+        // Actualiza las filas y recalcula las páginas totales al cambiar los datos.
+        setRows(data.map(createData));
+
+        // Calcula el total de páginas basadas en la longitud de los datos y rowsPerPage.
+        const newTotalPages = Math.ceil(totalRows / rowsPerPage);
+        setTotalPages(newTotalPages);
+    }, [data, rowsPerPage]);
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -322,9 +263,10 @@ const TableComponent = ({ data, title }: { data: Data[], title: string }) => {
                         size={dense ? 'small' : 'medium'}
                     >
                         <EnhancedTableHead
+                            headCells={headers}
                             numSelected={selected.length}
                             order={order}
-                            orderBy={orderBy}
+                            orderBy={orderBy as string}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
@@ -354,17 +296,11 @@ const TableComponent = ({ data, title }: { data: Data[], title: string }) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            padding="none"
-                                        >{row.firstName}
-                                        </TableCell>
-                                        <TableCell align="left">{row.lastName}</TableCell>
-                                        <TableCell align="left">{row.email}</TableCell>
-                                        <TableCell align="left">{row.phone}</TableCell>
-                                        <TableCell align="left">{row.birthDate}</TableCell>
+                                        {headers.map((headCell) => (
+                                            <TableCell key={headCell.id} align="left">
+                                                {row[headCell.id]}
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
                                 );
                             })}
@@ -381,7 +317,7 @@ const TableComponent = ({ data, title }: { data: Data[], title: string }) => {
                     </Table>
                 </TableContainer>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                    <Pagination sx={{ margin: '20px auto' }} count={10} />
+                    <Pagination sx={{ margin: '20px auto' }} defaultPage={1} count={totalPages} page={page} onChange={handleChangePage} />
                 </Box>
             </Paper>
             <FormControlLabel

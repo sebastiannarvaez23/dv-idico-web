@@ -3,17 +3,15 @@ import { fetchCreatePerson, fetchDeletePerson, fetchGetPerson, fetchGetPersons, 
 import { setEmptyPersonSelected, setPersonSelected, setPersons, startLoadingPersonSelected, startLoadingPersons } from "./personSlice";
 import { setAlert } from '../common';
 
-export const getPersons = () => {
-    return async (dispatch: AppDispatch, getState: () => RootState) => {
+export const getPersons = (page: number = 1) => {
+    return async (dispatch: AppDispatch) => {
         try {
-            const { personSelected } = getState().person;
             dispatch(startLoadingPersons());
-            const persons = await fetchGetPersons();
+            const persons = await fetchGetPersons(page);
             await dispatch(setPersons({ persons }));
             if (persons.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Persons almacenados' }));
-            else if (personSelected?.id === '') dispatch(getPerson(persons[0].id));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de personos.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de personas.' }));
         }
     };
 };
@@ -35,7 +33,7 @@ export const createPerson = (person: FormData) => {
         try {
             const personCreated: Person = await fetchCreatePerson(person);
             await dispatch(getPersons());
-            await dispatch(setAlert({ type: 'success', message: `Person ${personCreated.firstName} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Persona ${personCreated.firstName} creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el persono.' }));
         }
@@ -48,7 +46,7 @@ export const updatePerson = (person: FormData) => {
             const personUpdated = await fetchUpdatePerson(person);
             await dispatch(setPersonSelected({ person: personUpdated }));
             await dispatch(getPersons());
-            await dispatch(setAlert({ type: 'success', message: 'Person actualizado exitosamente!' }));
+            await dispatch(setAlert({ type: 'success', message: 'Persona actualizado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el persono.' }));
         }
@@ -62,7 +60,7 @@ export const deletePerson = () => {
             await fetchDeletePerson(personSelected.id);
             await dispatch(setEmptyPersonSelected());
             await dispatch(getPersons());
-            await dispatch(setAlert({ type: 'success', message: 'Person eliminado exitosamente!' }));
+            await dispatch(setAlert({ type: 'success', message: 'Persona eliminado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el persono.' }));
         }

@@ -8,7 +8,47 @@ import usePerson from "../hooks/usePerson.hook";
 
 const SettingsUserPage = () => {
 
-    usePerson();
+    interface HeadCell {
+        disablePadding: boolean;
+        id: keyof Data;
+        label: string;
+        numeric: boolean;
+    }
+
+    const headCells: HeadCell[] = [
+        {
+            id: 'firstName',
+            numeric: false,
+            disablePadding: true,
+            label: 'Nombres'
+        },
+        {
+            id: 'lastName',
+            numeric: false,
+            disablePadding: false,
+            label: 'Apellidos',
+        },
+        {
+            id: 'email',
+            numeric: false,
+            disablePadding: false,
+            label: 'Email',
+        },
+        {
+            id: 'phone',
+            numeric: false,
+            disablePadding: false,
+            label: 'Teléfono',
+        },
+        {
+            id: 'birthDate',
+            numeric: false,
+            disablePadding: false,
+            label: 'Fec Nacimiento',
+        },
+    ];
+
+    const { handleGetPersons } = usePerson();
 
     const { persons } = useSelector(
         (state: RootState) => state.person);
@@ -30,7 +70,10 @@ const SettingsUserPage = () => {
             {persons.length > 0 && (
                 <TableComponent
                     data={persons}
-                    title={"Personas"} />
+                    totalRows={12}
+                    headers={headCells}
+                    title={"Personas"}
+                    changePage={handleGetPersons} />
             )}
         </SettingsLayoutComponent>
     </Fragment>)

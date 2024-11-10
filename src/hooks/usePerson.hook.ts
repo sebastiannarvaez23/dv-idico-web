@@ -19,6 +19,10 @@ function usePerson() {
         birthDate: "",
     }
 
+    const handleGetPersons = (page: number) => {
+        dispatch(getPersons(page));
+    }
+
     const handleOpenModalEditPerson = () => {
         setModalEditPerson(true);
     };
@@ -45,6 +49,7 @@ function usePerson() {
         modalEditPerson,
         setModalEditPerson,
         setModalCreatePerson,
+        handleGetPersons,
         handleOpenModalEditPerson,
         handleCloseModalEditPerson,
         handleOpenModalCreatePerson,

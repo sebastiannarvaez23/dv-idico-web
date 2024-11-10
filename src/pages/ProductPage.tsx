@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
-import ModalComponent from '../components/home/ModalComponent';
+import ModalComponent from '../components/common/ModalComponent';
 import useProduct from '../hooks/useProduct.hook';
 import FormProductComponent from '../components/home/FormProductComponent';
 

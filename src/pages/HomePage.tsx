@@ -5,7 +5,7 @@ import CharacterPage from './CharacterPage';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import NavbarAppComponent from '../components/home/NavbarAppComponent';
 import ProductPage from './ProductPage';
-import SidebarComponent from '../components/home/SidebarComponent';
+import SidebarComponent from '../components/common/SidebarComponent';
 import useAlert from '../hooks/useAlert.hook';
 
 const HomePage = () => {

@@ -3,7 +3,7 @@ import FloatingAlertComponent from '../home/FloatingAlertComponent';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import useAlert from '../../hooks/useAlert.hook';
-import SidebarComponent from '../home/SidebarComponent';
+import SidebarComponent from '../common/SidebarComponent';
 import NestedList from './SidebarLateralComponent';
 import { Container } from '@mui/system';
 

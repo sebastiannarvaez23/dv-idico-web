@@ -5,4 +5,5 @@ interface Person {
     email: string;
     phone: string;
     birthDate: string;
+    [key: string]: string;
 }

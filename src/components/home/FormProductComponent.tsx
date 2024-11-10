@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import useKind from "../../hooks/useKind.hook";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
-import ModalComponent from "./ModalComponent";
+import ModalComponent from "../common/ModalComponent";
 import FormCharacterAssigment from "./FormCharacterAssigment";
 import { characterAddAssignment, characterDeleteAssignment } from "../../store/slices/product";
 
