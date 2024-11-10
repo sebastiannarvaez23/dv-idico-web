@@ -6,9 +6,9 @@ import { useSelector } from 'react-redux';
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import Typography from '@mui/material/Typography';
-import useService from "../hooks/useService.hook";
+import useRole from "../hooks/useRole.hook";
 
-const SettingsServicesPage = () => {
+const SettingsRolesPage = () => {
 
     interface HeadCell {
         disablePadding: boolean;
@@ -19,12 +19,6 @@ const SettingsServicesPage = () => {
 
     const headCells: HeadCell[] = [
         {
-            id: 'code',
-            numeric: false,
-            disablePadding: true,
-            label: 'Código'
-        },
-        {
             id: 'name',
             numeric: false,
             disablePadding: false,
@@ -32,16 +26,16 @@ const SettingsServicesPage = () => {
         },
     ];
 
-    const { handleGetServices } = useService();
+    const { handleGetRoles } = useRole();
 
-    const { services } = useSelector(
-        (state: RootState) => state.service);
+    const { roles } = useSelector(
+        (state: RootState) => state.role);
 
     return (<Fragment>
         <SettingsLayoutComponent>
-            <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Servicios</Typography>
+            <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Roles</Typography>
             <hr />
-            <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de servicios</Typography>
+            <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de roles</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                     sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
@@ -52,13 +46,13 @@ const SettingsServicesPage = () => {
                 </Button>
             </Box>
             <TableComponent
-                data={services}
+                data={roles}
                 totalRows={12}
                 headers={headCells}
-                title={"Servicios"}
-                changePage={handleGetServices} />
+                title={"Roles"}
+                changePage={handleGetRoles} />
         </SettingsLayoutComponent>
     </Fragment>)
 }
 
-export default SettingsServicesPage;
+export default SettingsRolesPage;

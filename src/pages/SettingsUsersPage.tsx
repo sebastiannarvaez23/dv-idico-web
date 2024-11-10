@@ -58,14 +58,14 @@ const SettingsUserPage = () => {
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Personas</Typography>
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de personas</Typography>
-            {persons.length > 0 && (
-                <TableComponent
-                    data={persons}
-                    totalRows={12}
-                    headers={headCells}
-                    title={"Personas"}
-                    changePage={handleGetPersons} />
-            )}
+
+            <TableComponent
+                data={persons}
+                totalRows={12}
+                headers={headCells}
+                title={"Personas"}
+                changePage={handleGetPersons} />
+
         </SettingsLayoutComponent>
     </Fragment>)
 }

@@ -64,7 +64,7 @@ const NestedList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Gestionar Servicios" />
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/roles')}>
                         <ListItemIcon>
                             <AssignmentIndIcon />
                         </ListItemIcon>
