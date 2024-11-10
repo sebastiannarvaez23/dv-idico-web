@@ -1,4 +1,4 @@
-# WEB SPA Explora el Universo Disney
+# WEB Explora el Universo Disney
 
 **WEB SPA Explora el Universo Disney** es una aplicación web desarrollada para explorar el universo de Disney. Permite a los usuarios conocer y modificar información sobre personajes y comprender las películas en las que estos han participado. La aplicación utiliza una API para exponer la información de manera accesible para cualquier frontend.
 
