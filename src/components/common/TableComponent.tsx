@@ -244,10 +244,7 @@ const TableComponent = ({ headers, data, title, totalRows, changePage }: { data:
     );
 
     React.useEffect(() => {
-        // Actualiza las filas y recalcula las páginas totales al cambiar los datos.
         setRows(data.map(createData));
-
-        // Calcula el total de páginas basadas en la longitud de los datos y rowsPerPage.
         const newTotalPages = Math.ceil(totalRows / rowsPerPage);
         setTotalPages(newTotalPages);
     }, [data, rowsPerPage]);
@@ -322,7 +319,7 @@ const TableComponent = ({ headers, data, title, totalRows, changePage }: { data:
             </Paper>
             <FormControlLabel
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
+                label="Relleno denso"
             />
         </Box>
     );

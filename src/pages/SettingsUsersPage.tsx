@@ -58,15 +58,6 @@ const SettingsUserPage = () => {
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Personas</Typography>
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de personas</Typography>
-            {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                    sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
-                    size='large'
-                    variant="contained"
-                    color="primary">
-                    Crear persona
-                </Button>
-            </Box> */}
             {persons.length > 0 && (
                 <TableComponent
                     data={persons}

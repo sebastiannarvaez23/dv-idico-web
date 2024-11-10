@@ -15,8 +15,11 @@ import BallotIcon from '@mui/icons-material/Ballot';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CategoryIcon from '@mui/icons-material/Category';
+import { useNavigate } from 'react-router-dom';
 
 const NestedList = () => {
+
+    const navigate = useNavigate();
 
     const [openParameters, setOpenParameters] = React.useState(true);
     const [openSecurity, setOpenSecurity] = React.useState(true);
@@ -39,7 +42,7 @@ const NestedList = () => {
                     Configuración
                 </ListSubheader>
             }>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate('/settings/users')}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>
@@ -55,7 +58,7 @@ const NestedList = () => {
             </ListItemButton>
             <Collapse in={openSecurity} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/services')}>
                         <ListItemIcon>
                             <ManageAccountsIcon />
                         </ListItemIcon>

@@ -3,9 +3,11 @@ import { commonSlice } from './slices/common';
 import { configureStore } from '@reduxjs/toolkit';
 import { personSlice } from './slices/person/personSlice';
 import { productSlice } from './slices/product';
+import { serviceSlice } from './slices/service/serviceSlice';
 
 export const store = configureStore({
     reducer: {
+        service: serviceSlice.reducer,
         person: personSlice.reducer,
         character: characterSlice.reducer,
         product: productSlice.reducer,

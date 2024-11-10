@@ -1,0 +1,57 @@
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getServices } from '../store/slices/service/thunks';
+import { AppDispatch } from '../store/store';
+
+function useService() {
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [modalEditService, setModalEditService] = useState(false);
+    const [modalCreateService, setModalCreateService] = useState(false);
+
+    const serviceEmpty: Service = {
+        id: "",
+        code: "",
+        name: "",
+    }
+
+    const handleGetServices = (page: number) => {
+        dispatch(getServices(page));
+    }
+
+    const handleOpenModalEditService = () => {
+        setModalEditService(true);
+    };
+
+    const handleCloseModalEditService = () => {
+        setModalEditService(false);
+    };
+
+    const handleOpenModalCreateService = () => {
+        setModalCreateService(true);
+    };
+
+    const handleCloseModalCreateService = () => {
+        setModalCreateService(false);
+    };
+
+    useEffect(() => {
+        dispatch(getServices());
+    }, [])
+
+    return {
+        serviceEmpty,
+        modalCreateService,
+        modalEditService,
+        setModalEditService,
+        setModalCreateService,
+        handleGetServices,
+        handleOpenModalEditService,
+        handleCloseModalEditService,
+        handleOpenModalCreateService,
+        handleCloseModalCreateService,
+    }
+}
+
+export default useService;

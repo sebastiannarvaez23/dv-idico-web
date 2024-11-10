@@ -23,7 +23,7 @@ export const getPerson = (id: string) => {
             const person: Person = await fetchGetPerson(id);
             await dispatch(setPersonSelected({ person }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el persona.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la persona.' }));
         }
     };
 };
@@ -35,7 +35,7 @@ export const createPerson = (person: FormData) => {
             await dispatch(getPersons());
             await dispatch(setAlert({ type: 'success', message: `Persona ${personCreated.firstName} creado exitosamente!` }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el persono.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando la persona.' }));
         }
     };
 };
@@ -48,7 +48,7 @@ export const updatePerson = (person: FormData) => {
             await dispatch(getPersons());
             await dispatch(setAlert({ type: 'success', message: 'Persona actualizado exitosamente!' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el persono.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando la persona.' }));
         }
     };
 };
@@ -62,7 +62,7 @@ export const deletePerson = () => {
             await dispatch(getPersons());
             await dispatch(setAlert({ type: 'success', message: 'Persona eliminado exitosamente!' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el persono.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando la persona.' }));
         }
     };
 };

@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage.tsx';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import SettingsUserPage from './pages/SettingsUsersPage.tsx';
+import SettingsServicesPage from './pages/SettingsServicesPage.tsx';
 
 const isAuthenticated = !!localStorage.getItem('token');
 
@@ -22,6 +23,10 @@ const routes: RouteObject[] = [
   {
     path: '/settings/users',
     element: <PrivateRoute element={<SettingsUserPage />} />
+  },
+  {
+    path: '/settings/services',
+    element: <PrivateRoute element={<SettingsServicesPage />} />
   },
   {
     path: '/auth',

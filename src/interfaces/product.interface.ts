@@ -2,7 +2,7 @@ interface Product {
     id: string;
     title: string;
     image: File | string;
-    createdDate: Date;
+    createdDate: Date | string;
     qualification: string;
     gender: Gender;
     kind: Kind;
