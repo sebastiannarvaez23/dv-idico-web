@@ -11,7 +11,7 @@ export const getKinds = (page: number = 1) => {
             await dispatch(setKinds({ kinds }));
             if (kinds.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de productos.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de tipos de productos.' }));
         }
     };
 };

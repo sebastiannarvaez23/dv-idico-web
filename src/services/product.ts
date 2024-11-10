@@ -9,7 +9,7 @@ export const fetchGetProducts = async (): Promise<Product[]> => {
 };
 
 export const fetchGetProduct = async (id: string): Promise<Product> => {
-    const promise = await api.get('/product/' + id)
+    const promise = await api.get(`/product/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
         })

@@ -10,6 +10,7 @@ import SettingsUserPage from './pages/SettingsUsersPage.tsx';
 import SettingsServicesPage from './pages/SettingsServicesPage.tsx';
 import SettingsRolesPage from './pages/SettingsRolesPage.tsx';
 import SettingsKindsPage from './pages/SettingsKindsPage.tsx';
+import SettingsGendersPage from './pages/SettingsGendersPage.tsx';
 
 const isAuthenticated = !!localStorage.getItem('token');
 
@@ -37,6 +38,10 @@ const routes: RouteObject[] = [
   {
     path: '/settings/kinds',
     element: <PrivateRoute element={<SettingsKindsPage />} />
+  },
+  {
+    path: '/settings/genders',
+    element: <PrivateRoute element={<SettingsGendersPage />} />
   },
   {
     path: '/auth',

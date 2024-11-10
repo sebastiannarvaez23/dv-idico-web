@@ -9,7 +9,7 @@ export const fetchGetKinds = async (page: number): Promise<Kind[]> => {
 }
 
 export const fetchGetKind = async (id: string): Promise<Kind> => {
-    const response = await api.get('/product-kind/' + id)
+    const response = await api.get(`/product-kind/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener Kinda: ${error.message}`);
         })

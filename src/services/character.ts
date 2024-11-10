@@ -9,7 +9,7 @@ export const fetchGetCharacters = async (): Promise<Character[]> => {
 };
 
 export const fetchGetCharacter = async (id: string): Promise<Character> => {
-    const response = await api.get('/character/' + id)
+    const response = await api.get(`/character/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener Personaje: ${error.message}`);
         })

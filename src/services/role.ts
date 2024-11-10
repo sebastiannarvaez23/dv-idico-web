@@ -9,7 +9,7 @@ export const fetchGetRoles = async (page: number): Promise<Role[]> => {
 };
 
 export const fetchGetRole = async (id: string): Promise<Role> => {
-    const response = await api.get('/role/' + id)
+    const response = await api.get(`/role/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener Rol: ${error.message}`);
         })

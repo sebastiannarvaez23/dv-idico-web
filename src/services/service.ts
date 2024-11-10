@@ -9,7 +9,7 @@ export const fetchGetServices = async (page: number): Promise<Service[]> => {
 };
 
 export const fetchGetService = async (id: string): Promise<Service> => {
-    const response = await api.get('/service/' + id)
+    const response = await api.get(`/service/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener servicio: ${error.message}`);
         })

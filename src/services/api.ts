@@ -31,7 +31,7 @@ api.interceptors.response.use(
                 const hasSpecificError = errors.some(err => err.internalCode === "000017");
                 if (hasSpecificError) {
                     localStorage.removeItem("token");
-                    console.error('Error de respuesta:', error.response.status, error.response.data);
+                    window.location.reload();
                 }
             }
         } else if (error.request) {

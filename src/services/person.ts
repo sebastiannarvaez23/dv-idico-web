@@ -9,7 +9,7 @@ export const fetchGetPersons = async (page: number): Promise<Person[]> => {
 };
 
 export const fetchGetPerson = async (id: string): Promise<Person> => {
-    const response = await api.get('/person/' + id)
+    const response = await api.get(`/person/${id}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener Persona: ${error.message}`);
         })

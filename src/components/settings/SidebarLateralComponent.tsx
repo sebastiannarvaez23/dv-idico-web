@@ -70,12 +70,6 @@ const NestedList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Gestionar Roles" />
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                            <SettingsAccessibilityIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Gestionar Permisos" />
-                    </ListItemButton>
                 </List>
             </Collapse>
 
@@ -94,7 +88,7 @@ const NestedList = () => {
                         </ListItemIcon>
                         <ListItemText primary="Tipos de Producto" />
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/genders')}>
                         <ListItemIcon>
                             <StarBorder />
                         </ListItemIcon>
