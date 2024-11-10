@@ -88,7 +88,7 @@ const NestedList = () => {
             </ListItemButton>
             <Collapse in={openParameters} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/kinds')}>
                         <ListItemIcon>
                             <CategoryIcon />
                         </ListItemIcon>

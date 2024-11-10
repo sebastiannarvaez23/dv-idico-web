@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom/client';
 import SettingsUserPage from './pages/SettingsUsersPage.tsx';
 import SettingsServicesPage from './pages/SettingsServicesPage.tsx';
 import SettingsRolesPage from './pages/SettingsRolesPage.tsx';
+import SettingsKindsPage from './pages/SettingsKindsPage.tsx';
 
 const isAuthenticated = !!localStorage.getItem('token');
 
@@ -32,6 +33,10 @@ const routes: RouteObject[] = [
   {
     path: '/settings/roles',
     element: <PrivateRoute element={<SettingsRolesPage />} />
+  },
+  {
+    path: '/settings/kinds',
+    element: <PrivateRoute element={<SettingsKindsPage />} />
   },
   {
     path: '/auth',
