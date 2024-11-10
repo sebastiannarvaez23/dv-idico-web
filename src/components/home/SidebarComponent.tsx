@@ -13,7 +13,7 @@ const SidebarComponent = () => {
     };
 
     const handleSettings = () => {
-        navigate('/settings');
+        navigate('/settings/users');
     };
 
     const handleHome = () => {
