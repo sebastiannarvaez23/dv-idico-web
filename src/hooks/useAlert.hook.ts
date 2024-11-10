@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { AlertType } from '../types/TypAlert';
 import { AppDispatch, RootState } from '../store/store';
 import { setAlert } from '../store/slices/common';
-import { AlertType } from '../types/TypAlert';
+
 
 const useAlert = () => {
 

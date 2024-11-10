@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetPersons = async (page: number): Promise<Person[]> => {
     const response = await api.get(`/person?page=${page}`)
         .catch((error: any) => {

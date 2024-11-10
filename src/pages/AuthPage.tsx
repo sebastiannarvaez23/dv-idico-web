@@ -1,7 +1,10 @@
 import { useState } from "react";
+
+import { Box } from "@mui/material";
+
 import LoginFormComponent from "../components/auth/SignInFormComponent";
 import SignUpFormComponent from "../components/auth/SignUpFormComponent";
-import { Box } from "@mui/material";
+
 
 const AuthPage = () => {
     const [showLogin, setShowLogin] = useState(true);

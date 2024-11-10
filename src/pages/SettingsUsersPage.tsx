@@ -1,10 +1,13 @@
 import { Fragment } from "react";
-import { RootState } from "../store/store";
 import { useSelector } from 'react-redux';
+
+import Typography from '@mui/material/Typography';
+
+import { RootState } from "../store/store";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
-import Typography from '@mui/material/Typography';
 import usePerson from "../hooks/usePerson.hook";
+
 
 const SettingsUserPage = () => {
 

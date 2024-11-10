@@ -1,14 +1,17 @@
 import { Fragment, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { Button } from '@mui/material';
+
 import { createProduct, deleteProduct, updateProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
-import { Button } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import SearchElementComponent from '../components/home/SearchElementComponent';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
-import ModalComponent from '../components/common/ModalComponent';
-import useProduct from '../hooks/useProduct.hook';
 import FormProductComponent from '../components/home/FormProductComponent';
+import ModalComponent from '../components/common/ModalComponent';
+import SearchElementComponent from '../components/home/SearchElementComponent';
+import useProduct from '../hooks/useProduct.hook';
+
 
 const ProductPage = () => {
 

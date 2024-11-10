@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
+
 interface CustomErrorResponse {
     errors?: { internalCode: string; message: string }[];
 }

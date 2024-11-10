@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateRole, fetchDeleteRole, fetchGetRole, fetchGetRoles, fetchUpdateRole } from "../../../services/role";
-import { setEmptyRoleSelected, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
 import { setAlert } from '../common';
+import { setEmptyRoleSelected, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
+
 
 export const getRoles = (page: number = 1) => {
     return async (dispatch: AppDispatch) => {

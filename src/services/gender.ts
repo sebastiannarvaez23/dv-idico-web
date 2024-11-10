@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetGenders = async (page: number): Promise<Gender[]> => {
     const response = await api.get(`/product-gender?page=${page}`)
         .catch((error: any) => {

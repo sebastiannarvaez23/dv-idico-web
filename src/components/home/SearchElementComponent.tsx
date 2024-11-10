@@ -1,7 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Grid, Paper, styled, InputBase, Select, MenuItem } from '@mui/material';
 import { useSelector } from 'react-redux';
+
+import { Grid, Paper, styled, InputBase, Select, MenuItem } from '@mui/material';
+
 import { RootState } from '../../store/store';
+
 
 const SearchContainer = styled(Paper)({
     width: '100%',

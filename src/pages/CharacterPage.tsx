@@ -1,14 +1,17 @@
 import { Fragment, useState } from 'react';
+
+import { Button } from '@mui/material';
+
 import { createCharacter, deleteCharacter, updateCharacter } from '../store/slices/character';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
-import { Button } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import SearchElementComponent from '../components/home/SearchElementComponent';
+import { useSelector } from 'react-redux';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
-import ModalComponent from '../components/common/ModalComponent';
-import useCharacter from '../hooks/useCharacter.hook';
 import FormCharacterComponent from '../components/home/FormCharacterComponent';
+import ModalComponent from '../components/common/ModalComponent';
+import SearchElementComponent from '../components/home/SearchElementComponent';
+import useCharacter from '../hooks/useCharacter.hook';
+
 
 const CharacterPage = () => {
 

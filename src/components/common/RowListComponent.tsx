@@ -1,5 +1,7 @@
-import { Grid, Card, Typography, CardMedia } from '@mui/material';
 import React from 'react';
+
+import { Grid, Card, Typography, CardMedia } from '@mui/material';
+
 
 interface RowListComponentProps {
     element: DetailsCardElement,

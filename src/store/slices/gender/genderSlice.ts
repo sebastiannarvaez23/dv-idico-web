@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 export interface GenderState {
     isLoadingGenders: boolean;
     isLoadingGenderSelected: boolean;

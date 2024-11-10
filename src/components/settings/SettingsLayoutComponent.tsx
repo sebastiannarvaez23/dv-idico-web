@@ -1,11 +1,13 @@
 import { Fragment } from 'react';
-import FloatingAlertComponent from '../home/FloatingAlertComponent';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import useAlert from '../../hooks/useAlert.hook';
-import SidebarComponent from '../common/SidebarComponent';
-import NestedList from './SidebarLateralComponent';
+
 import { Container } from '@mui/system';
+
+import { RootState } from '../../store/store';
+import FloatingAlertComponent from '../home/FloatingAlertComponent';
+import NestedList from './SidebarLateralComponent';
+import SidebarComponent from '../common/SidebarComponent';
+import useAlert from '../../hooks/useAlert.hook';
 
 const SettingsLayoutComponent = ({ children }: { children: React.ReactNode }) => {
 

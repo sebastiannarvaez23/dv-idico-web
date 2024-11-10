@@ -1,5 +1,7 @@
-import { List, ListItem, ListItemText } from "@mui/material";
 import { Fragment } from "react";
+
+import { List, ListItem, ListItemText } from "@mui/material";
+
 
 interface NavbarAppComponentProps {
     setSectionSelected: (section: TypSection) => void;

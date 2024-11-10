@@ -1,9 +1,12 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import { useState } from "react";
 import * as Yup from "yup";
+
+import { AppDispatch } from "../../store/store";
+
 
 interface FormCharacterProps {
     characterSelected: Character;

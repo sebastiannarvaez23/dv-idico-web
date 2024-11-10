@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
-import { AppDispatch, RootState } from "../../store/store";
-import { Button, Typography, Box } from "@mui/material";
-import { mapCharacterToListItem } from "../../utils/mappers/list-item.mapper";
-import { useFormik } from "formik";
 import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from "react";
+
+import { Button, Typography, Box } from "@mui/material";
+import { useFormik } from "formik";
+
+import { AppDispatch, RootState } from "../../store/store";
+import { mapCharacterToListItem } from "../../utils/mappers/list-item.mapper";
 import TransferListElementComponent from "../elements/TransferListElementComponent";
 import useCharacter from "../../hooks/useCharacter.hook";
+
 
 interface FormCharacterProps {
     productSelected: Product;

@@ -1,7 +1,10 @@
 import React from 'react';
+
 import { Container, Typography, TextField, Button } from '@mui/material';
+
 import { DataFormRegister } from '../../interfaces/data-form-register.interface';
 import { fetchSignup } from '../../services/auth';
+
 
 interface ComponentSignUpFormProps {
     handleShowLogin: () => void;

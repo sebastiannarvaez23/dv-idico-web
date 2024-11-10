@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCharacters } from '../store/slices/character';
+
 import { AppDispatch } from '../store/store';
+import { getCharacters } from '../store/slices/character';
+
 
 function useCharacter() {
 

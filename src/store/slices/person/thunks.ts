@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreatePerson, fetchDeletePerson, fetchGetPerson, fetchGetPersons, fetchUpdatePerson } from "../../../services/person";
-import { setEmptyPersonSelected, setPersonSelected, setPersons, startLoadingPersonSelected, startLoadingPersons } from "./personSlice";
 import { setAlert } from '../common';
+import { setEmptyPersonSelected, setPersonSelected, setPersons, startLoadingPersonSelected, startLoadingPersons } from "./personSlice";
+
 
 export const getPersons = (page: number = 1) => {
     return async (dispatch: AppDispatch) => {

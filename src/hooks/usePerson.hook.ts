@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getPersons } from '../store/slices/person/thunks';
+
 import { AppDispatch } from '../store/store';
+import { getPersons } from '../store/slices/person/thunks';
 
 function usePerson() {
 

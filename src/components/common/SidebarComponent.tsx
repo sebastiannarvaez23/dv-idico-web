@@ -1,7 +1,9 @@
-import { AppBar, Toolbar, Typography, IconButton, SvgIcon } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+
+import { AppBar, Toolbar, Typography, IconButton, SvgIcon } from '@mui/material';
+import { Logout } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
+
 
 const SidebarComponent = () => {
 

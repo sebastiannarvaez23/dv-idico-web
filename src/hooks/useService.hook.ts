@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getServices } from '../store/slices/service/thunks';
+
 import { AppDispatch } from '../store/store';
+import { getServices } from '../store/slices/service/thunks';
+
 
 function useService() {
 

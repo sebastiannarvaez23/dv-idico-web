@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetCharacters = async (): Promise<Character[]> => {
     const response = await api.get('/character')
         .catch((error: any) => {

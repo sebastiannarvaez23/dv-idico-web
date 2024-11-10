@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 export interface PersonState {
     isLoadingPersons: boolean;
     isLoadingPersonSelected: boolean;

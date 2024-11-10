@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetProducts = async (): Promise<Product[]> => {
     const response = await api.get('/product')
         .catch((error: any) => {

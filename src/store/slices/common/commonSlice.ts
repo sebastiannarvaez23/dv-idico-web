@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
 import { AlertType } from '../../../types/TypAlert';
+import { createSlice } from '@reduxjs/toolkit';
+
 
 interface AlertState {
     type: AlertType;

@@ -1,18 +1,21 @@
 import { useState } from "react";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import useGender from "../../hooks/useGender.hook";
-import { useFormik } from "formik";
-import useKind from "../../hooks/useKind.hook";
+import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import dayjs, { Dayjs } from "dayjs";
-import ModalComponent from "../common/ModalComponent";
-import FormCharacterAssigment from "./FormCharacterAssigment";
+
+import { AppDispatch } from "../../store/store";
 import { characterAddAssignment, characterDeleteAssignment } from "../../store/slices/product";
+import FormCharacterAssigment from "./FormCharacterAssigment";
+import ModalComponent from "../common/ModalComponent";
+import useGender from "../../hooks/useGender.hook";
+import useKind from "../../hooks/useKind.hook";
+
 
 interface FormProductProps {
     productSelected: Product;

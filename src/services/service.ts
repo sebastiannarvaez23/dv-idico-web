@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetServices = async (page: number): Promise<Service[]> => {
     const response = await api.get(`/service?page=${page}`)
         .catch((error: any) => {

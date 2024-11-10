@@ -1,13 +1,16 @@
 import React from 'react';
-import { Grid, Card, Pagination } from '@mui/material';
-import { mapDetailsCardElementToProduct } from '../../utils/mappers/product.mapper';
-import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { Grid, Card, Pagination } from '@mui/material';
+
 import { AppDispatch, RootState } from '../../store/store';
 import { getCharacter } from '../../store/slices/character';
 import { getProduct } from '../../store/slices/product';
+import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
+import { mapDetailsCardElementToProduct } from '../../utils/mappers/product.mapper';
 import RowListComponent from '../common/RowListComponent';
 import RowListLoadingComponent from '../common/RowListLoadingComponent';
+
 
 interface ListCardComponentProps {
     elements: DetailsCardElement[];

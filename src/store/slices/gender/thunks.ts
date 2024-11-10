@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateGender, fetchGetGender, fetchGetGenders, fetchUpdateGender } from "../../../services/gender";
-import { setEmptyGenderSelected, setGenderSelected, setGenders, startLoadingGenderSelected, startLoadingGenders } from "./genderSlice";
 import { setAlert } from '../common';
+import { setEmptyGenderSelected, setGenderSelected, setGenders, startLoadingGenderSelected, startLoadingGenders } from "./genderSlice";
+
 
 export const getGenders = (page: number = 1) => {
     return async (dispatch: AppDispatch) => {

@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetRoles = async (page: number): Promise<Role[]> => {
     const response = await api.get(`/role?page=${page}`)
         .catch((error: any) => {

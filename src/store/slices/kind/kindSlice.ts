@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 export interface KindState {
     isLoadingKinds: boolean;
     isLoadingKindSelected: boolean;

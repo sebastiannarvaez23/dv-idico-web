@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateCharacter, fetchDeleteCharacter, fetchGetCharacter, fetchGetCharacters, fetchUpdateCharacter } from "../../../services/character";
-import { setCharacters, startLoadingCharacters, setCharacterSelected, startLoadingCharactersSelected, setEmptyCharacterSelected } from "./characterSlice";
 import { setAlert } from '../common';
+import { setCharacters, startLoadingCharacters, setCharacterSelected, startLoadingCharactersSelected, setEmptyCharacterSelected } from "./characterSlice";
+
 
 export const getCharacters = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {

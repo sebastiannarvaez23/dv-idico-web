@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+
 import { AppDispatch } from "../store/store";
 import { getKinds } from "../store/slices/kind";
+
 
 function useKind() {
 

@@ -1,7 +1,9 @@
 import { Grid, Paper, Rating } from '@mui/material';
+
+import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DetailsCard from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
-import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
+
 
 interface ContainerSectionComponentProps {
     detailElement: DetailsCardElement;

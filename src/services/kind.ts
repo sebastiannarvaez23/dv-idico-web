@@ -1,5 +1,6 @@
 import api from "./api";
 
+
 export const fetchGetKinds = async (page: number): Promise<Kind[]> => {
     const response = await api.get(`/product-kind?page=${page}`)
         .catch((error: any) => {

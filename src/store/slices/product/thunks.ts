@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchAddCharacterAssignment, fetchCreateProduct, fetchDeleteCharacterAssignment, fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
-import { setEmptyProductSelected, setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
 import { setAlert } from '../common';
+import { setEmptyProductSelected, setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
+
 
 export const getProducts = () => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {

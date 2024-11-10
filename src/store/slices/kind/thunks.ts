@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateKind, fetchGetKind, fetchGetKinds, fetchUpdateKind } from "../../../services/kind";
-import { setEmptyKindSelected, setKindSelected, setKinds, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
 import { setAlert } from '../common';
+import { setEmptyKindSelected, setKindSelected, setKinds, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
+
 
 export const getKinds = (page: number = 1) => {
     return async (dispatch: AppDispatch) => {

@@ -1,12 +1,15 @@
+import { Fragment } from "react";
+import { useSelector } from 'react-redux';
+
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import { Fragment } from "react";
+import Typography from '@mui/material/Typography';
+
 import { RootState } from "../store/store";
-import { useSelector } from 'react-redux';
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
-import Typography from '@mui/material/Typography';
 import useKind from "../hooks/useKind.hook";
+
 
 const SettingsKindsPage = () => {
 

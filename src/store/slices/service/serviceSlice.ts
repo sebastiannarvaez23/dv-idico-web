@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 export interface ServiceState {
     isLoadingServices: boolean;
     isLoadingServiceSelected: boolean;

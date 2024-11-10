@@ -1,7 +1,8 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateService, fetchDeleteService, fetchGetService, fetchGetServices, fetchUpdateService } from "../../../services/service";
-import { setEmptyServiceSelected, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
 import { setAlert } from '../common';
+import { setEmptyServiceSelected, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
+
 
 export const getServices = (page: number = 1) => {
     return async (dispatch: AppDispatch) => {

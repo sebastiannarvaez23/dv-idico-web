@@ -1,12 +1,14 @@
+import { configureStore } from '@reduxjs/toolkit';
+
 import { characterSlice } from './slices/character';
 import { commonSlice } from './slices/common';
-import { configureStore } from '@reduxjs/toolkit';
 import { GenderSlice } from './slices/gender';
 import { kindSlice } from './slices/kind';
 import { personSlice } from './slices/person/personSlice';
 import { productSlice } from './slices/product';
 import { roleSlice } from './slices/role';
 import { serviceSlice } from './slices/service/serviceSlice';
+
 
 export const store = configureStore({
     reducer: {
