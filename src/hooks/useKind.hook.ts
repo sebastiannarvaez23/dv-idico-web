@@ -10,6 +10,11 @@ function useKind() {
     const dispatch = useDispatch<AppDispatch>();
     const [kinds, setKinds] = useState<Kind[]>([]);
 
+    const kindEmpty: Kind = {
+        id: "",
+        name: ""
+    }
+
     const handleGetKinds = (page: number) => {
         dispatch(getKinds(page));
     }
@@ -20,6 +25,7 @@ function useKind() {
 
     return {
         kinds,
+        kindEmpty,
         getKinds,
         handleGetKinds
     }
