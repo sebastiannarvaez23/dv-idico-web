@@ -236,7 +236,7 @@ const TableComponent = ({ headers, data, title, totalRows, changePage }: { data:
     };
 
     const emptyRows =
-        page > 1 ? Math.max(0, (page - 1) * rowsPerPage - rows.length) : 0;
+        rows.length < 10 ? 10 - rows.length : 0;
 
     const visibleRows = React.useMemo(
         () =>
