@@ -1,12 +1,12 @@
 import api from "./api";
 
 
-export const fetchGetRoles = async (page: number): Promise<Role[]> => {
+export const fetchGetRoles = async (page: number): Promise<{ count: number; rows: Role[] }> => {
     const response = await api.get(`/role?page=${page}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Roles: ${error.message}`);
         })
-    return response.data.rows;
+    return response.data;
 };
 
 export const fetchGetRole = async (id: string): Promise<Role> => {

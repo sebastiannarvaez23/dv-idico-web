@@ -31,7 +31,7 @@ const SettingsRolesPage = () => {
 
     const { handleGetRoles } = useRole();
 
-    const { roles } = useSelector(
+    const { roles, count } = useSelector(
         (state: RootState) => state.role);
 
     return (<Fragment>
@@ -50,7 +50,7 @@ const SettingsRolesPage = () => {
             </Box>
             <TableComponent
                 data={roles}
-                totalRows={12}
+                totalRows={count}
                 headers={headCells}
                 title={"Roles"}
                 changePage={handleGetRoles} />

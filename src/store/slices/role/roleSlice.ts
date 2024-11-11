@@ -6,6 +6,7 @@ export interface RoleState {
     isLoadingRoleSelected: boolean;
     error: string | null;
     roleSelected: Role;
+    count: number;
     roles: Role[];
 }
 
@@ -17,6 +18,7 @@ const initialState: RoleState = {
         id: "",
         name: "",
     },
+    count: 0,
     roles: [],
 }
 
@@ -34,6 +36,9 @@ export const roleSlice = createSlice({
             state.isLoadingRoles = false;
             state.roles = action.payload.roles;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.count;
+        },
         setRoleSelected: (state, action) => {
             state.isLoadingRoleSelected = false;
             state.roleSelected = action.payload.role;
@@ -48,6 +53,7 @@ export const {
     startLoadingRoles,
     startLoadingRoleSelected,
     setRoles,
+    setCount,
     setRoleSelected,
     setEmptyRoleSelected
 } = roleSlice.actions;

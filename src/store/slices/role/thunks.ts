@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateRole, fetchDeleteRole, fetchGetRole, fetchGetRoles, fetchUpdateRole } from "../../../services/role";
 import { setAlert } from '../common';
-import { setEmptyRoleSelected, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
+import { setCount, setEmptyRoleSelected, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
 
 
 export const getRoles = (page: number = 1) => {
@@ -9,8 +9,9 @@ export const getRoles = (page: number = 1) => {
         try {
             dispatch(startLoadingRoles());
             const roles = await fetchGetRoles(page);
-            await dispatch(setRoles({ roles }));
-            if (roles.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Roles almacenados' }));
+            await dispatch(setRoles({ roles: roles.rows }));
+            await dispatch(setCount({ count: roles.count }));
+            if (roles.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Roles almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de roleas.' }));
         }
