@@ -31,6 +31,7 @@ export const mapProductToDetailsCardElement = (product: Product): DetailsCardEle
         field2: (product.createdDate) ? formattingDate(product.createdDate) : "",
         field3: product.qualification,
         field4: product.gender?.name,
+        field5: product.kind?.name,
         extraField1: product.gender?.id,
         image1: product.image as string,
         list1: product.characters,

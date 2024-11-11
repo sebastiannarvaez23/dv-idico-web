@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@mui/material';
+import { Button, Rating } from '@mui/material';
 
 import { createProduct, deleteProduct, updateProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
@@ -11,6 +11,7 @@ import FormProductComponent from '../components/home/FormProductComponent';
 import ModalComponent from '../components/common/ModalComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import useProduct from '../hooks/useProduct.hook';
+import InformationProductComponent from '../components/home/InformationProductComponent';
 
 
 const ProductPage = () => {
@@ -82,8 +83,19 @@ const ProductPage = () => {
                 listElement={products?.map(e => mapProductToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditProduct}
                 deleteElement={deleteProduct}
-                sectionSelected={SECTION}
-            />
+                sectionSelected={SECTION}>
+                <InformationProductComponent
+                    element={productDto}
+                    label={detailLabelsProduct}
+                    deleteElement={deleteProduct}
+                    editElement={handleOpenModalEditProduct}>
+                    <Rating
+                        readOnly
+                        name="qualification"
+                        value={(productDto.field3) ? parseInt(productDto.field3) : 0}
+                    />
+                </InformationProductComponent>
+            </ContainerSectionComponent>
             <Button
                 onClick={handleOpenModalCreateProduct}
                 sx={{ backgroundColor: '#161732' }}

@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Grid } from '@mui/material';
 import Lottie from 'lottie-react';
 
 import loadingAnimation from '../../../public/loading.json';
-import { AppDispatch, RootState } from '../../store/store';
+import { RootState } from '../../store/store';
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 
 
@@ -18,7 +18,7 @@ interface DetailsCardComponentProps {
 
 const DetailsCardComponent = ({ element, label, children, editElement, deleteElement }: DetailsCardComponentProps) => {
 
-    const dispatch = useDispatch<AppDispatch>();
+
     const { isLoadingCharacterSelected } = useSelector(
         (state: RootState) => state.character);
 
@@ -55,32 +55,7 @@ const DetailsCardComponent = ({ element, label, children, editElement, deleteEle
                 {/* Parte derecha: Información */}
                 <Grid item xs={12} sm={7}>
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {element.field1}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {label.label1} {element.field2}
-                        </Typography>
-                        <Typography sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }} variant="body2" color="textSecondary" component="p">
-                            {label.label2} {children ? (children) : element.field3}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {label.label3} {element.field4}
-                        </Typography>
-                        <hr />
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            {label.label4} {(element.list1.length === 0) ? "Sin información." : element.list1.map(e => "title" in e ? e.title : e.name).filter(Boolean).join(", ") + "."}
-                        </Typography>
-                        <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
-                            editar
-                        </Button>
-                        <Button sx={{ backgroundColor: '#161732' }} onClick={() => { dispatch(deleteElement()) }} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
-                            Eliminar
-                        </Button>
+                        {children}
                     </CardContent>
                 </Grid>
             </Grid>

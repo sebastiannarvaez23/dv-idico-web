@@ -1,4 +1,4 @@
-import { Grid, Paper, Rating } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DetailsCard from './DetailsCardComponent';
@@ -13,6 +13,7 @@ interface ContainerSectionComponentProps {
     titleListSection: string;
     sectionSelected: string;
     totalRows: number;
+    children?: React.ReactNode;
     deleteElement: DeleteElementFunction;
     handleGetElements: (np: number) => void;
     setProductSelected?: (e: Product) => void;
@@ -31,7 +32,8 @@ const ContainerSectionComponent = ({
     handleGetElements,
     setCharacterSelected,
     editElement,
-    deleteElement }: ContainerSectionComponentProps) => {
+    deleteElement,
+    children }: ContainerSectionComponentProps) => {
 
     return (
         <Grid style={{ width: '100%', margin: '0 auto' }} container spacing={2}>
@@ -42,12 +44,8 @@ const ContainerSectionComponent = ({
                         element={detailElement}
                         label={detailLabels}
                         deleteElement={deleteElement}
+                        children={children}
                         editElement={editElement}>
-                        {sectionSelected == "products" && (<Rating
-                            readOnly
-                            name="qualification"
-                            value={(detailElement.field3) ? parseInt(detailElement.field3) : 0}
-                        />)}
                     </DetailsCard>
                 </Paper>
             </Grid>

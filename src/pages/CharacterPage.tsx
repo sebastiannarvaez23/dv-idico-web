@@ -11,6 +11,7 @@ import FormCharacterComponent from '../components/home/FormCharacterComponent';
 import ModalComponent from '../components/common/ModalComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import useCharacter from '../hooks/useCharacter.hook';
+import InformationCharacterComponent from '../components/home/InformationCharacterComponent';
 
 
 const CharacterPage = () => {
@@ -75,8 +76,13 @@ const CharacterPage = () => {
                 listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditCharacter}
                 deleteElement={deleteCharacter}
-                sectionSelected={SECTION}
-            />
+                sectionSelected={SECTION}>
+                <InformationCharacterComponent
+                    element={characterDto}
+                    label={detailLabelsCharacter}
+                    deleteElement={deleteCharacter}
+                    editElement={handleOpenModalEditCharacter} />
+            </ContainerSectionComponent>
             <Button
                 onClick={handleOpenModalCreateCharacter}
                 sx={{ backgroundColor: '#161732' }}
