@@ -37,7 +37,7 @@ export const createProduct = (product: FormData) => {
         try {
             const productCreated: Product = await fetchCreateProduct(product);
             await dispatch(getProducts());
-            await dispatch(setAlert({ type: 'success', message: `Producto ${productCreated.title} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Producto "${productCreated.title}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el producto.' }));
         }

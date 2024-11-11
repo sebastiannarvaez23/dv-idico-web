@@ -30,19 +30,19 @@ export const getService = (id: string) => {
     };
 };
 
-export const createService = (service: FormData) => {
+export const createService = (service: Service) => {
     return async (dispatch: AppDispatch) => {
         try {
             const serviceCreated: Service = await fetchCreateService(service);
             await dispatch(getServices());
-            await dispatch(setAlert({ type: 'success', message: `Servicio ${serviceCreated.name} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Servicio "${serviceCreated.name}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el servicio.' }));
         }
     };
 };
 
-export const updateService = (service: FormData) => {
+export const updateService = (service: Service) => {
     return async (dispatch: AppDispatch) => {
         try {
             const serviceUpdated = await fetchUpdateService(service);

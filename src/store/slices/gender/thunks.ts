@@ -35,7 +35,7 @@ export const createGender = (gender: Gender) => {
         try {
             const genderCreated: Gender = await fetchCreateGender(gender);
             await dispatch(getGenders());
-            await dispatch(setAlert({ type: 'success', message: `Género de producto ${genderCreated.name} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Género de producto "${genderCreated.name}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el género de producto.' }));
         }

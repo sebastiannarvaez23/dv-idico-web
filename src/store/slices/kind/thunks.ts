@@ -35,7 +35,7 @@ export const createKind = (kind: Kind) => {
         try {
             const kindCreated: Kind = await fetchCreateKind(kind);
             await dispatch(getKinds());
-            await dispatch(setAlert({ type: 'success', message: `Tipo de producto ${kindCreated.name} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Tipo de producto "${kindCreated.name}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el tipo de producto.' }));
         }

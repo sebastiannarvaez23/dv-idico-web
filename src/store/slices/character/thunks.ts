@@ -37,7 +37,7 @@ export const createCharacter = (character: FormData) => {
         try {
             const characterCreated: Character = await fetchCreateCharacter(character);
             await dispatch(getCharacters());
-            await dispatch(setAlert({ type: 'success', message: `Personaje ${characterCreated.name} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Personaje "${characterCreated.name}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el personaje.' }));
         }

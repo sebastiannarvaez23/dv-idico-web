@@ -35,7 +35,7 @@ export const createPerson = (person: FormData) => {
         try {
             const personCreated: Person = await fetchCreatePerson(person);
             await dispatch(getPersons());
-            await dispatch(setAlert({ type: 'success', message: `Persona ${personCreated.firstName} creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Persona "${personCreated.firstName}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando la persona.' }));
         }

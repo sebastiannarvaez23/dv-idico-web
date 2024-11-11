@@ -12,7 +12,7 @@ interface FormServiceProps {
     serviceSelected: Service;
     title: string;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Service) => (dispatch: AppDispatch) => Promise<void>;
 }
 
 const FormServiceComponent = ({ setModalOpen, action, title, serviceSelected }: FormServiceProps) => {
@@ -39,11 +39,7 @@ const FormServiceComponent = ({ setModalOpen, action, title, serviceSelected }: 
     });
 
     const handleSubmit = async (service: Service) => {
-        const formDataToSend = new FormData();
-        formDataToSend.append('id', service.id);
-        formDataToSend.append('code', service.code);
-        formDataToSend.append('name', service.name);
-        dispatch(action(formDataToSend));
+        dispatch(action(service));
         await setModalOpen(false);
     };
 
