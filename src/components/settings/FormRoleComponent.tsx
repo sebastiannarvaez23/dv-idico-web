@@ -12,7 +12,7 @@ interface FormRoleProps {
     roleSelected: Role;
     title: string;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Role) => (dispatch: AppDispatch) => Promise<void>;
 }
 
 const FormRoleComponent = ({ setModalOpen, action, title, roleSelected }: FormRoleProps) => {
@@ -35,10 +35,7 @@ const FormRoleComponent = ({ setModalOpen, action, title, roleSelected }: FormRo
     });
 
     const handleSubmit = async (role: Role) => {
-        const formDataToSend = new FormData();
-        formDataToSend.append('id', role.id);
-        formDataToSend.append('name', role.name);
-        dispatch(action(formDataToSend));
+        dispatch(action(role));
         await setModalOpen(false);
     };
 

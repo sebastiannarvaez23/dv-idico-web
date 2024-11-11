@@ -30,7 +30,7 @@ export const getRole = (id: string) => {
     };
 };
 
-export const createRole = (role: FormData) => {
+export const createRole = (role: Role) => {
     return async (dispatch: AppDispatch) => {
         try {
             const roleCreated: Role = await fetchCreateRole(role);
@@ -42,7 +42,7 @@ export const createRole = (role: FormData) => {
     };
 };
 
-export const updateRole = (role: FormData) => {
+export const updateRole = (role: Role) => {
     return async (dispatch: AppDispatch) => {
         try {
             const roleUpdated = await fetchUpdateRole(role);

@@ -17,23 +17,18 @@ export const fetchGetRole = async (id: string): Promise<Role> => {
     return response.data;
 };
 
-export const fetchCreateRole = async (role: FormData): Promise<Role> => {
-    role.delete('id');
-    const response = await api.post('/role', role, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchCreateRole = async (role: Role): Promise<Role> => {
+    const { id, ...rest } = role;
+    const response = await api.post('/role', { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al crear Rol: ${error.message}`);
         })
     return response.data;
 };
 
-export const fetchUpdateRole = async (role: FormData): Promise<Role> => {
-    const id = role.get('id');
-    role.delete('id');
-    const response = await api.put(`/role/${id}`, role, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchUpdateRole = async (role: Role): Promise<Role> => {
+    const { id, ...rest } = role;
+    const response = await api.put(`/role/${id}`, { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al actualizar el Rol: ${error.message}`);
         })
