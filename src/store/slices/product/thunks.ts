@@ -1,18 +1,19 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchAddCharacterAssignment, fetchCreateProduct, fetchDeleteCharacterAssignment, fetchDeleteProduct, fetchGetProduct, fetchGetProducts, fetchUpdateProduct } from "../../../services/product";
 import { setAlert } from '../common';
-import { setEmptyProductSelected, setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
+import { setCount, setEmptyProductSelected, setProductSelected, setProducts, startLoadingProductSelected, startLoadingProducts } from "./productSlice";
 
 
-export const getProducts = () => {
+export const getProducts = (page: number = 1) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
             const { productSelected } = getState().product;
             dispatch(startLoadingProducts());
-            const products = await fetchGetProducts();
-            await dispatch(setProducts({ products }));
-            if (products.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
-            else if (productSelected?.id === '') dispatch(getProduct(products[0].id));
+            const products = await fetchGetProducts(page);
+            await dispatch(setProducts({ products: products.rows }));
+            await dispatch(setCount({ count: products.count }));
+            if (products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
+            else if (productSelected?.id === '') dispatch(getProduct(products.rows[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de productos.' }));
         }

@@ -31,6 +31,10 @@ function useProduct() {
         label4: "Personajes: "
     }
 
+    const handleGetProducts = (page: number) => {
+        dispatch(getProducts(page));
+    }
+
     const handleOpenModalEditProduct = () => {
         setModalEditProduct(true);
     };
@@ -65,6 +69,7 @@ function useProduct() {
         modalAssigmentCharacter,
         modalCreateProduct,
         modalEditProduct,
+        handleGetProducts,
         handleOpenModalAssigmentCharacter,
         setModalAssigmentCharacter,
         setModalEditProduct,

@@ -71,7 +71,7 @@ const CharacterPage = () => {
                 detailElement={characterDto}
                 detailLabels={detailLabelsCharacter}
                 totalRows={count}
-                handleGetCharacters={handleGetCharacters}
+                handleGetElements={handleGetCharacters}
                 listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditCharacter}
                 deleteElement={deleteCharacter}

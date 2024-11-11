@@ -16,12 +16,12 @@ interface ListCardComponentProps {
     elements: DetailsCardElement[];
     sectionSelected: string;
     totalRows: number;
-    handleGetCharacters: (np: number) => void;
+    handleGetElements: (np: number) => void;
     setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRows, sectionSelected, handleGetCharacters }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRows, sectionSelected, handleGetElements }) => {
 
     const { isLoadingCharacters } = useSelector(
         (state: RootState) => state.character);
@@ -50,7 +50,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRo
     const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setPage(newPage);
-            handleGetCharacters(newPage);
+            handleGetElements(newPage);
         }
     };
 

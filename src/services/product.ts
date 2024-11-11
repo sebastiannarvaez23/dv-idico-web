@@ -1,12 +1,12 @@
 import api from "./api";
 
 
-export const fetchGetProducts = async (): Promise<Product[]> => {
-    const response = await api.get('/product')
+export const fetchGetProducts = async (page: number): Promise<{ count: number; rows: Product[] }> => {
+    const response = await api.get(`/product?page=${page}`)
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
         })
-    return response.data.rows;
+    return response.data;
 };
 
 export const fetchGetProduct = async (id: string): Promise<Product> => {

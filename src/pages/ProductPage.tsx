@@ -17,7 +17,7 @@ const ProductPage = () => {
 
     const SECTION: TypSection = "products";
 
-    const { productSelected } = useSelector(
+    const { products, productSelected, count } = useSelector(
         (state: RootState) => state.product);
 
     const [productsFilters, setProductsFilters] = useState<Product[]>();
@@ -30,6 +30,7 @@ const ProductPage = () => {
         modalCreateProduct,
         modalEditProduct,
         modalAssigmentCharacter,
+        handleGetProducts,
         handleOpenModalAssigmentCharacter,
         handleCloseModalAssigmentCharacter,
         setModalEditProduct,
@@ -75,8 +76,10 @@ const ProductPage = () => {
                 titleSection={"Serie / Película"}
                 titleListSection={"Listado de Series y Peliculas"}
                 detailElement={productDto}
+                totalRows={count}
                 detailLabels={detailLabelsProduct}
-                listElement={productsFilters?.map(e => mapProductToDetailsCardElement(e)) ?? []}
+                handleGetElements={handleGetProducts}
+                listElement={products?.map(e => mapProductToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditProduct}
                 deleteElement={deleteProduct}
                 sectionSelected={SECTION}

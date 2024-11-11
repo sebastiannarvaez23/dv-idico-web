@@ -14,7 +14,7 @@ interface ContainerSectionComponentProps {
     sectionSelected: string;
     totalRows: number;
     deleteElement: DeleteElementFunction;
-    handleGetCharacters: (np: number) => void;
+    handleGetElements: (np: number) => void;
     setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
     editElement: () => void;
@@ -28,7 +28,7 @@ const ContainerSectionComponent = ({
     titleSection,
     titleListSection,
     sectionSelected,
-    handleGetCharacters,
+    handleGetElements,
     setCharacterSelected,
     editElement,
     deleteElement }: ContainerSectionComponentProps) => {
@@ -58,7 +58,7 @@ const ContainerSectionComponent = ({
                         elements={listElement}
                         totalRows={totalRows}
                         sectionSelected={sectionSelected}
-                        handleGetCharacters={handleGetCharacters}
+                        handleGetElements={handleGetElements}
                         setCharacterSelected={setCharacterSelected} />
                 </Paper>
             </Grid>

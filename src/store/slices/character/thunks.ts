@@ -10,7 +10,7 @@ export const getCharacters = (page: number = 1) => {
             const { characterSelected } = getState().character;
             dispatch(startLoadingCharacters());
             const characters = await fetchGetCharacters(page);
-            dispatch(setCharacters({ characters: characters.rows }));
+            await dispatch(setCharacters({ characters: characters.rows }));
             await dispatch(setCount({ count: characters.count }));
             if (characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Personajes almacenados' }));
             else if (characterSelected?.id === '') dispatch(getCharacter(characters.rows[0].id));

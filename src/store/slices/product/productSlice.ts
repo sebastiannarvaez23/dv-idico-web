@@ -6,6 +6,7 @@ export interface ProductState {
     isLoadingProductSelected: boolean;
     error: string | null;
     productSelected: Product;
+    count: number;
     products: Product[];
 }
 
@@ -23,6 +24,7 @@ const initialState: ProductState = {
         kind: { id: "", name: "" },
         characters: []
     },
+    count: 0,
     products: [],
 }
 
@@ -40,6 +42,9 @@ export const productSlice = createSlice({
             state.isLoadingProducts = false;
             state.products = action.payload.products;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.count;
+        },
         setProductSelected: (state, action) => {
             state.isLoadingProductSelected = false;
             state.productSelected = action.payload.product;
@@ -54,6 +59,7 @@ export const {
     startLoadingProducts,
     startLoadingProductSelected,
     setProducts,
+    setCount,
     setProductSelected,
     setEmptyProductSelected
 } = productSlice.actions;
