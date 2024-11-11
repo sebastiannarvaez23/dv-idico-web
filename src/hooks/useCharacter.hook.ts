@@ -28,6 +28,10 @@ function useCharacter() {
         label4: "Películas y/ o Series: "
     }
 
+    const handleGetCharacters = (page: number) => {
+        dispatch(getCharacters(page));
+    }
+
     const handleOpenModalEditCharacter = () => {
         setModalEditCharacter(true);
     };
@@ -53,6 +57,7 @@ function useCharacter() {
         detailLabelsCharacter,
         modalCreateCharacter,
         modalEditCharacter,
+        handleGetCharacters,
         setModalEditCharacter,
         setModalCreateCharacter,
         handleOpenModalEditCharacter,

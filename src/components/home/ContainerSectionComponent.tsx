@@ -12,7 +12,9 @@ interface ContainerSectionComponentProps {
     titleSection: string;
     titleListSection: string;
     sectionSelected: string;
+    totalRows: number;
     deleteElement: DeleteElementFunction;
+    handleGetCharacters: (np: number) => void;
     setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
     editElement: () => void;
@@ -22,9 +24,11 @@ const ContainerSectionComponent = ({
     detailElement,
     detailLabels,
     listElement,
+    totalRows,
     titleSection,
     titleListSection,
     sectionSelected,
+    handleGetCharacters,
     setCharacterSelected,
     editElement,
     deleteElement }: ContainerSectionComponentProps) => {
@@ -52,7 +56,9 @@ const ContainerSectionComponent = ({
                     <h2 style={{ paddingTop: '15px' }}>{titleListSection}</h2>
                     <ListCardComponent
                         elements={listElement}
+                        totalRows={totalRows}
                         sectionSelected={sectionSelected}
+                        handleGetCharacters={handleGetCharacters}
                         setCharacterSelected={setCharacterSelected} />
                 </Paper>
             </Grid>

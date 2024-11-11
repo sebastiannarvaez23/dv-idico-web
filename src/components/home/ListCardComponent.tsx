@@ -15,11 +15,13 @@ import RowListLoadingComponent from '../common/RowListLoadingComponent';
 interface ListCardComponentProps {
     elements: DetailsCardElement[];
     sectionSelected: string;
+    totalRows: number;
+    handleGetCharacters: (np: number) => void;
     setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, sectionSelected }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRows, sectionSelected, handleGetCharacters }) => {
 
     const { isLoadingCharacters } = useSelector(
         (state: RootState) => state.character);
@@ -27,6 +29,8 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
     const { isLoadingProducts } = useSelector(
         (state: RootState) => state.product);
 
+    const [totalPages, setTotalPages] = React.useState(1);
+    const [page, setPage] = React.useState(1);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -43,6 +47,18 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
         }
     }
 
+    const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+            handleGetCharacters(newPage);
+        }
+    };
+
+    React.useEffect(() => {
+        const newTotalPages = Math.ceil(totalRows / 10);
+        setTotalPages(newTotalPages);
+    }, [elements]);
+
     return (
         <Card style={{ margin: '10px 0', height: '47vh' }}>
             <div style={{ padding: '20px 0', height: '60vh', maxHeight: '280px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -56,7 +72,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, section
                     )}
                 </Grid >
             </div >
-            <Pagination sx={{ justifyItems: 'center', margin: '20px 0px' }} count={10} />
+            <Pagination sx={{ justifyItems: 'center', margin: '20px 0px' }} defaultPage={1} count={totalPages} page={page} onChange={handleChangePage} />
         </Card >
     );
 };

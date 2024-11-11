@@ -6,6 +6,7 @@ export interface CharacterState {
     isLoadingCharacterSelected: boolean;
     error: string | null;
     characterSelected: Character;
+    count: number;
     characters: Character[];
 }
 
@@ -21,6 +22,7 @@ const initialState: CharacterState = {
         image: "",
         products: [],
     },
+    count: 0,
     characters: [],
 }
 
@@ -38,6 +40,9 @@ export const characterSlice = createSlice({
             state.characters = action.payload.characters;
             state.isLoadingCharacters = false;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.count;
+        },
         setCharacterSelected: (state, action) => {
             state.characterSelected = action.payload.character;
             state.isLoadingCharacterSelected = false;
@@ -51,6 +56,7 @@ export const characterSlice = createSlice({
 export const {
     startLoadingCharacters,
     setCharacters,
+    setCount,
     setCharacterSelected,
     startLoadingCharactersSelected,
     setEmptyCharacterSelected

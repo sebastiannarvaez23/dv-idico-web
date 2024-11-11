@@ -178,12 +178,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
 const TableComponent = ({ headers, data, title, totalRows, changePage }: { data: Data[], title: string, headers: HeadCell[], totalRows: number, changePage: (page: number) => void }) => {
 
+    const rowsPerPage: number = 10;
+
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('firstName');
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(1);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [rows, setRows] = React.useState<Data[]>([]);
     const [totalPages, setTotalPages] = React.useState(1);
 
@@ -249,7 +250,7 @@ const TableComponent = ({ headers, data, title, totalRows, changePage }: { data:
         setRows(data.map(createData));
         const newTotalPages = Math.ceil(totalRows / rowsPerPage);
         setTotalPages(newTotalPages);
-    }, [data, rowsPerPage]);
+    }, [data]);
 
     return (
         <Box sx={{ width: '100%' }}>

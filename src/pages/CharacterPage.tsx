@@ -17,7 +17,7 @@ const CharacterPage = () => {
 
     const SECTION: TypSection = "characters";
 
-    const { characterSelected } = useSelector(
+    const { characters, characterSelected, count } = useSelector(
         (state: RootState) => state.character);
 
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
@@ -29,6 +29,7 @@ const CharacterPage = () => {
         detailLabelsCharacter,
         modalCreateCharacter,
         modalEditCharacter,
+        handleGetCharacters,
         setModalEditCharacter,
         setModalCreateCharacter,
         handleOpenModalEditCharacter,
@@ -69,7 +70,9 @@ const CharacterPage = () => {
                 titleListSection={"Listado de Personajes"}
                 detailElement={characterDto}
                 detailLabels={detailLabelsCharacter}
-                listElement={charactersFilters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
+                totalRows={count}
+                handleGetCharacters={handleGetCharacters}
+                listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditCharacter}
                 deleteElement={deleteCharacter}
                 sectionSelected={SECTION}

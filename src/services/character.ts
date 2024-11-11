@@ -1,12 +1,12 @@
 import api from "./api";
 
 
-export const fetchGetCharacters = async (): Promise<Character[]> => {
-    const response = await api.get('/character')
+export const fetchGetCharacters = async (page: number): Promise<{ count: number; rows: Character[] }> => {
+    const response = await api.get(`/character?page=${page}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Personajes: ${error.message}`);
         })
-    return response.data.rows;
+    return response.data;
 };
 
 export const fetchGetCharacter = async (id: string): Promise<Character> => {
