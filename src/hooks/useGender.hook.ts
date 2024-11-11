@@ -10,6 +10,12 @@ function useGender() {
     const dispatch = useDispatch<AppDispatch>();
     const [genders, setGenders] = useState<Gender[]>([]);
 
+    const genderEmpty: Gender = {
+        id: "",
+        code: "",
+        name: ""
+    }
+
     const handleGetGenders = (page: number) => {
         dispatch(getGenders(page));
     }
@@ -20,6 +26,7 @@ function useGender() {
 
     return {
         genders,
+        genderEmpty,
         getGenders,
         handleGetGenders
     }
