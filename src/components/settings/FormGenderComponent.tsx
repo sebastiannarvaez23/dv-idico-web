@@ -20,9 +20,6 @@ const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: Fo
     const dispatch = useDispatch<AppDispatch>();
 
     const validationSchema = Yup.object({
-        code: Yup.string()
-            .required("El código es requerido")
-            .max(4, "El nombre no puede tener más de 4 caracteres"),
         name: Yup.string()
             .required("El código es requerido")
             .max(100, "El nombre no puede tener más de 100 caracteres"),
@@ -31,7 +28,6 @@ const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: Fo
     const formik = useFormik<Gender>({
         initialValues: {
             id: genderSelected.id,
-            code: genderSelected.code,
             name: genderSelected.name
         },
         validationSchema,
@@ -41,7 +37,6 @@ const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: Fo
     const handleSubmit = async (gender: Gender) => {
         const formDataToSend = new FormData();
         formDataToSend.append('id', gender.id);
-        formDataToSend.append('code', gender.code);
         formDataToSend.append('name', gender.name);
         dispatch(action(formDataToSend));
         await setModalOpen(false);
@@ -54,16 +49,6 @@ const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: Fo
                     <div>
                         <Typography variant="h6">{title}</Typography>
                         <hr />
-                        <TextField
-                            label="Código"
-                            name="code"
-                            value={formik.values.code}
-                            error={formik.touched.name && Boolean(formik.errors.code)}
-                            helperText={formik.touched.code && formik.errors.code}
-                            onChange={formik.handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
                         <TextField
                             label="Nombre"
                             name="name"

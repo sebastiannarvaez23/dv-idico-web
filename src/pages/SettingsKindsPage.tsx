@@ -47,7 +47,7 @@ const SettingsKindsPage = () => {
             <FormKindComponent
                 setModalOpen={setOpenModel}
                 kindSelected={kindEmpty}
-                title={"Añadir género"}
+                title={"Añadir tipo de producto"}
                 action={createKind}
             />
         </ModalComponent>
