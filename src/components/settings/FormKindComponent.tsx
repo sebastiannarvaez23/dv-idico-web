@@ -12,7 +12,7 @@ interface FormKindProps {
     kindSelected: Kind;
     title: string;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Kind) => (dispatch: AppDispatch) => Promise<void>;
 }
 
 const FormKindComponent = ({ setModalOpen, action, title, kindSelected }: FormKindProps) => {
@@ -35,10 +35,7 @@ const FormKindComponent = ({ setModalOpen, action, title, kindSelected }: FormKi
     });
 
     const handleSubmit = async (kind: Kind) => {
-        const formDataToSend = new FormData();
-        formDataToSend.append('id', kind.id);
-        formDataToSend.append('name', kind.name);
-        dispatch(action(formDataToSend));
+        dispatch(action(kind));
         await setModalOpen(false);
     };
 

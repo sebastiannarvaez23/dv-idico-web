@@ -30,7 +30,7 @@ export const getKind = (id: string) => {
     };
 };
 
-export const createKind = (kind: FormData) => {
+export const createKind = (kind: Kind) => {
     return async (dispatch: AppDispatch) => {
         try {
             const kindCreated: Kind = await fetchCreateKind(kind);
@@ -42,7 +42,7 @@ export const createKind = (kind: FormData) => {
     };
 };
 
-export const updateKind = (kind: FormData) => {
+export const updateKind = (kind: Kind) => {
     return async (dispatch: AppDispatch) => {
         try {
             const kindUpdated = await fetchUpdateKind(kind);

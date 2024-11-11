@@ -17,23 +17,18 @@ export const fetchGetKind = async (id: string): Promise<Kind> => {
     return response.data;
 };
 
-export const fetchCreateKind = async (kind: FormData): Promise<Kind> => {
-    kind.delete('id');
-    const response = await api.post('/product-kind', kind, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchCreateKind = async (kind: Kind): Promise<Kind> => {
+    const { id, ...rest } = kind;
+    const response = await api.post('/product-kind', { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al crear Kinda: ${error.message}`);
         })
     return response.data;
 };
 
-export const fetchUpdateKind = async (kind: FormData): Promise<Kind> => {
-    const id = kind.get('id');
-    kind.delete('id');
-    const response = await api.put(`/product-kind/${id}`, kind, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchUpdateKind = async (kind: Kind): Promise<Kind> => {
+    const { id, ...rest } = kind;
+    const response = await api.put(`/product-kind/${id}`, { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al actualizar la Kinda: ${error.message}`);
         })
