@@ -6,6 +6,7 @@ export interface PersonState {
     isLoadingPersonSelected: boolean;
     error: string | null;
     personSelected: Person;
+    count: number;
     persons: Person[];
 }
 
@@ -21,6 +22,7 @@ const initialState: PersonState = {
         phone: "",
         birthDate: "",
     },
+    count: 0,
     persons: [],
 }
 
@@ -38,6 +40,9 @@ export const personSlice = createSlice({
             state.isLoadingPersons = false;
             state.persons = action.payload.persons;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.persons;
+        },
         setPersonSelected: (state, action) => {
             state.isLoadingPersonSelected = false;
             state.personSelected = action.payload.person;
@@ -51,6 +56,7 @@ export const personSlice = createSlice({
 export const {
     startLoadingPersons,
     startLoadingPersonSelected,
+    setCount,
     setPersons,
     setPersonSelected,
     setEmptyPersonSelected

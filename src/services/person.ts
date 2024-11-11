@@ -1,12 +1,12 @@
 import api from "./api";
 
 
-export const fetchGetPersons = async (page: number): Promise<Person[]> => {
+export const fetchGetPersons = async (page: number): Promise<{ count: number; rows: Person[] }> => {
     const response = await api.get(`/person?page=${page}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Personas: ${error.message}`);
         })
-    return response.data.rows;
+    return response.data;
 };
 
 export const fetchGetPerson = async (id: string): Promise<Person> => {

@@ -53,7 +53,7 @@ const SettingsUserPage = () => {
 
     const { handleGetPersons } = usePerson();
 
-    const { persons } = useSelector(
+    const { persons, count } = useSelector(
         (state: RootState) => state.person);
 
     return (<Fragment>
@@ -61,14 +61,12 @@ const SettingsUserPage = () => {
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Personas</Typography>
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de personas</Typography>
-
             <TableComponent
                 data={persons}
-                totalRows={12}
+                totalRows={count}
                 headers={headCells}
                 title={"Personas"}
                 changePage={handleGetPersons} />
-
         </SettingsLayoutComponent>
     </Fragment>)
 }

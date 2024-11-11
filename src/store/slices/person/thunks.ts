@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreatePerson, fetchDeletePerson, fetchGetPerson, fetchGetPersons, fetchUpdatePerson } from "../../../services/person";
 import { setAlert } from '../common';
-import { setEmptyPersonSelected, setPersonSelected, setPersons, startLoadingPersonSelected, startLoadingPersons } from "./personSlice";
+import { setCount, setEmptyPersonSelected, setPersonSelected, setPersons, startLoadingPersonSelected, startLoadingPersons } from "./personSlice";
 
 
 export const getPersons = (page: number = 1) => {
@@ -9,8 +9,9 @@ export const getPersons = (page: number = 1) => {
         try {
             dispatch(startLoadingPersons());
             const persons = await fetchGetPersons(page);
-            await dispatch(setPersons({ persons }));
-            if (persons.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Persons almacenados' }));
+            await dispatch(setPersons({ persons: persons.rows }));
+            await dispatch(setCount({ count: persons.count }));
+            if (persons.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Persons almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de personas.' }));
         }
