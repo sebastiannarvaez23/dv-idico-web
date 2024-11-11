@@ -39,7 +39,9 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
         qualification: Yup.number()
             .required("La calificación es requerida")
             .min(1, "Debes seleccionar al menos una estrella"),
-        title: Yup.string().required("El título es requerido"),
+        title: Yup.string()
+            .required("El título es requerido")
+            .max(100, "El título no puede tener más de 100 caracteres"),
         createdDate: Yup.date()
             .nullable()
             .typeError("La fecha de estreno debe ser una fecha válida")

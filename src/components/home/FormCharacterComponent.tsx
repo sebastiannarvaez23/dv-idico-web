@@ -21,11 +21,15 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const validationSchema = Yup.object({
-        name: Yup.string().required("El nombre es requerido"),
+        name: Yup.string()
+            .required("El nombre es requerido")
+            .max(100, "El nombre no puede tener más de 100 caracteres"),
         age: Yup.number()
             .required("La edad es requerida")
             .min(1, "Debes digitar edades superiores a 1"),
-        history: Yup.string().required("La historia es requerida"),
+        history: Yup.string()
+            .required("La historia es requerida")
+            .max(1000, "La historia no puede tener más de 1000 caracteres"),
     });
 
     const formik = useFormik<Character>({
