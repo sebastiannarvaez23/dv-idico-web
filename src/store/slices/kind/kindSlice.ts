@@ -6,6 +6,7 @@ export interface KindState {
     isLoadingKindSelected: boolean;
     error: string | null;
     kindSelected: Kind;
+    count: number;
     kinds: Kind[];
 }
 
@@ -17,6 +18,7 @@ const initialState: KindState = {
         id: "",
         name: ""
     },
+    count: 0,
     kinds: [],
 }
 
@@ -34,6 +36,9 @@ export const kindSlice = createSlice({
             state.isLoadingKinds = false;
             state.kinds = action.payload.kinds;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.count;
+        },
         setKindSelected: (state, action) => {
             state.isLoadingKindSelected = false;
             state.kindSelected = action.payload.kind;
@@ -48,6 +53,7 @@ export const {
     startLoadingKinds,
     startLoadingKindSelected,
     setKinds,
+    setCount,
     setKindSelected,
     setEmptyKindSelected
 } = kindSlice.actions;

@@ -31,7 +31,7 @@ const SettingsKindsPage = () => {
 
     const { handleGetKinds } = useKind();
 
-    const { kinds } = useSelector(
+    const { kinds, count } = useSelector(
         (state: RootState) => state.kind);
 
     return (<Fragment>
@@ -50,7 +50,7 @@ const SettingsKindsPage = () => {
             </Box>
             <TableComponent
                 data={kinds}
-                totalRows={12}
+                totalRows={count}
                 headers={headCells}
                 title={"Tipos de producto"}
                 changePage={handleGetKinds} />

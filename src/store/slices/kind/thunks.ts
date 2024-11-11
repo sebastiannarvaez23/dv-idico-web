@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateKind, fetchGetKind, fetchGetKinds, fetchUpdateKind } from "../../../services/kind";
 import { setAlert } from '../common';
-import { setEmptyKindSelected, setKindSelected, setKinds, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
+import { setCount, setEmptyKindSelected, setKindSelected, setKinds, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
 
 
 export const getKinds = (page: number = 1) => {
@@ -9,8 +9,9 @@ export const getKinds = (page: number = 1) => {
         try {
             dispatch(startLoadingKinds());
             const kinds = await fetchGetKinds(page);
-            await dispatch(setKinds({ kinds }));
-            if (kinds.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
+            await dispatch(setKinds({ kinds: kinds.rows }));
+            await dispatch(setCount({ count: kinds.count }));
+            if (kinds.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de tipos de productos.' }));
         }

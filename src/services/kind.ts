@@ -1,12 +1,12 @@
 import api from "./api";
 
 
-export const fetchGetKinds = async (page: number): Promise<Kind[]> => {
+export const fetchGetKinds = async (page: number): Promise<{ count: number; rows: Kind[] }> => {
     const response = await api.get(`/product-kind?page=${page}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de tipos de producto: ${error.message}`);
         })
-    return response.data.rows;
+    return response.data;
 }
 
 export const fetchGetKind = async (id: string): Promise<Kind> => {
