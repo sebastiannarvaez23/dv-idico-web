@@ -31,7 +31,7 @@ const SettingsGendersPage = () => {
 
     const { handleGetGenders } = useGender();
 
-    const { genders } = useSelector(
+    const { genders, count } = useSelector(
         (state: RootState) => state.gender);
 
     return (<Fragment>
@@ -50,7 +50,7 @@ const SettingsGendersPage = () => {
             </Box>
             <TableComponent
                 data={genders}
-                totalRows={12}
+                totalRows={count}
                 headers={headCells}
                 title={"Géneros de producto"}
                 changePage={handleGetGenders} />

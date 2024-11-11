@@ -6,6 +6,7 @@ export interface GenderState {
     isLoadingGenderSelected: boolean;
     error: string | null;
     genderSelected: Gender;
+    count: number;
     genders: Gender[];
 }
 
@@ -17,6 +18,7 @@ const initialState: GenderState = {
         id: "",
         name: ""
     },
+    count: 0,
     genders: [],
 }
 
@@ -34,6 +36,9 @@ export const GenderSlice = createSlice({
             state.isLoadingGenders = false;
             state.genders = action.payload.genders;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.count;
+        },
         setGenderSelected: (state, action) => {
             state.isLoadingGenderSelected = false;
             state.genderSelected = action.payload.gender;
@@ -48,6 +53,7 @@ export const {
     startLoadingGenders,
     startLoadingGenderSelected,
     setGenders,
+    setCount,
     setGenderSelected,
     setEmptyGenderSelected
 } = GenderSlice.actions;
