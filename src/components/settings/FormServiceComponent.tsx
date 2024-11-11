@@ -22,9 +22,9 @@ const FormServiceComponent = ({ setModalOpen, action, title, serviceSelected }: 
     const validationSchema = Yup.object({
         code: Yup.string()
             .required("El código es requerido")
-            .max(4, "El nombre no puede tener más de 4 caracteres"),
+            .max(4, "El código no puede tener más de 4 caracteres"),
         name: Yup.string()
-            .required("El código es requerido")
+            .required("El nombre es requerido")
             .max(100, "El nombre no puede tener más de 100 caracteres"),
     });
 

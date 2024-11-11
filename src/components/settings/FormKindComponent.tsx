@@ -21,7 +21,7 @@ const FormKindComponent = ({ setModalOpen, action, title, kindSelected }: FormKi
 
     const validationSchema = Yup.object({
         name: Yup.string()
-            .required("El código es requerido")
+            .required("El nombre es requerido")
             .max(100, "El nombre no puede tener más de 100 caracteres"),
     });
 

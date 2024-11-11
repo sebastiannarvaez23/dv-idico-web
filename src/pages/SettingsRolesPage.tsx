@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
@@ -9,6 +9,9 @@ import { RootState } from "../store/store";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useRole from "../hooks/useRole.hook";
+import ModalComponent from "../components/common/ModalComponent";
+import FormRoleComponent from "../components/settings/FormRoleComponent";
+import { createRole } from "../store/slices/role";
 
 
 const SettingsRolesPage = () => {
@@ -29,23 +32,36 @@ const SettingsRolesPage = () => {
         },
     ];
 
-    const { handleGetRoles } = useRole();
+    const [openModal, setOpenModel] = useState<boolean>(false);
+
+    const { handleGetRoles, roleEmpty } = useRole();
 
     const { roles, count } = useSelector(
         (state: RootState) => state.role);
 
     return (<Fragment>
+        <ModalComponent
+            width={50}
+            open={openModal}
+            onClose={() => setOpenModel(false)}>
+            <FormRoleComponent
+                setModalOpen={setOpenModel}
+                roleSelected={roleEmpty}
+                title={"Añadir servicio"}
+                action={createRole} />
+        </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Roles</Typography>
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de roles</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
+                    onClick={() => setOpenModel(true)}
                     sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
                     size='large'
                     variant="contained"
                     color="primary">
-                    Crear servicio
+                    Crear rol
                 </Button>
             </Box>
             <TableComponent
