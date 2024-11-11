@@ -17,23 +17,18 @@ export const fetchGetGender = async (id: string): Promise<Gender> => {
     return response.data;
 };
 
-export const fetchCreateGender = async (gender: FormData): Promise<Gender> => {
-    gender.delete('id');
-    const response = await api.post('/product-gender', gender, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchCreateGender = async (gender: Gender): Promise<Gender> => {
+    const { id, ...rest } = gender;
+    const response = await api.post('/product-gender', { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al crear género: ${error.message}`);
         })
     return response.data;
 };
 
-export const fetchUpdateGender = async (gender: FormData): Promise<Gender> => {
-    const id = gender.get('id');
-    gender.delete('id');
-    const response = await api.put(`/product-gender/${id}`, gender, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchUpdateGender = async (gender: Gender): Promise<Gender> => {
+    const { id, ...rest } = gender;
+    const response = await api.put(`/product-gender/${id}`, { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al actualizar el género: ${error.message}`);
         })

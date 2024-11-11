@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Typography } from '@mui/material';
+import { Pagination, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
@@ -93,9 +93,6 @@ const TransferListElementComponent = ({
 
         setLeftFinal(toRemove);
         setRightFinal(toAdd);
-
-        console.log("delete", toRemove);
-        console.log("post", toAdd);
     }, [left, right]);
 
     const customList = (items: readonly ListItem[], title: string) => (
@@ -135,7 +132,10 @@ const TransferListElementComponent = ({
             spacing={2}
             sx={{ justifyContent: 'center', alignItems: 'center' }}
         >
-            <Grid item>{customList(left, "libres")}</Grid>
+            <Grid item>
+                {customList(left, "libres")}
+                <Pagination count={10} size="small" />
+            </Grid>
             <Grid item>
                 <Grid container direction="column" sx={{ alignItems: 'center' }}>
                     <Button
@@ -180,7 +180,10 @@ const TransferListElementComponent = ({
                     </Button>
                 </Grid>
             </Grid>
-            <Grid item>{customList(right, "asignados")}</Grid>
+            <Grid item>
+                {customList(right, "asignados")}
+                <Pagination count={10} size="small" />
+            </Grid>
         </Grid>
     );
 }

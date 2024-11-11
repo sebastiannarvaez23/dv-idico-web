@@ -12,7 +12,7 @@ interface FormGenderProps {
     genderSelected: Gender;
     title: string;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Gender) => (dispatch: AppDispatch) => Promise<void>;
 }
 
 const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: FormGenderProps) => {
@@ -35,10 +35,7 @@ const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: Fo
     });
 
     const handleSubmit = async (gender: Gender) => {
-        const formDataToSend = new FormData();
-        formDataToSend.append('id', gender.id);
-        formDataToSend.append('name', gender.name);
-        dispatch(action(formDataToSend));
+        dispatch(action(gender));
         await setModalOpen(false);
     };
 

@@ -30,7 +30,7 @@ export const getGender = (id: string) => {
     };
 };
 
-export const createGender = (gender: FormData) => {
+export const createGender = (gender: Gender) => {
     return async (dispatch: AppDispatch) => {
         try {
             const genderCreated: Gender = await fetchCreateGender(gender);
@@ -42,7 +42,7 @@ export const createGender = (gender: FormData) => {
     };
 };
 
-export const updateGender = (gender: FormData) => {
+export const updateGender = (gender: Gender) => {
     return async (dispatch: AppDispatch) => {
         try {
             const genderUpdated = await fetchUpdateGender(gender);
