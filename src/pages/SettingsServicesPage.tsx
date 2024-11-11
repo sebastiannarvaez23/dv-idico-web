@@ -37,7 +37,7 @@ const SettingsServicesPage = () => {
 
     const { handleGetServices } = useService();
 
-    const { services } = useSelector(
+    const { services, count } = useSelector(
         (state: RootState) => state.service);
 
     return (<Fragment>
@@ -56,7 +56,7 @@ const SettingsServicesPage = () => {
             </Box>
             <TableComponent
                 data={services}
-                totalRows={12}
+                totalRows={count}
                 headers={headCells}
                 title={"Servicios"}
                 changePage={handleGetServices} />

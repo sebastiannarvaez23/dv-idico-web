@@ -6,6 +6,7 @@ export interface ServiceState {
     isLoadingServiceSelected: boolean;
     error: string | null;
     serviceSelected: Service;
+    count: number;
     services: Service[];
 }
 
@@ -18,6 +19,7 @@ const initialState: ServiceState = {
         code: "",
         name: "",
     },
+    count: 0,
     services: [],
 }
 
@@ -35,6 +37,9 @@ export const serviceSlice = createSlice({
             state.isLoadingServices = false;
             state.services = action.payload.services;
         },
+        setCount: (state, action) => {
+            state.count = action.payload.count;
+        },
         setServiceSelected: (state, action) => {
             state.isLoadingServiceSelected = false;
             state.serviceSelected = action.payload.service;
@@ -48,6 +53,7 @@ export const serviceSlice = createSlice({
 export const {
     startLoadingServices,
     startLoadingServiceSelected,
+    setCount,
     setServices,
     setServiceSelected,
     setEmptyServiceSelected

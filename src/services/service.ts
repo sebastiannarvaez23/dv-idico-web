@@ -1,12 +1,12 @@
 import api from "./api";
 
 
-export const fetchGetServices = async (page: number): Promise<Service[]> => {
+export const fetchGetServices = async (page: number): Promise<{ count: number; rows: Service[] }> => {
     const response = await api.get(`/service?page=${page}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de servicios: ${error.message}`);
         })
-    return response.data.rows;
+    return response.data;
 };
 
 export const fetchGetService = async (id: string): Promise<Service> => {

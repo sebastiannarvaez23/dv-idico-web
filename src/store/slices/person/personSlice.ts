@@ -41,7 +41,7 @@ export const personSlice = createSlice({
             state.persons = action.payload.persons;
         },
         setCount: (state, action) => {
-            state.count = action.payload.persons;
+            state.count = action.payload.count;
         },
         setPersonSelected: (state, action) => {
             state.isLoadingPersonSelected = false;

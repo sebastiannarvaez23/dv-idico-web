@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateService, fetchDeleteService, fetchGetService, fetchGetServices, fetchUpdateService } from "../../../services/service";
 import { setAlert } from '../common';
-import { setEmptyServiceSelected, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
+import { setCount, setEmptyServiceSelected, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
 
 
 export const getServices = (page: number = 1) => {
@@ -9,8 +9,9 @@ export const getServices = (page: number = 1) => {
         try {
             dispatch(startLoadingServices());
             const services = await fetchGetServices(page);
-            await dispatch(setServices({ services }));
-            if (services.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Services almacenados' }));
+            await dispatch(setServices({ services: services.rows }));
+            await dispatch(setCount({ count: services.count }));
+            if (services.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Services almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de servicios.' }));
         }
