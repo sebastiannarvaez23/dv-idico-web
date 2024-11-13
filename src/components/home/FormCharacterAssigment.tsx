@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 
 import { AppDispatch, RootState } from "../../store/store";
 import { mapCharacterToListItem } from "../../utils/mappers/list-item.mapper";
-import TransferListElementComponent from "../elements/TransferListElementComponent";
+import TransferListElementComponent from "../common/TransferListElementComponent";
 import useCharacter from "../../hooks/useCharacter.hook";
 
 
