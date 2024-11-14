@@ -9,6 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
+import CustomPagination from './CustomPagination';
 
 
 interface TransferListElementComponentProps {
@@ -134,7 +135,7 @@ const TransferListElementComponent = ({
         >
             <Grid item>
                 {customList(left, "libres")}
-                <Pagination count={10} size="small" />
+                <CustomPagination totalRows={100} />
             </Grid>
             <Grid item>
                 <Grid container direction="column" sx={{ alignItems: 'center' }}>
@@ -182,7 +183,7 @@ const TransferListElementComponent = ({
             </Grid>
             <Grid item>
                 {customList(right, "asignados")}
-                <Pagination count={10} size="small" />
+                <CustomPagination totalRows={12} />
             </Grid>
         </Grid>
     );
