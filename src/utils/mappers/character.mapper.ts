@@ -6,9 +6,10 @@ export const mapCharacterToDetailsCardElement = (character: Character): DetailsC
         field2: character.age?.toString(),
         field3: "",
         field4: character.history,
+        field5: "",
         image1: character.image,
         list1: character.products,
-        extraField1: null
+        extraField1: ""
     };
 }
 

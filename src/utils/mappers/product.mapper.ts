@@ -3,7 +3,7 @@ const months: string[] = [
     "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
 ];
 
-const formattingDate = (date: string): string => {
+const formattingDate = (date: string | Date): string => {
     const dateObj = new Date(date); // Parseamos la fecha ISO
     const day = dateObj.getUTCDate().toString().padStart(2, '0');
     const month = months[dateObj.getUTCMonth()];
@@ -45,6 +45,7 @@ export const mapDetailsCardElementToProduct = (detailsCardElement: DetailsCardEl
         createdDate: (detailsCardElement.field2) ? parseDateString(detailsCardElement.field2) : "",
         qualification: detailsCardElement.field3,
         gender: { id: detailsCardElement.extraField1, name: detailsCardElement.field4 },
+        kind: { id: "", name: "" },
         image: detailsCardElement.image1,
         characters: detailsCardElement.list1 as Character[]
     };

@@ -5,7 +5,7 @@ interface DetailsCardElement {
     field3: string;
     field4: string;
     field5: string;
-    extraField1: string | null;
+    extraField1: string;
     image1: string | File;
     list1: Character[] | Product[];
 }
