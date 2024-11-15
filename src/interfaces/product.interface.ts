@@ -6,5 +6,5 @@ interface Product {
     qualification: string;
     gender: Gender;
     kind: Kind;
-    characters: Character[];
+    characters: string[];
 }

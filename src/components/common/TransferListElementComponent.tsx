@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Pagination, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
