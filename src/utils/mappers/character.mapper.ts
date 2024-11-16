@@ -20,6 +20,6 @@ export const mapDetailsCardElementToCharacter = (detailsCardElement: DetailsCard
         age: detailsCardElement.field2,
         history: detailsCardElement.field4,
         image: detailsCardElement.image1,
-        products: detailsCardElement.list1 as Product[]
+        products: detailsCardElement.list1
     };
 }

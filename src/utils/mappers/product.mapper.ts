@@ -47,6 +47,6 @@ export const mapDetailsCardElementToProduct = (detailsCardElement: DetailsCardEl
         gender: { id: detailsCardElement.extraField1, name: detailsCardElement.field4 },
         kind: { id: "", name: "" },
         image: detailsCardElement.image1,
-        characters: detailsCardElement.list1 as Character[]
+        characters: detailsCardElement.list1
     };
 }

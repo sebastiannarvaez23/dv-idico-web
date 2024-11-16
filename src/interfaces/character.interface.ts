@@ -4,5 +4,5 @@ interface Character {
     age: string;
     history: string;
     image: File | string;
-    products: Product[];
+    products: string[];
 }
