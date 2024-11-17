@@ -8,6 +8,8 @@ import { AppDispatch, RootState } from "../../store/store";
 import { mapCharacterToListItem } from "../../utils/mappers/list-item.mapper";
 import TransferListElementComponent from "../common/TransferListElementComponent";
 import useCharacter from "../../hooks/useCharacter.hook";
+import { fetchGetCharacters } from '../../services/character';
+import { uribuild } from '../../utils/params/uribuild';
 
 
 interface FormCharacterProps {
@@ -21,11 +23,15 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
 
     useCharacter();
     const dispatch = useDispatch<AppDispatch>();
-    const { isLoadingCharacters, characters } = useSelector(
-        (state: RootState) => state.character);
+
+    const [initialLeft, setInitialLeft] = useState<ListItem[]>([]);
+    const [initialRight, setInitialRight] = useState<ListItem[]>([]);
 
     const [leftFinal, setLeftFinal] = useState<ListItem[]>([]);
     const [rightFinal, setRightFinal] = useState<ListItem[]>([]);
+
+    const [leftCount, setLeftCount] = useState<number>(1);
+    const [rightCount, setRightCount] = useState<number>(1);
 
     const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
         initialValues: {
@@ -41,7 +47,17 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         await setModalOpen(false);
     };
 
+    const handleGetIncludeCharacters = async () => {
+        const include = await fetchGetCharacters(uribuild({ page: 1, includeProduct: productSelected.id }));
+        const exclude = await fetchGetCharacters(uribuild({ page: 1, excludeProduct: productSelected.id }));
+        setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
+        setRightCount(include.count);
+        setInitialLeft(exclude.rows.map(e => mapCharacterToListItem(e, 'P')));
+        setLeftCount(include.count);
+    }
+
     useEffect(() => {
+        handleGetIncludeCharacters();
         formik.setFieldValue('addCharacters', rightFinal.map(item => item.id));
         formik.setFieldValue('deleteCharacters', leftFinal.map(item => item.id));
     }, [rightFinal, leftFinal]);
@@ -52,14 +68,14 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
                 <div>
                     <Typography variant="h6">Asignar personajes</Typography>
                     <hr />
-                    {!isLoadingCharacters &&
+                    {initialRight.length > 0 && initialLeft.length > 0 &&
                         (<TransferListElementComponent
-                            initialLeft={characters
-                                .filter((e: Character) => !productSelected.characters.some(pc => pc.id === e.id))
-                                .map((e: Character) => mapCharacterToListItem(e, 'P'))}
-                            initialRight={productSelected.characters.map(e => mapCharacterToListItem(e, 'A'))}
+                            initialLeft={initialLeft}
+                            initialRight={initialRight}
                             leftFinal={leftFinal}
                             rightFinal={rightFinal}
+                            leftCount={leftCount}
+                            rightCount={rightCount}
                             setLeftFinal={setLeftFinal}
                             setRightFinal={setRightFinal}
                         />)

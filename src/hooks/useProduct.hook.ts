@@ -9,9 +9,9 @@ function useProduct() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const [modalEditProduct, setModalEditProduct] = useState(true);
+    const [modalEditProduct, setModalEditProduct] = useState(false);
     const [modalCreateProduct, setModalCreateProduct] = useState(false);
-    const [modalAssigmentCharacter, setModalAssigmentCharacter] = useState(true);
+    const [modalAssigmentCharacter, setModalAssigmentCharacter] = useState(false);
 
     const productEmpty: Product = {
         id: "",

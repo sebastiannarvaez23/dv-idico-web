@@ -1,8 +1,8 @@
 import api from "./api";
 
 
-export const fetchGetCharacters = async (page: number): Promise<{ count: number; rows: Character[] }> => {
-    const response = await api.get(`/character?page=${page}`)
+export const fetchGetCharacters = async (queryParams: string): Promise<{ count: number; rows: Character[] }> => {
+    const response = await api.get(`/character${queryParams}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Personajes: ${error.message}`);
         })

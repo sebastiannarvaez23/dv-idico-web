@@ -17,6 +17,8 @@ interface TransferListElementComponentProps {
     initialRight: ListItem[],
     leftFinal: ListItem[],
     rightFinal: ListItem[],
+    leftCount: number,
+    rightCount: number,
     setLeftFinal: (param: ListItem[]) => void,
     setRightFinal: (param: ListItem[]) => void,
 }
@@ -32,8 +34,11 @@ function intersection(a: readonly ListItem[], b: readonly ListItem[]) {
 const TransferListElementComponent = ({
     initialLeft,
     initialRight,
+    leftCount,
+    rightCount,
     setLeftFinal,
-    setRightFinal }: TransferListElementComponentProps) => {
+    setRightFinal,
+}: TransferListElementComponentProps) => {
 
     const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
     const [left, setLeft] = React.useState<readonly ListItem[]>(initialLeft);
@@ -135,7 +140,7 @@ const TransferListElementComponent = ({
         >
             <Grid item>
                 {customList(left, "libres")}
-                <CustomPagination totalRows={100} />
+                <CustomPagination totalRows={leftCount} />
             </Grid>
             <Grid item>
                 <Grid container direction="column" sx={{ alignItems: 'center' }}>
@@ -183,7 +188,7 @@ const TransferListElementComponent = ({
             </Grid>
             <Grid item>
                 {customList(right, "asignados")}
-                <CustomPagination totalRows={12} />
+                <CustomPagination totalRows={rightCount} />
             </Grid>
         </Grid>
     );

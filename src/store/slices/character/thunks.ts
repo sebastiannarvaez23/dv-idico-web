@@ -2,6 +2,7 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchCreateCharacter, fetchDeleteCharacter, fetchGetCharacter, fetchGetCharacters, fetchUpdateCharacter } from "../../../services/character";
 import { setAlert } from '../common';
 import { setCharacters, startLoadingCharacters, setCharacterSelected, startLoadingCharactersSelected, setEmptyCharacterSelected, setCount } from "./characterSlice";
+import { uribuild } from "../../../utils/params/uribuild";
 
 
 export const getCharacters = (page: number = 1) => {
@@ -9,7 +10,7 @@ export const getCharacters = (page: number = 1) => {
         try {
             const { characterSelected } = getState().character;
             dispatch(startLoadingCharacters());
-            const characters = await fetchGetCharacters(page);
+            const characters = await fetchGetCharacters(uribuild({ page }));
             await dispatch(setCharacters({ characters: characters.rows }));
             await dispatch(setCount({ count: characters.count }));
             if (characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Personajes almacenados' }));
