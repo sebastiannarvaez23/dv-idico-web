@@ -25,15 +25,13 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
     const dispatch = useDispatch<AppDispatch>();
 
     const [initialLeft, setInitialLeft] = useState<ListItem[]>([]);
-    const [initialRight, setInitialRight] = useState<ListItem[]>([]);
-
     const [leftFinal, setLeftFinal] = useState<ListItem[]>([]);
-    const [rightFinal, setRightFinal] = useState<ListItem[]>([]);
-
-    const [leftCount, setLeftCount] = useState<number>(1);
-    const [rightCount, setRightCount] = useState<number>(1);
-
+    const [leftCount, setLeftCount] = useState<number>(0);
     const [leftCurrentPage, setLeftCurrentPage] = useState(1);
+
+    const [initialRight, setInitialRight] = useState<ListItem[]>([]);
+    const [rightFinal, setRightFinal] = useState<ListItem[]>([]);
+    const [rightCount, setRightCount] = useState<number>(0);
     const [rightCurrentPage, setRightCurrentPage] = useState(1);
 
     const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
@@ -50,33 +48,39 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         await setModalOpen(false);
     };
 
-    const handleGetIncludeCharacters = async () => {
-        const include = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
-        const exclude = await fetchGetCharactersNotAssignedProduct(productSelected.id, uribuild({ page: 1 }));
-        setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
-        setRightCount(include.count);
-        setInitialLeft(exclude.rows.map(e => mapCharacterToListItem(e, 'P')));
-        setLeftCount(exclude.count);
-    }
+    const fetchLeftData = async () => {
+        try {
+            const include = await fetchGetCharactersNotAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
+            setInitialLeft(include.rows.map(e => mapCharacterToListItem(e, 'P')));
+            setLeftCount(include.count);
+        } catch (error) {
+            console.error('Error fetching characters:', error);
+        }
+    };
+
+    const fetchRightData = async () => {
+        try {
+            const include = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
+            setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
+            setRightCount(include.count);
+        } catch (error) {
+            console.error('Error fetching characters:', error);
+        }
+    };
 
     useEffect(() => {
+        fetchLeftData();
+    }, [leftCurrentPage]);
+
+    useEffect(() => {
+        fetchRightData();
+    }, [rightCurrentPage]);
+
+    /* useEffect(() => {
         handleGetIncludeCharacters();
         formik.setFieldValue('addCharacters', rightFinal.map(item => item.id));
         formik.setFieldValue('deleteCharacters', leftFinal.map(item => item.id));
-    }, [rightFinal, leftFinal]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const include = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
-                setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
-                setRightCount(include.count);
-            } catch (error) {
-                console.error('Error fetching characters:', error);
-            }
-        };
-        fetchData();
-    }, [leftCurrentPage]);
+    }, [rightFinal, leftFinal]); */
 
     return (
         <form onSubmit={formik.handleSubmit}>

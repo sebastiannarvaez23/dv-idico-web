@@ -3,28 +3,31 @@ import * as React from 'react';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import CustomPagination from './CustomPagination';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
-import CustomPagination from './CustomPagination';
 
 
 interface TransferListElementComponentProps {
+
     initialLeft: ListItem[],
-    initialRight: ListItem[],
     leftFinal: ListItem[],
-    rightFinal: ListItem[],
-    leftCount: number,
-    rightCount: number,
     leftPage: number,
-    rightPage: number,
+    leftCount: number,
     setLeftFinal: (param: ListItem[]) => void,
-    setRightFinal: (param: ListItem[]) => void,
     setLeftCurrentPage: (page: number) => void,
+
+    initialRight: ListItem[],
+    rightFinal: ListItem[],
+    rightPage: number,
+    rightCount: number,
+    setRightFinal: (param: ListItem[]) => void,
     setRightCurrentPage: (page: number) => void,
+
 }
 
 function not(a: readonly ListItem[], b: readonly ListItem[]) {
@@ -36,16 +39,19 @@ function intersection(a: readonly ListItem[], b: readonly ListItem[]) {
 }
 
 const TransferListElementComponent = ({
+
     initialLeft,
-    initialRight,
-    leftCount,
-    rightCount,
-    setLeftFinal,
-    setRightFinal,
     leftPage,
-    rightPage,
+    leftCount,
+    setLeftFinal,
     setLeftCurrentPage,
+
+    initialRight,
+    rightPage,
+    rightCount,
+    setRightFinal,
     setRightCurrentPage,
+
 }: TransferListElementComponentProps) => {
 
     const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
@@ -91,6 +97,11 @@ const TransferListElementComponent = ({
     };
 
     React.useEffect(() => {
+        setLeft(initialLeft);
+    }, [initialLeft]);
+
+
+    /* React.useEffect(() => {
         const initialAssigned = initialLeft.filter(item => item.status === 'P');
         const initialUnassigned = initialRight.filter(item => item.status === 'A');
 
@@ -107,7 +118,7 @@ const TransferListElementComponent = ({
 
         setLeftFinal(toRemove);
         setRightFinal(toAdd);
-    }, [left, right]);
+    }, [left, right]); */
 
     const customList = (items: readonly ListItem[], title: string) => (
         <Paper sx={{ width: 200, height: 230, overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
