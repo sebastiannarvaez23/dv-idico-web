@@ -7,13 +7,14 @@ import { Box } from "@mui/system";
 
 interface CustomPaginationProps {
     totalRows: number;
+    currentPage: number;
+    setCurrentPage: (currentPage: number) => void;
 }
 
-const CustomPagination = ({ totalRows }: CustomPaginationProps) => {
+const CustomPagination = ({ totalRows, currentPage, setCurrentPage }: CustomPaginationProps) => {
 
     const rowsPerPage = 10;
 
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     const onChangePage = (page: number) => {

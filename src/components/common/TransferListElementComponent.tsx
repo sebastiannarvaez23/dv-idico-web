@@ -19,8 +19,12 @@ interface TransferListElementComponentProps {
     rightFinal: ListItem[],
     leftCount: number,
     rightCount: number,
+    leftPage: number,
+    rightPage: number,
     setLeftFinal: (param: ListItem[]) => void,
     setRightFinal: (param: ListItem[]) => void,
+    setLeftCurrentPage: (page: number) => void,
+    setRightCurrentPage: (page: number) => void,
 }
 
 function not(a: readonly ListItem[], b: readonly ListItem[]) {
@@ -38,6 +42,10 @@ const TransferListElementComponent = ({
     rightCount,
     setLeftFinal,
     setRightFinal,
+    leftPage,
+    rightPage,
+    setLeftCurrentPage,
+    setRightCurrentPage,
 }: TransferListElementComponentProps) => {
 
     const [checked, setChecked] = React.useState<readonly ListItem[]>([]);
@@ -140,7 +148,10 @@ const TransferListElementComponent = ({
         >
             <Grid item>
                 {customList(left, "libres")}
-                <CustomPagination totalRows={leftCount} />
+                <CustomPagination
+                    totalRows={leftCount}
+                    currentPage={leftPage}
+                    setCurrentPage={setLeftCurrentPage} />
             </Grid>
             <Grid item>
                 <Grid container direction="column" sx={{ alignItems: 'center' }}>
@@ -188,7 +199,10 @@ const TransferListElementComponent = ({
             </Grid>
             <Grid item>
                 {customList(right, "asignados")}
-                <CustomPagination totalRows={rightCount} />
+                <CustomPagination
+                    totalRows={rightCount}
+                    currentPage={rightPage}
+                    setCurrentPage={setRightCurrentPage} />
             </Grid>
         </Grid>
     );

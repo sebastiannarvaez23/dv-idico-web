@@ -1,15 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
 
 import { Button, Typography, Box } from "@mui/material";
 import { useFormik } from "formik";
 
 import { AppDispatch, RootState } from "../../store/store";
+import { fetchGetCharactersAssignedProduct, fetchGetCharactersNotAssignedProduct } from '../../services/character';
 import { mapCharacterToListItem } from "../../utils/mappers/list-item.mapper";
+import { uribuild } from '../../utils/params/uribuild';
 import TransferListElementComponent from "../common/TransferListElementComponent";
 import useCharacter from "../../hooks/useCharacter.hook";
-import { fetchGetCharacters } from '../../services/character';
-import { uribuild } from '../../utils/params/uribuild';
 
 
 interface FormCharacterProps {
@@ -33,6 +33,9 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
     const [leftCount, setLeftCount] = useState<number>(1);
     const [rightCount, setRightCount] = useState<number>(1);
 
+    const [leftCurrentPage, setLeftCurrentPage] = useState(1);
+    const [rightCurrentPage, setRightCurrentPage] = useState(1);
+
     const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
         initialValues: {
             addCharacters: [],
@@ -48,12 +51,12 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
     };
 
     const handleGetIncludeCharacters = async () => {
-        const include = await fetchGetCharacters(uribuild({ page: 1, includeProduct: productSelected.id }));
-        const exclude = await fetchGetCharacters(uribuild({ page: 1, excludeProduct: productSelected.id }));
+        const include = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
+        const exclude = await fetchGetCharactersNotAssignedProduct(productSelected.id, uribuild({ page: 1 }));
         setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
         setRightCount(include.count);
         setInitialLeft(exclude.rows.map(e => mapCharacterToListItem(e, 'P')));
-        setLeftCount(include.count);
+        setLeftCount(exclude.count);
     }
 
     useEffect(() => {
@@ -62,13 +65,26 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         formik.setFieldValue('deleteCharacters', leftFinal.map(item => item.id));
     }, [rightFinal, leftFinal]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const include = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
+                setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
+                setRightCount(include.count);
+            } catch (error) {
+                console.error('Error fetching characters:', error);
+            }
+        };
+        fetchData();
+    }, [leftCurrentPage]);
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <Box p={2}>
                 <div>
                     <Typography variant="h6">Asignar personajes</Typography>
                     <hr />
-                    {initialRight.length > 0 && initialLeft.length > 0 &&
+                    {initialLeft.length > 0 &&
                         (<TransferListElementComponent
                             initialLeft={initialLeft}
                             initialRight={initialRight}
@@ -78,6 +94,10 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
                             rightCount={rightCount}
                             setLeftFinal={setLeftFinal}
                             setRightFinal={setRightFinal}
+                            leftPage={leftCurrentPage}
+                            rightPage={rightCurrentPage}
+                            setLeftCurrentPage={setLeftCurrentPage}
+                            setRightCurrentPage={setRightCurrentPage}
                         />)
                         || "cargando..."}
                 </div>
