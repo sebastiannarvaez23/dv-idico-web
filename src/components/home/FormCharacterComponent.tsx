@@ -11,11 +11,12 @@ import { AppDispatch } from "../../store/store";
 interface FormCharacterProps {
     characterSelected: Character;
     title: string;
+    page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: FormData, pg: number) => (dispatch: AppDispatch) => Promise<void>;
 }
 
-const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected }: FormCharacterProps) => {
+const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected, page }: FormCharacterProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -52,7 +53,7 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
         formDataToSend.append('age', character.age);
         formDataToSend.append('history', character.history);
         (selectedFile) && formDataToSend.append('image', selectedFile);
-        dispatch(action(formDataToSend));
+        dispatch(action(formDataToSend, page));
         await setModalOpen(false);
     };
 

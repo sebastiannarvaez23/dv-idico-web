@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { AppDispatch } from "../store/store";
@@ -8,7 +8,6 @@ import { getKinds } from "../store/slices/kind";
 function useKind() {
 
     const dispatch = useDispatch<AppDispatch>();
-    const [kinds, setKinds] = useState<Kind[]>([]);
 
     const kindEmpty: Kind = {
         id: "",
@@ -24,9 +23,7 @@ function useKind() {
     }, []);
 
     return {
-        kinds,
         kindEmpty,
-        getKinds,
         handleGetKinds
     }
 }

@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 
 import { Button, Typography, Box } from "@mui/material";
 import { useFormik } from "formik";
+import TextField from '@mui/material/TextField';
 
 import { AppDispatch, RootState } from "../../store/store";
-import { fetchGetCharactersAssignedProduct, fetchGetCharactersNotAssignedProduct } from '../../services/character';
-import { mapCharacterToListItem } from "../../utils/mappers/list-item.mapper";
+import { fetchGetCharactersAssignedProduct } from '../../services/character';
 import { uribuild } from '../../utils/params/uribuild';
-import TransferListElementComponent from "../common/TransferListElementComponent";
 import useCharacter from "../../hooks/useCharacter.hook";
+import ListCardComponent from './ListCardComponent';
+import { mapCharacterAssignedToDetailsCardElement } from '../../utils/mappers/character-assigment.mapper';
 
 
 interface FormCharacterProps {
@@ -24,15 +25,12 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
     useCharacter();
     const dispatch = useDispatch<AppDispatch>();
 
-    const [initialLeft, setInitialLeft] = useState<ListItem[]>([]);
-    const [leftFinal, setLeftFinal] = useState<ListItem[]>([]);
-    const [leftCount, setLeftCount] = useState<number>(0);
-    const [leftCurrentPage, setLeftCurrentPage] = useState(1);
-
-    const [initialRight, setInitialRight] = useState<ListItem[]>([]);
-    const [rightFinal, setRightFinal] = useState<ListItem[]>([]);
-    const [rightCount, setRightCount] = useState<number>(0);
-    const [rightCurrentPage, setRightCurrentPage] = useState(1);
+    const [toInclude, setToInclude] = useState<string[]>([]); // ID de registros a incluir
+    const [toExclude, setToExclude] = useState<string[]>([]); // ID de registros a excluir
+    const [characters, setCharacters] = useState<DetailsCardElement[]>([]);
+    const [charactersBackUp, setCharactersBackUp] = useState<CharacterAssigment[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [totalRows, setTotalRows] = useState<number>(0);
 
     const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
         initialValues: {
@@ -42,45 +40,66 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         onSubmit: (values) => handleSubmit(values)
     });
 
+    const handleCheck = (id: string, value: boolean) => {
+        const characterBackUp = charactersBackUp.find(e => e.id === id);
+        if (value && !toInclude.includes(id)) {
+            if (characterBackUp?.assigned === false) {
+                setToInclude([...toInclude, id]);
+            } else {
+                const newIds = toExclude.filter((uuid) => uuid !== id);
+                setToExclude(newIds);
+            }
+        }
+        if (!value && !toExclude.includes(id)) {
+            if (characterBackUp?.assigned === true) {
+                setToExclude([...toExclude, id]);
+            } else {
+                const newIds = toInclude.filter((uuid) => uuid !== id);
+                setToInclude(newIds);
+            }
+        }
+
+        const ch: DetailsCardElement[] = characters.map(e => {
+            if (e.id === id) e.check1 = value;
+            return e;
+        })
+        setCharacters(ch);
+    }
+
+    useEffect(() => {
+        console.log({ toInclude })
+    }, [toInclude]);
+
+    useEffect(() => {
+        console.log({ toExclude })
+    }, [toExclude]);
+
     const handleSubmit = async (characters: { addCharacters: string[], deleteCharacters: string[] }) => {
         if (characters.addCharacters.length > 0) dispatch(addAction({ characters: characters.addCharacters }));
         if (characters.deleteCharacters.length > 0) dispatch(deleteAction({ characters: characters.deleteCharacters }));
         await setModalOpen(false);
     };
 
-    const fetchLeftData = async () => {
+    const fetchData = async (pg: number) => {
         try {
-            const include = await fetchGetCharactersNotAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
-            setInitialLeft(include.rows.map(e => mapCharacterToListItem(e, 'P')));
-            setLeftCount(include.count);
-        } catch (error) {
-            console.error('Error fetching characters:', error);
-        }
-    };
-
-    const fetchRightData = async () => {
-        try {
-            const include = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: leftCurrentPage }));
-            setInitialRight(include.rows.map(e => mapCharacterToListItem(e, 'A')));
-            setRightCount(include.count);
+            const response = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: pg }));
+            setCharactersBackUp(response.rows);
+            const ch = response.rows.map(e => {
+                if (toInclude.includes(e.id)) e.assigned = true
+                return mapCharacterAssignedToDetailsCardElement(e)
+            }) ?? []
+            setTotalRows(response.count);
+            setCharacters(ch);
         } catch (error) {
             console.error('Error fetching characters:', error);
         }
     };
 
     useEffect(() => {
-        fetchLeftData();
-    }, [leftCurrentPage]);
-
-    useEffect(() => {
-        fetchRightData();
-    }, [rightCurrentPage]);
-
-    /* useEffect(() => {
-        handleGetIncludeCharacters();
-        formik.setFieldValue('addCharacters', rightFinal.map(item => item.id));
-        formik.setFieldValue('deleteCharacters', leftFinal.map(item => item.id));
-    }, [rightFinal, leftFinal]); */
+        fetchData(page);
+        formik.setFieldValue('addCharacters', toInclude);
+        formik.setFieldValue('deleteCharacters', toExclude);
+    }, []);
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -88,22 +107,21 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
                 <div>
                     <Typography variant="h6">Asignar personajes</Typography>
                     <hr />
-                    {initialLeft.length > 0 &&
-                        (<TransferListElementComponent
-                            initialLeft={initialLeft}
-                            initialRight={initialRight}
-                            leftFinal={leftFinal}
-                            rightFinal={rightFinal}
-                            leftCount={leftCount}
-                            rightCount={rightCount}
-                            setLeftFinal={setLeftFinal}
-                            setRightFinal={setRightFinal}
-                            leftPage={leftCurrentPage}
-                            rightPage={rightCurrentPage}
-                            setLeftCurrentPage={setLeftCurrentPage}
-                            setRightCurrentPage={setRightCurrentPage}
-                        />)
-                        || "cargando..."}
+                    <TextField
+                        fullWidth
+                        id="outlined-suffix-shrink"
+                        label="Nombre personaje"
+                        variant="outlined"
+                    />
+                    <ListCardComponent
+                        height={'40vh'}
+                        elements={characters}
+                        totalRows={totalRows}
+                        page={page}
+                        setPage={setPage}
+                        handleCheck={handleCheck}
+                        handleGetElements={(pg: number) => { fetchData(pg) }}
+                    />
                 </div>
                 <Button
                     sx={{ backgroundColor: '#161732' }}

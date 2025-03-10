@@ -33,11 +33,11 @@ export const getCharacter = (id: string) => {
     };
 };
 
-export const createCharacter = (character: FormData) => {
+export const createCharacter = (character: FormData, page: number = 1) => {
     return async (dispatch: AppDispatch) => {
         try {
             const characterCreated: Character = await fetchCreateCharacter(character);
-            await dispatch(getCharacters());
+            await dispatch(getCharacters(page));
             await dispatch(setAlert({ type: 'success', message: `Personaje "${characterCreated.name}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el personaje.' }));
@@ -45,12 +45,12 @@ export const createCharacter = (character: FormData) => {
     };
 };
 
-export const updateCharacter = (character: FormData) => {
+export const updateCharacter = (character: FormData, page: number = 1) => {
     return async (dispatch: AppDispatch) => {
         try {
             const characterUpdated = await fetchUpdateCharacter(character);
             await dispatch(setCharacterSelected({ character: characterUpdated }));
-            await dispatch(getCharacters());
+            await dispatch(getCharacters(page));
             await dispatch(setAlert({ type: 'success', message: 'Personaje actualizado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el personaje.' }));

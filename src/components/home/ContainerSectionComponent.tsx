@@ -14,6 +14,8 @@ interface ContainerSectionComponentProps {
     sectionSelected: string;
     totalRows: number;
     children?: React.ReactNode;
+    page: number;
+    setPage: (pg: number) => void;
     deleteElement: DeleteElementFunction;
     handleGetElements: (np: number) => void;
     setProductSelected?: (e: Product) => void;
@@ -29,10 +31,12 @@ const ContainerSectionComponent = ({
     titleSection,
     titleListSection,
     sectionSelected,
+    page,
     handleGetElements,
     setCharacterSelected,
     editElement,
     deleteElement,
+    setPage,
     children }: ContainerSectionComponentProps) => {
 
     return (
@@ -53,6 +57,8 @@ const ContainerSectionComponent = ({
                 <Paper className="rightSection" elevation={3}>
                     <h2 style={{ paddingTop: '15px' }}>{titleListSection}</h2>
                     <ListCardComponent
+                        page={page}
+                        setPage={setPage}
                         elements={listElement}
                         totalRows={totalRows}
                         sectionSelected={sectionSelected}

@@ -48,15 +48,7 @@ export const fetchDeleteCharacter = async (id: string): Promise<Character> => {
     return response.data;
 };
 
-export const fetchGetCharactersNotAssignedProduct = async (productId: string, queryParams: string): Promise<{ count: number; rows: Character[] }> => {
-    const response = await api.get(`/character/not-assigned-product/${productId}${queryParams}`)
-        .catch((error: any) => {
-            throw new Error(`Error al obtener listado de Personajes: ${error.message}`);
-        })
-    return response.data;
-};
-
-export const fetchGetCharactersAssignedProduct = async (productId: string, queryParams: string): Promise<{ count: number; rows: Character[] }> => {
+export const fetchGetCharactersAssignedProduct = async (productId: string, queryParams: string): Promise<{ count: number; rows: CharacterAssigment[] }> => {
     const response = await api.get(`/character/assigned-product/${productId}${queryParams}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Personajes: ${error.message}`);

@@ -32,11 +32,11 @@ export const getProduct = (id: string) => {
     };
 };
 
-export const createProduct = (product: FormData) => {
+export const createProduct = (product: FormData, page: number = 1) => {
     return async (dispatch: AppDispatch) => {
         try {
             const productCreated: Product = await fetchCreateProduct(product);
-            await dispatch(getProducts());
+            await dispatch(getProducts(page));
             await dispatch(setAlert({ type: 'success', message: `Producto "${productCreated.title}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el producto.' }));
@@ -44,12 +44,12 @@ export const createProduct = (product: FormData) => {
     };
 };
 
-export const updateProduct = (product: FormData) => {
+export const updateProduct = (product: FormData, page: number = 1) => {
     return async (dispatch: AppDispatch) => {
         try {
             const productUpdated = await fetchUpdateProduct(product);
             await dispatch(setProductSelected({ product: productUpdated }));
-            await dispatch(getProducts());
+            await dispatch(getProducts(page));
             await dispatch(setAlert({ type: 'success', message: 'Producto actualizado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el producto.' }));

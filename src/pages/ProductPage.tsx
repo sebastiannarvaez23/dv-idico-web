@@ -22,6 +22,7 @@ const ProductPage = () => {
         (state: RootState) => state.product);
 
     const [productsFilters, setProductsFilters] = useState<Product[]>();
+    const [page, setPage] = useState<number>(1);
 
     const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
@@ -52,7 +53,9 @@ const ProductPage = () => {
                     title="Agregar Producto"
                     setModalOpen={setModalCreateProduct}
                     productSelected={productEmpty}
-                    action={createProduct} />
+                    action={createProduct}
+                    page={page}
+                />
             </ModalComponent>
             <ModalComponent
                 width={50}
@@ -66,6 +69,7 @@ const ProductPage = () => {
                     modalAssigmentCharacter={modalAssigmentCharacter}
                     handleCloseModalAssigmentCharacter={handleCloseModalAssigmentCharacter}
                     handleOpenModalAssigmentCharacter={handleOpenModalAssigmentCharacter}
+                    page={page}
                 />
             </ModalComponent>
             <SearchElementComponent
@@ -79,6 +83,8 @@ const ProductPage = () => {
                 detailElement={productDto}
                 totalRows={count}
                 detailLabels={detailLabelsProduct}
+                page={page}
+                setPage={setPage}
                 handleGetElements={handleGetProducts}
                 listElement={products?.map(e => mapProductToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditProduct}

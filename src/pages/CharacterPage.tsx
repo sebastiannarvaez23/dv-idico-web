@@ -22,6 +22,7 @@ const CharacterPage = () => {
         (state: RootState) => state.character);
 
     const [charactersFilters, setCharactersFilters] = useState<Character[]>();
+    const [page, setPage] = useState<number>(1);
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
 
@@ -49,7 +50,9 @@ const CharacterPage = () => {
                     title="Agregar Personaje"
                     setModalOpen={setModalCreateCharacter}
                     characterSelected={characterEmpty}
-                    action={createCharacter} />
+                    action={createCharacter}
+                    page={page}
+                />
             </ModalComponent>
             <ModalComponent
                 width={50}
@@ -59,6 +62,7 @@ const CharacterPage = () => {
                     setModalOpen={setModalEditCharacter}
                     characterSelected={characterSelected}
                     action={updateCharacter}
+                    page={page}
                 />
             </ModalComponent>
             <SearchElementComponent
@@ -72,6 +76,8 @@ const CharacterPage = () => {
                 detailElement={characterDto}
                 detailLabels={detailLabelsCharacter}
                 totalRows={count}
+                page={page}
+                setPage={setPage}
                 handleGetElements={handleGetCharacters}
                 listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditCharacter}

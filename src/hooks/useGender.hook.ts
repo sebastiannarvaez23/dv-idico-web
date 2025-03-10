@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { AppDispatch } from "../store/store";
@@ -8,7 +8,6 @@ import { getGenders } from "../store/slices/gender";
 function useGender() {
 
     const dispatch = useDispatch<AppDispatch>();
-    const [genders, setGenders] = useState<Gender[]>([]);
 
     const genderEmpty: Gender = {
         id: "",
@@ -25,9 +24,7 @@ function useGender() {
     }, []);
 
     return {
-        genders,
         genderEmpty,
-        getGenders,
         handleGetGenders
     }
 }

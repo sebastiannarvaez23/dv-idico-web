@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { Grid, Card, Typography, CardMedia } from '@mui/material';
+import { Grid, Card, Typography, CardMedia, Checkbox } from '@mui/material';
 
 
 interface RowListComponentProps {
     element: DetailsCardElement,
     handleClickRow: (element: DetailsCardElement) => void;
+    handleCheck?: (id: string, value: boolean) => void;
 }
-
-const RowListComponent: React.FC<RowListComponentProps> = ({ element, handleClickRow }) => {
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+const RowListComponent: React.FC<RowListComponentProps> = ({ element, handleClickRow, handleCheck }) => {
     return (
         <Card
             onClick={() => { handleClickRow(element) }}
@@ -34,9 +35,19 @@ const RowListComponent: React.FC<RowListComponentProps> = ({ element, handleClic
                                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)'
                             }} />
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={8}>
                         <Typography variant="body1">{element.field1}</Typography>
                     </Grid>
+                    <Grid item xs={2}>
+                        {element.check1 !== undefined &&
+                            <Checkbox {...label} checked={!!element.check1} onChange={(e) => {
+                                if (handleCheck) {
+                                    handleCheck(element.id, e.target.checked);
+                                }
+                            }} />
+                        }
+                    </Grid>
+
                 </Grid>
             </Grid>
         </Card>

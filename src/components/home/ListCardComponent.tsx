@@ -13,15 +13,22 @@ import RowListLoadingComponent from '../common/RowListLoadingComponent';
 
 
 interface ListCardComponentProps {
+    margin?: string;
+    height?: string;
     elements: DetailsCardElement[];
-    sectionSelected: string;
     totalRows: number;
+    sectionSelected?: string;
+    page: number;
+    handleCheck?: (id: string, value: boolean) => void;
+    setPage: (pg: number) => void;
     handleGetElements: (np: number) => void;
     setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
 }
 
-const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRows, sectionSelected, handleGetElements }) => {
+const ListCardComponent: React.FC<ListCardComponentProps> = (
+    { elements, totalRows, sectionSelected, margin = '10px 0', height = '47vh', page, handleGetElements, setPage, handleCheck }
+) => {
 
     const { isLoadingCharacters } = useSelector(
         (state: RootState) => state.character);
@@ -30,7 +37,6 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRo
         (state: RootState) => state.product);
 
     const [totalPages, setTotalPages] = React.useState(1);
-    const [page, setPage] = React.useState(1);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -60,11 +66,11 @@ const ListCardComponent: React.FC<ListCardComponentProps> = ({ elements, totalRo
     }, [elements]);
 
     return (
-        <Card style={{ margin: '10px 0', height: '47vh' }}>
+        <Card style={{ margin, height }}>
             <div style={{ padding: '20px 0', height: '60vh', maxHeight: '280px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
                     {elements && elements.map((element, index) => (
-                        <RowListComponent handleClickRow={handleClickRow} element={element} key={index} />
+                        <RowListComponent handleCheck={handleCheck} handleClickRow={handleClickRow} element={element} key={index} />
                     ))}
 
                     {(isLoadingCharacters || isLoadingProducts) && (
