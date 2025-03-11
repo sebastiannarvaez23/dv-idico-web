@@ -35,7 +35,7 @@ const NestedList = () => {
 
     return (
         <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', position: "fixed", top: 64, left: 0 }}
+            sx={{ zIndex: '100', boxShadow: '7px 0 7px -3px rgba(0, 0, 0, 0.5)', height: '100vh', width: '100%', maxWidth: 360, bgcolor: 'background.paper', position: "fixed", top: 64, left: 0 }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
