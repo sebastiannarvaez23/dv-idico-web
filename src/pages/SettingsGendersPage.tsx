@@ -5,14 +5,14 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
+import { createGender } from "../store/slices/gender";
 import { RootState } from "../store/store";
+import { updateGender } from '../store/slices/gender/thunks';
+import FormGenderComponent from "../components/settings/FormGenderComponent";
+import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useGender from "../hooks/useGender.hook";
-import ModalComponent from "../components/common/ModalComponent";
-import FormGenderComponent from "../components/settings/FormGenderComponent";
-import { createGender } from "../store/slices/gender";
-import { updateGender } from '../store/slices/gender/thunks';
 
 
 const SettingsGendersPage = () => {
