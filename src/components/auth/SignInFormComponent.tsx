@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Typography, TextField, Button, Alert } from '@mui/material';
 
 import { fetchSignin } from '../../services/auth';
+import useAlert from '../../hooks/useAlert.hook';
 
 
 const LoginFormComponent = () => {
@@ -11,7 +12,9 @@ const LoginFormComponent = () => {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
     const navigate = useNavigate();
+    const { showAlert } = useAlert();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -23,6 +26,7 @@ const LoginFormComponent = () => {
             const newToken = await fetchSignin(mail, password);
             localStorage.setItem('token', newToken);
             navigate('/');
+            showAlert('success', '¡Has iniciado sesión con éxito!');
         } catch (error) {
             setError('Hubo un error al iniciar sesión. Por favor, verifica tus credenciales y vuelve a intentarlo.');
         }
