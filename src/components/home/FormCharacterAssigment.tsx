@@ -84,6 +84,7 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         try {
             const response = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: pg }));
             setCharactersBackUp(response.rows);
+            console.log({ id: productSelected.id, rows: response.rows });
             const ch = response.rows.map(e => {
                 if (toInclude.includes(e.id)) e.assigned = true
                 return mapCharacterAssignedToDetailsCardElement(e)
@@ -97,9 +98,15 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
 
     useEffect(() => {
         fetchData(page);
-        formik.setFieldValue('addCharacters', toInclude);
-        formik.setFieldValue('deleteCharacters', toExclude);
     }, []);
+
+    useEffect(() => {
+        formik.setFieldValue('addCharacters', toInclude);
+    }, [toInclude]);
+
+    useEffect(() => {
+        formik.setFieldValue('deleteCharacters', toExclude);
+    }, [toExclude]);
 
     return (
         <form onSubmit={formik.handleSubmit}>
