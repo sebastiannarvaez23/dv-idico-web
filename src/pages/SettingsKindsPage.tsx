@@ -5,13 +5,13 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
+import { createKind, updateKind } from "../store/slices/kind";
 import { RootState } from "../store/store";
+import FormKindComponent from "../components/settings/FormKindComponent";
+import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useKind from "../hooks/useKind.hook";
-import ModalComponent from "../components/common/ModalComponent";
-import FormKindComponent from "../components/settings/FormKindComponent";
-import { createKind } from "../store/slices/kind";
 
 
 const SettingsKindsPage = () => {
@@ -32,12 +32,24 @@ const SettingsKindsPage = () => {
         },
     ];
 
-    const [openModal, setOpenModel] = useState<boolean>(false);
-
     const { kindEmpty, handleGetKinds } = useKind();
+
+    const [openModal, setOpenModel] = useState<boolean>(false);
+    const [kindSelected, setKindSelected] = useState<Kind>(kindEmpty);
 
     const { kinds, count } = useSelector(
         (state: RootState) => state.kind);
+
+    const handleEdit = (id: string) => {
+        setOpenModel(true);
+        const kind = kinds.find(e => e.id === id);
+        kind && setKindSelected(kind);
+    }
+
+    const handleOpenModal = () => {
+        setOpenModel(true);
+        setKindSelected(kindEmpty);
+    }
 
     return (<Fragment>
         <ModalComponent
@@ -46,9 +58,9 @@ const SettingsKindsPage = () => {
             onClose={() => setOpenModel(false)}>
             <FormKindComponent
                 setModalOpen={setOpenModel}
-                kindSelected={kindEmpty}
-                title={"Añadir tipo de producto"}
-                action={createKind}
+                kindSelected={kindSelected}
+                title={kindSelected.id ? "Editar tipo de producto" : "Crear tipo de producto"}
+                action={kindSelected.id ? updateKind : createKind}
             />
         </ModalComponent>
         <SettingsLayoutComponent>
@@ -57,7 +69,7 @@ const SettingsKindsPage = () => {
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de tipos de producto</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
-                    onClick={() => setOpenModel(true)}
+                    onClick={handleOpenModal}
                     sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
                     size='large'
                     variant="contained"
@@ -66,6 +78,9 @@ const SettingsKindsPage = () => {
                 </Button>
             </Box>
             <TableComponent
+                editable={true}
+                deleteable={false}
+                onEdit={handleEdit}
                 data={kinds}
                 totalRows={count}
                 headers={headCells}

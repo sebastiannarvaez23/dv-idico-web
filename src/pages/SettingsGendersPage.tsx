@@ -12,6 +12,7 @@ import useGender from "../hooks/useGender.hook";
 import ModalComponent from "../components/common/ModalComponent";
 import FormGenderComponent from "../components/settings/FormGenderComponent";
 import { createGender } from "../store/slices/gender";
+import { updateGender } from '../store/slices/gender/thunks';
 
 
 const SettingsGendersPage = () => {
@@ -32,12 +33,24 @@ const SettingsGendersPage = () => {
         },
     ];
 
-    const [openModal, setOpenModel] = useState<boolean>(false);
-
     const { handleGetGenders, genderEmpty } = useGender();
+
+    const [openModal, setOpenModel] = useState<boolean>(false);
+    const [genderSelected, setGenderSelected] = useState<Gender>(genderEmpty);
 
     const { genders, count } = useSelector(
         (state: RootState) => state.gender);
+
+    const handleEdit = (id: string) => {
+        setOpenModel(true);
+        const gender = genders.find(e => e.id === id);
+        gender && setGenderSelected(gender);
+    }
+
+    const handleOpenModal = () => {
+        setOpenModel(true);
+        setGenderSelected(genderEmpty);
+    }
 
     return (
         <Fragment>
@@ -48,8 +61,8 @@ const SettingsGendersPage = () => {
                 <FormGenderComponent
                     setModalOpen={setOpenModel}
                     genderSelected={genderEmpty}
-                    title={"Añadir género"}
-                    action={createGender}
+                    title={genderSelected.id ? "Editar género" : "Crear género"}
+                    action={genderSelected.id ? updateGender : createGender}
                 />
             </ModalComponent>
             <SettingsLayoutComponent>
@@ -58,7 +71,7 @@ const SettingsGendersPage = () => {
                 <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de géneros de producto</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
-                        onClick={() => setOpenModel(true)}
+                        onClick={handleOpenModal}
                         sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
                         size='large'
                         variant="contained"
@@ -67,6 +80,9 @@ const SettingsGendersPage = () => {
                     </Button>
                 </Box>
                 <TableComponent
+                    editable={true}
+                    deleteable={false}
+                    onEdit={handleEdit}
                     data={genders}
                     totalRows={count}
                     headers={headCells}

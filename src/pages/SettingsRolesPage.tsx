@@ -5,13 +5,13 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
+import { createRole, updateRole } from "../store/slices/role";
 import { RootState } from "../store/store";
+import FormRoleComponent from "../components/settings/FormRoleComponent";
+import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useRole from "../hooks/useRole.hook";
-import ModalComponent from "../components/common/ModalComponent";
-import FormRoleComponent from "../components/settings/FormRoleComponent";
-import { createRole } from "../store/slices/role";
 
 
 const SettingsRolesPage = () => {
@@ -32,12 +32,24 @@ const SettingsRolesPage = () => {
         },
     ];
 
-    const [openModal, setOpenModel] = useState<boolean>(false);
-
     const { handleGetRoles, roleEmpty } = useRole();
+
+    const [openModal, setOpenModel] = useState<boolean>(false);
+    const [roleSelected, setRoleSelected] = useState<Role>(roleEmpty);
 
     const { roles, count } = useSelector(
         (state: RootState) => state.role);
+
+    const handleEdit = (id: string) => {
+        setOpenModel(true);
+        const role = roles.find(e => e.id === id);
+        role && setRoleSelected(role);
+    }
+
+    const handleOpenModal = () => {
+        setOpenModel(true);
+        setRoleSelected(roleEmpty);
+    }
 
     return (<Fragment>
         <ModalComponent
@@ -46,9 +58,9 @@ const SettingsRolesPage = () => {
             onClose={() => setOpenModel(false)}>
             <FormRoleComponent
                 setModalOpen={setOpenModel}
-                roleSelected={roleEmpty}
-                title={"Añadir servicio"}
-                action={createRole} />
+                roleSelected={roleSelected}
+                title={roleSelected.id ? "Editar rol" : "Crear rol"}
+                action={roleSelected.id ? updateRole : createRole} />
         </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Roles</Typography>
@@ -56,7 +68,7 @@ const SettingsRolesPage = () => {
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de roles</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
-                    onClick={() => setOpenModel(true)}
+                    onClick={handleOpenModal}
                     sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
                     size='large'
                     variant="contained"
@@ -65,6 +77,9 @@ const SettingsRolesPage = () => {
                 </Button>
             </Box>
             <TableComponent
+                editable={true}
+                deleteable={true}
+                onEdit={handleEdit}
                 data={roles}
                 totalRows={count}
                 headers={headCells}

@@ -5,13 +5,13 @@ import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
+import { createService, updateService } from "../store/slices/service";
 import { RootState } from "../store/store";
+import FormServiceComponent from "../components/settings/FormServiceComponent";
+import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useService from "../hooks/useService.hook";
-import ModalComponent from "../components/common/ModalComponent";
-import FormServiceComponent from "../components/settings/FormServiceComponent";
-import { createService } from "../store/slices/service";
 
 
 const SettingsServicesPage = () => {
@@ -38,12 +38,24 @@ const SettingsServicesPage = () => {
         },
     ];
 
-    const [openModal, setOpenModel] = useState<boolean>(false);
-
     const { serviceEmpty, handleGetServices } = useService();
+
+    const [openModal, setOpenModel] = useState<boolean>(false);
+    const [serviceSelected, setServiceSelected] = useState<Service>(serviceEmpty);
 
     const { services, count } = useSelector(
         (state: RootState) => state.service);
+
+    const handleEdit = (id: string) => {
+        setOpenModel(true);
+        const service = services.find(e => e.id === id);
+        service && setServiceSelected(service);
+    }
+
+    const handleOpenModal = () => {
+        setOpenModel(true);
+        setServiceSelected(serviceEmpty);
+    }
 
     return (<Fragment>
         <ModalComponent
@@ -52,9 +64,9 @@ const SettingsServicesPage = () => {
             onClose={() => setOpenModel(false)}>
             <FormServiceComponent
                 setModalOpen={setOpenModel}
-                serviceSelected={serviceEmpty}
-                title={"Añadir servicio"}
-                action={createService}
+                serviceSelected={serviceSelected}
+                title={serviceSelected.id ? "Editar servicio" : "Crear servicio"}
+                action={serviceSelected.id ? updateService : createService}
             />
         </ModalComponent>
         <SettingsLayoutComponent>
@@ -63,7 +75,7 @@ const SettingsServicesPage = () => {
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de servicios</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
-                    onClick={() => setOpenModel(true)}
+                    onClick={handleOpenModal}
                     sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
                     size='large'
                     variant="contained"
@@ -72,6 +84,9 @@ const SettingsServicesPage = () => {
                 </Button>
             </Box>
             <TableComponent
+                editable={true}
+                deleteable={false}
+                onEdit={handleEdit}
                 data={services}
                 totalRows={count}
                 headers={headCells}
