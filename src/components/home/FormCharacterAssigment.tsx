@@ -66,14 +66,6 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         setCharacters(ch);
     }
 
-    useEffect(() => {
-        console.log({ toInclude })
-    }, [toInclude]);
-
-    useEffect(() => {
-        console.log({ toExclude })
-    }, [toExclude]);
-
     const handleSubmit = async (characters: { addCharacters: string[], deleteCharacters: string[] }) => {
         if (characters.addCharacters.length > 0) dispatch(addAction({ characters: characters.addCharacters }));
         if (characters.deleteCharacters.length > 0) dispatch(deleteAction({ characters: characters.deleteCharacters }));
@@ -84,7 +76,6 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
         try {
             const response = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: pg }));
             setCharactersBackUp(response.rows);
-            console.log({ id: productSelected.id, rows: response.rows });
             const ch = response.rows.map(e => {
                 if (toInclude.includes(e.id)) e.assigned = true
                 return mapCharacterAssignedToDetailsCardElement(e)
