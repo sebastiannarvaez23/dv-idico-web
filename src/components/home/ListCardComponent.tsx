@@ -77,7 +77,7 @@ const ListCardComponent: React.FC<ListCardComponentProps> = (
                     )}
                 </Grid >
             </div >
-            <Pagination sx={{ justifyItems: 'center', margin: '20px 0px' }} defaultPage={1} count={totalPages} page={page} onChange={handleChangePage} />
+            <Pagination sx={{ justifyItems: 'center', margin: '20px 0px' }} defaultPage={1} count={totalPages} page={page ?? 1} onChange={handleChangePage} />
         </Card >
     );
 };
