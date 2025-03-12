@@ -1,10 +1,11 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Button, Typography } from '@mui/material';
 
-import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import { AppDispatch } from '../../store/store';
+import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
+import DialogComponent from '../common/DialogComponent';
 
 
 interface InformationProductComponentProps {
@@ -18,6 +19,17 @@ interface InformationProductComponentProps {
 const InformationProductComponent = ({ element, label, deleteElement, editElement, children }: InformationProductComponentProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
+
+    const handleDeleteProduct = () => {
+        dispatch(deleteElement());
+        handleCloseDialog();
+    }
 
     return (
         <Fragment>
@@ -49,9 +61,15 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
             <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                 editar
             </Button>
-            <Button sx={{ backgroundColor: '#161732' }} onClick={() => { dispatch(deleteElement()) }} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+            <Button sx={{ backgroundColor: '#161732' }} onClick={() => setOpenDialog(true)} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                 Eliminar
             </Button>
+            <DialogComponent
+                title={"Está seguro que desea eliminar este producto?"}
+                description={"Luego de eliminar el producto no podrá reversar esta operación."}
+                open={openDialog}
+                handleClose={handleCloseDialog}
+                action={handleDeleteProduct} />
         </Fragment>
     );
 }

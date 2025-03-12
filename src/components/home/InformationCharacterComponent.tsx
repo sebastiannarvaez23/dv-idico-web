@@ -1,10 +1,11 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Button, Typography } from '@mui/material';
 
-import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import { AppDispatch } from '../../store/store';
+import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
+import DialogComponent from '../common/DialogComponent';
 
 
 interface InformationCharacterComponentProps {
@@ -17,6 +18,16 @@ interface InformationCharacterComponentProps {
 const InformationCharacterComponent = ({ element, label, deleteElement, editElement }: InformationCharacterComponentProps) => {
 
     const dispatch = useDispatch<AppDispatch>();
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
+
+    const handleDeleteCharacter = () => {
+        dispatch(deleteElement());
+        handleCloseDialog();
+    }
 
     return (
         <Fragment>
@@ -43,9 +54,15 @@ const InformationCharacterComponent = ({ element, label, deleteElement, editElem
             <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                 editar
             </Button>
-            <Button sx={{ backgroundColor: '#161732' }} onClick={() => { dispatch(deleteElement()) }} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
+            <Button sx={{ backgroundColor: '#161732' }} onClick={() => setOpenDialog(true)} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
                 Eliminar
             </Button>
+            <DialogComponent
+                title={"Está seguro que desea eliminar este personaje?"}
+                description={"Luego de eliminar el personaje no podrá reversar esta operación."}
+                open={openDialog}
+                handleClose={handleCloseDialog}
+                action={handleDeleteCharacter} />
         </Fragment>
     );
 }
