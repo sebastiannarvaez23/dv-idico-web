@@ -31,8 +31,8 @@ function useProduct() {
         label4: "Personajes: "
     }
 
-    const handleGetProducts = (page: number) => {
-        dispatch(getProducts(page));
+    const handleGetProducts = (page: number, title?: string) => {
+        dispatch(getProducts(page, title));
     }
 
     const handleOpenModalEditProduct = () => {

@@ -1,8 +1,8 @@
 import api from "./api";
 
 
-export const fetchGetProducts = async (page: number): Promise<{ count: number; rows: Product[] }> => {
-    const response = await api.get(`/product?page=${page}`)
+export const fetchGetProducts = async (queryParams: string): Promise<{ count: number; rows: Product[] }> => {
+    const response = await api.get(`/product${queryParams}`)
         .catch((error: any) => {
             throw new Error(`Error al actualizar Serie/Película: ${error.message}`);
         })

@@ -1,9 +1,8 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { Grid, Paper, styled, InputBase, Select, MenuItem } from '@mui/material';
+import { Paper, styled, InputBase } from '@mui/material';
 
-import { RootState } from '../../store/store';
+import { useDebounce } from '../../hooks/useDebounce.hook';
 
 
 const SearchContainer = styled(Paper)({
@@ -20,96 +19,46 @@ const SearchInput = styled(InputBase)({
 
 interface SearchElementProps {
     flag: TypSection;
-    setFilteredProducts: (arg: Product[]) => void;
-    setFilteredCharacters: (arg: Character[]) => void;
+    handleGetProducts?: (pg: number, q?: string) => void;
+    handleGetCharacters?: (pg: number, q?: string) => void;
 }
 
-const SearchElementComponent = ({ setFilteredProducts, setFilteredCharacters, flag }: SearchElementProps) => {
-
-    const { characters } = useSelector(
-        (state: RootState) => state.character);
-
-    const { products } = useSelector(
-        (state: RootState) => state.product);
+const SearchElementComponent = ({ handleGetProducts, handleGetCharacters, flag }: SearchElementProps) => {
 
     const [searchValue, setSearchValue] = useState<string>('');
-    const [filterTypeProduct, setFilterTypeProduct] = useState<string>('title');
-    const [filterTypeCharacter, setFilterTypeCharacter] = useState<string>('name');
+
+    const debounceValue = useDebounce(searchValue, 500);
 
     useEffect(() => {
-        if (filterTypeProduct === 'title') {
-            if (searchValue) {
-                const filteredList = products.filter(movie =>
-                    movie.title.toLowerCase().includes(searchValue.toLowerCase())
-                );
-                setFilteredProducts(filteredList);
-            } else {
-                setFilteredProducts(products);
+        if (handleGetProducts && flag === 'products') {
+            if (debounceValue && debounceValue.length > 3) {
+                handleGetProducts(1, debounceValue);
             }
-        }
-        if (filterTypeProduct === 'gender') {
-            if (searchValue) {
-                const filteredList = products.filter(movie =>
-                    movie.gender.name.toLowerCase().includes(searchValue.toLowerCase())
-                );
-                setFilteredProducts(filteredList);
-            } else {
-                setFilteredProducts(products);
-            }
-        }
-    }, [searchValue, products, setFilteredProducts]);
 
-    useEffect(() => {
-        if (searchValue) {
-            const filteredList = characters.filter(character =>
-                character.name.toLowerCase().includes(searchValue.toLowerCase())
-            );
-            setFilteredCharacters(filteredList);
-        } else {
-            setFilteredCharacters(characters);
+            if (!debounceValue) {
+                handleGetProducts(1);
+            }
         }
-    }, [searchValue, characters, setFilteredCharacters]);
+
+        if (handleGetCharacters && flag === 'characters') {
+            if (debounceValue && debounceValue.length > 3) {
+                handleGetCharacters(1, debounceValue);
+            }
+            if (!debounceValue) {
+                handleGetCharacters(1);
+            }
+        }
+    }, [debounceValue]);
 
     return (
         <Fragment>
             <SearchContainer elevation={3}>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <SearchInput
-                            placeholder="Buscar..."
-                            inputProps={{ 'aria-label': 'buscar' }}
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-
-                        {flag === 'products' && (
-                            <Fragment>
-                                <Select
-                                    variant="outlined"
-                                    style={{ width: '80%' }}
-                                    value={filterTypeProduct}
-                                    onChange={(e) => setFilterTypeProduct(e.target.value)}
-                                >
-                                    <MenuItem value="title">Titulo</MenuItem>
-                                    <MenuItem value="gender">Género</MenuItem>
-                                </Select>
-                            </Fragment>
-                        ) || (
-                                <Fragment>
-                                    <Select
-                                        variant="outlined"
-                                        style={{ width: '80%' }}
-                                        value={filterTypeCharacter}
-                                        onChange={(e) => setFilterTypeCharacter(e.target.value)}
-                                    >
-                                        <MenuItem value="name">Nombre</MenuItem>
-                                    </Select>
-                                </Fragment>
-                            )}
-                    </Grid>
-                </Grid>
+                <SearchInput
+                    placeholder="Buscar..."
+                    inputProps={{ 'aria-label': 'buscar' }}
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                />
             </SearchContainer>
         </Fragment >
     );

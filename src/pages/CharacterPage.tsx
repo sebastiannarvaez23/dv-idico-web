@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
 import { Button } from '@mui/material';
 
@@ -18,11 +18,8 @@ const CharacterPage = () => {
 
     const SECTION: TypSection = "characters";
 
-    const { characters, characterSelected, count } = useSelector(
+    const { characters, characterSelected, count, page, filter } = useSelector(
         (state: RootState) => state.character);
-
-    const [charactersFilters, setCharactersFilters] = useState<Character[]>();
-    const [page, setPage] = useState<number>(1);
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
 
@@ -66,8 +63,7 @@ const CharacterPage = () => {
                 />
             </ModalComponent>
             <SearchElementComponent
-                setFilteredCharacters={setCharactersFilters}
-                setFilteredProducts={() => { }}
+                handleGetCharacters={handleGetCharacters}
                 flag={SECTION}
             />
             <ContainerSectionComponent
@@ -77,7 +73,7 @@ const CharacterPage = () => {
                 detailLabels={detailLabelsCharacter}
                 totalRows={count}
                 page={page}
-                setPage={setPage}
+                filter={filter}
                 handleGetElements={handleGetCharacters}
                 listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditCharacter}

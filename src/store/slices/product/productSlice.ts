@@ -6,6 +6,8 @@ export interface ProductState {
     isLoadingProductSelected: boolean;
     error: string | null;
     productSelected: Product;
+    page: number;
+    filter: string | undefined;
     count: number;
     products: Product[];
 }
@@ -24,6 +26,8 @@ const initialState: ProductState = {
         kind: { id: "", name: "" },
         characters: []
     },
+    page: 1,
+    filter: undefined,
     count: 0,
     products: [],
 }
@@ -41,6 +45,12 @@ export const productSlice = createSlice({
         setProducts: (state, action) => {
             state.isLoadingProducts = false;
             state.products = action.payload.products;
+        },
+        setPage: (state, action) => {
+            state.page = action.payload.page;
+        },
+        setFilter: (state, action) => {
+            state.filter = action.payload.filter;
         },
         setCount: (state, action) => {
             state.count = action.payload.count;
@@ -61,5 +71,7 @@ export const {
     setProducts,
     setCount,
     setProductSelected,
-    setEmptyProductSelected
+    setEmptyProductSelected,
+    setPage,
+    setFilter
 } = productSlice.actions;

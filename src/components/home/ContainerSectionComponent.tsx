@@ -15,7 +15,7 @@ interface ContainerSectionComponentProps {
     totalRows: number;
     children?: React.ReactNode;
     page: number;
-    setPage: (pg: number) => void;
+    filter?: string;
     deleteElement: DeleteElementFunction;
     handleGetElements: (np: number) => void;
     setProductSelected?: (e: Product) => void;
@@ -32,11 +32,11 @@ const ContainerSectionComponent = ({
     titleListSection,
     sectionSelected,
     page,
+    filter,
     handleGetElements,
     setCharacterSelected,
     editElement,
     deleteElement,
-    setPage,
     children }: ContainerSectionComponentProps) => {
 
     return (
@@ -58,7 +58,7 @@ const ContainerSectionComponent = ({
                     <h2 style={{ paddingTop: '15px' }}>{titleListSection}</h2>
                     <ListCardComponent
                         page={page}
-                        setPage={setPage}
+                        filter={filter}
                         elements={listElement}
                         totalRows={totalRows}
                         sectionSelected={sectionSelected}

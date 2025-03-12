@@ -28,8 +28,8 @@ function useCharacter() {
         label4: "Películas y/ o Series: "
     }
 
-    const handleGetCharacters = (page: number) => {
-        dispatch(getCharacters(page));
+    const handleGetCharacters = (page: number, name?: string) => {
+        dispatch(getCharacters(page, name));
     }
 
     const handleOpenModalEditCharacter = () => {

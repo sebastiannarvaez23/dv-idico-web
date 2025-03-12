@@ -1,19 +1,22 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateCharacter, fetchDeleteCharacter, fetchGetCharacter, fetchGetCharacters, fetchUpdateCharacter } from "../../../services/character";
 import { setAlert } from '../common';
-import { setCharacters, startLoadingCharacters, setCharacterSelected, startLoadingCharactersSelected, setEmptyCharacterSelected, setCount } from "./characterSlice";
+import { setPage, setFilter, setCharacters, startLoadingCharacters, setCharacterSelected, startLoadingCharactersSelected, setEmptyCharacterSelected, setCount } from "./characterSlice";
 import { uribuild } from "../../../utils/params/uribuild";
 
 
-export const getCharacters = (page: number = 1) => {
+export const getCharacters = (page: number = 1, name?: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
             const { characterSelected } = getState().character;
             dispatch(startLoadingCharacters());
-            const characters = await fetchGetCharacters(uribuild({ page }));
+            const characters = await fetchGetCharacters(uribuild({ page, name }));
             await dispatch(setCharacters({ characters: characters.rows }));
             await dispatch(setCount({ count: characters.count }));
-            if (characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Personajes almacenados' }));
+            await dispatch(setPage({ page }));
+            await dispatch(setFilter({ filter: name }));
+            if (!name && characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay personajes almacenados' }));
+            else if (name && characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen personajes para los filtros especificados' }));
             else if (characterSelected?.id === '') dispatch(getCharacter(characters.rows[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo la lista de Personajes' }));

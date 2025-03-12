@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button, Rating } from '@mui/material';
@@ -18,11 +18,8 @@ const ProductPage = () => {
 
     const SECTION: TypSection = "products";
 
-    const { products, productSelected, count } = useSelector(
+    const { products, productSelected, count, page, filter } = useSelector(
         (state: RootState) => state.product);
-
-    const [productsFilters, setProductsFilters] = useState<Product[]>();
-    const [page, setPage] = useState<number>(1);
 
     const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
@@ -73,8 +70,7 @@ const ProductPage = () => {
                 />
             </ModalComponent>
             <SearchElementComponent
-                setFilteredProducts={setProductsFilters}
-                setFilteredCharacters={() => { }}
+                handleGetProducts={handleGetProducts}
                 flag={SECTION}
             />
             <ContainerSectionComponent
@@ -84,7 +80,7 @@ const ProductPage = () => {
                 totalRows={count}
                 detailLabels={detailLabelsProduct}
                 page={page}
-                setPage={setPage}
+                filter={filter}
                 handleGetElements={handleGetProducts}
                 listElement={products?.map(e => mapProductToDetailsCardElement(e)) ?? []}
                 editElement={handleOpenModalEditProduct}
