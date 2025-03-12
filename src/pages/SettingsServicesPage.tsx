@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
-import { Button } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { createService, updateService } from "../store/slices/service";
@@ -82,6 +82,16 @@ const SettingsServicesPage = () => {
                     color="primary">
                     Crear servicio
                 </Button>
+            </Box>
+            <Box sx={{ flexGrow: 1, margin: '12px' }}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={6}>
+                        <TextField sx={{ width: '100%' }} id="outlined-basic" label="Código" variant="outlined" />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField sx={{ width: '100%' }} id="outlined-basic" label="Nombre" variant="outlined" />
+                    </Grid>
+                </Grid>
             </Box>
             <TableComponent
                 editable={true}

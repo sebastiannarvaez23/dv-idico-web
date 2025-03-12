@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { createGender } from "../store/slices/gender";
@@ -78,6 +78,9 @@ const SettingsGendersPage = () => {
                         color="primary">
                         Crear género de producto
                     </Button>
+                </Box>
+                <Box sx={{ flexGrow: 1, margin: '12px' }}>
+                    <TextField sx={{ width: '100%' }} id="outlined-basic" label="Nombre" variant="outlined" />
                 </Box>
                 <TableComponent
                     editable={true}
