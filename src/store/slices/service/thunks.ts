@@ -55,11 +55,10 @@ export const updateService = (service: Service) => {
     };
 };
 
-export const deleteService = () => {
+export const deleteService = (id: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { serviceSelected } = getState().service;
-            await fetchDeleteService(serviceSelected.id);
+            await fetchDeleteService(id);
             await dispatch(setEmptyServiceSelected());
             await dispatch(getServices());
             await dispatch(setAlert({ type: 'success', message: 'Servicio eliminado exitosamente!' }));

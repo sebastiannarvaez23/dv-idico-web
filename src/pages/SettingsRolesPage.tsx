@@ -1,12 +1,13 @@
 import { Fragment, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { createRole, updateRole } from "../store/slices/role";
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
+import { createRole, deleteRole, updateRole } from "../store/slices/role";
+import DialogComponent from "../components/common/DialogComponent";
 import FormRoleComponent from "../components/settings/FormRoleComponent";
 import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
@@ -32,9 +33,12 @@ const SettingsRolesPage = () => {
         },
     ];
 
+    const dispatch = useDispatch<AppDispatch>();
+
     const { handleGetRoles, roleEmpty } = useRole();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [roleSelected, setRoleSelected] = useState<Role>(roleEmpty);
 
     const { roles, count } = useSelector(
@@ -46,12 +50,29 @@ const SettingsRolesPage = () => {
         role && setRoleSelected(role);
     }
 
+    const handleOpenDialog = (id: string) => {
+        const rol = roles.find(e => e.id === id);
+        rol && setRoleSelected(rol);
+        setOpenDialog(true);
+    }
+
+    const handleDelete = () => {
+        dispatch(deleteRole(roleSelected.id));
+        setOpenDialog(false);
+    }
+
     const handleOpenModal = () => {
         setOpenModel(true);
         setRoleSelected(roleEmpty);
     }
 
     return (<Fragment>
+        <DialogComponent
+            title={"Está seguro que desea eliminar este rol?"}
+            description={"Luego de eliminar el rol no podrá reversar esta operación."}
+            open={openDialog}
+            handleClose={() => setOpenDialog(false)}
+            action={handleDelete} />
         <ModalComponent
             width={50}
             open={openModal}
@@ -83,6 +104,7 @@ const SettingsRolesPage = () => {
                 editable={true}
                 deleteable={true}
                 onEdit={handleEdit}
+                onDelete={handleOpenDialog}
                 data={roles}
                 totalRows={count}
                 headers={headCells}

@@ -13,7 +13,7 @@ export const getRoles = (page: number = 1) => {
             await dispatch(setCount({ count: roles.count }));
             if (roles.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Roles almacenados' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de roleas.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de roles.' }));
         }
     };
 };
@@ -25,7 +25,7 @@ export const getRole = (id: string) => {
             const role: Role = await fetchGetRole(id);
             await dispatch(setRoleSelected({ role }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la rolea.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la rol.' }));
         }
     };
 };
@@ -35,9 +35,9 @@ export const createRole = (role: Role) => {
         try {
             const roleCreated: Role = await fetchCreateRole(role);
             await dispatch(getRoles());
-            await dispatch(setAlert({ type: 'success', message: `Role "${roleCreated.name}" creado exitosamente!` }));
+            await dispatch(setAlert({ type: 'success', message: `Rol "${roleCreated.name}" creado exitosamente!` }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando la rolea.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el rol.' }));
         }
     };
 };
@@ -48,23 +48,22 @@ export const updateRole = (role: Role) => {
             const roleUpdated = await fetchUpdateRole(role);
             await dispatch(setRoleSelected({ role: roleUpdated }));
             await dispatch(getRoles());
-            await dispatch(setAlert({ type: 'success', message: 'Role actualizado exitosamente!' }));
+            await dispatch(setAlert({ type: 'success', message: 'Rol actualizado exitosamente!' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando la rolea.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el rol.' }));
         }
     };
 };
 
-export const deleteRole = () => {
+export const deleteRole = (id: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { roleSelected } = getState().role;
-            await fetchDeleteRole(roleSelected.id);
+            await fetchDeleteRole(id);
             await dispatch(setEmptyRoleSelected());
             await dispatch(getRoles());
-            await dispatch(setAlert({ type: 'success', message: 'Role eliminado exitosamente!' }));
+            await dispatch(setAlert({ type: 'success', message: 'Rol eliminado exitosamente!' }));
         } catch (error: any) {
-            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando la rolea.' }));
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error eliminando el rol.' }));
         }
     };
 };

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useSelector } from 'react-redux';
 
 import Typography from '@mui/material/Typography';
@@ -9,9 +9,15 @@ import TableComponent from "../components/common/TableComponent";
 import usePerson from "../hooks/usePerson.hook";
 import { Box } from "@mui/system";
 import { Grid, TextField } from "@mui/material";
+import ModalComponent from "../components/common/ModalComponent";
+import FormPersonComponent from "../components/settings/FormPersonComponent";
+import { updatePerson } from "../store/slices/person";
 
 
 const SettingsUserPage = () => {
+
+    const { persons, count } = useSelector(
+        (state: RootState) => state.person);
 
     interface HeadCell {
         disablePadding: boolean;
@@ -53,12 +59,29 @@ const SettingsUserPage = () => {
         },
     ];
 
-    const { handleGetPersons } = usePerson();
+    const { personEmpty, handleGetPersons } = usePerson();
 
-    const { persons, count } = useSelector(
-        (state: RootState) => state.person);
+    const [openModal, setOpenModel] = useState<boolean>(false);
+    const [personSelected, setPersonSelected] = useState<Person>(personEmpty);
+
+    const handleEdit = (id: string) => {
+        setOpenModel(true);
+        const person = persons.find(e => e.id === id);
+        person && setPersonSelected(person);
+    }
 
     return (<Fragment>
+        <ModalComponent
+            width={50}
+            open={openModal}
+            onClose={() => setOpenModel(false)}>
+            <FormPersonComponent
+                setModalOpen={setOpenModel}
+                personSelected={personSelected}
+                title={"Editar persona"}
+                action={updatePerson}
+            />
+        </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Personas</Typography>
             <hr />
@@ -77,6 +100,9 @@ const SettingsUserPage = () => {
                 </Grid>
             </Box>
             <TableComponent
+                onEdit={handleEdit}
+                editable={true}
+                deleteable={false}
                 data={persons}
                 totalRows={count}
                 headers={headCells}

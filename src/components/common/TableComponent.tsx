@@ -121,6 +121,7 @@ interface EnhancedTableToolbarProps {
     editable: boolean;
     deleteable: boolean;
     onEdit: (id: any) => void;
+    onDelete: (id: any) => void;
 }
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { numSelected } = props;
@@ -162,8 +163,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     </IconButton>
                 </Tooltip>
             )}
-            {props.deleteable && numSelected > 0 ? (
-                <Tooltip title="Delete">
+            {props.deleteable && numSelected == 1 ? (
+                <Tooltip title="Delete" onClick={(id) => props.onDelete(id)} >
                     <IconButton>
                         <DeleteIcon />
                     </IconButton>
@@ -174,13 +175,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                         <FilterListIcon />
                     </IconButton>
                 </Tooltip>
-            )}
-        </Toolbar>
+            )
+            }
+        </Toolbar >
     );
 }
 
-const TableComponent = ({ editable, deleteable, headers, data, title, totalRows, onEdit, changePage }:
-    { editable: boolean, deleteable: boolean, data: Data[], title: string, headers: HeadCell[], totalRows: number, onEdit: (id: string) => void, changePage: (page: number) => void }
+const TableComponent = ({ editable, deleteable, headers, data, title, totalRows, onDelete, onEdit, changePage }:
+    { editable: boolean, deleteable: boolean, data: Data[], title: string, headers: HeadCell[], totalRows: number, onEdit: (id: string) => void, onDelete: (id: string) => void, changePage: (page: number) => void }
 ) => {
 
     const rowsPerPage: number = 10;
@@ -260,7 +262,7 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar editable={editable} onEdit={() => onEdit(selected[0])} deleteable={deleteable} numSelected={selected.length} title={title} />
+                <EnhancedTableToolbar editable={editable} onDelete={() => onDelete(selected[0])} onEdit={() => onEdit(selected[0])} deleteable={deleteable} numSelected={selected.length} title={title} />
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}

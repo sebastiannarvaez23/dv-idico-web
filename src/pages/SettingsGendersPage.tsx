@@ -1,18 +1,19 @@
 import { Fragment, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { createGender } from "../store/slices/gender";
-import { RootState } from "../store/store";
-import { updateGender } from '../store/slices/gender/thunks';
+import { AppDispatch, RootState } from "../store/store";
+import { deleteGender, updateGender } from '../store/slices/gender/thunks';
 import FormGenderComponent from "../components/settings/FormGenderComponent";
 import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useGender from "../hooks/useGender.hook";
+import DialogComponent from "../components/common/DialogComponent";
 
 
 const SettingsGendersPage = () => {
@@ -33,9 +34,12 @@ const SettingsGendersPage = () => {
         },
     ];
 
+    const dispatch = useDispatch<AppDispatch>();
+
     const { handleGetGenders, genderEmpty } = useGender();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [genderSelected, setGenderSelected] = useState<Gender>(genderEmpty);
 
     const { genders, count } = useSelector(
@@ -52,15 +56,32 @@ const SettingsGendersPage = () => {
         setGenderSelected(genderEmpty);
     }
 
+    const handleDelete = () => {
+        dispatch(deleteGender(genderSelected.id));
+        setOpenDialog(false);
+    }
+
+    const handleOpenDialog = (id: string) => {
+        const gender = genders.find(e => e.id === id);
+        gender && setGenderSelected(gender);
+        setOpenDialog(true);
+    }
+
     return (
         <Fragment>
+            <DialogComponent
+                title={"Está seguro que desea eliminar este género?"}
+                description={"Luego de eliminar el género no podrá reversar esta operación."}
+                open={openDialog}
+                handleClose={() => setOpenDialog(false)}
+                action={handleDelete} />
             <ModalComponent
                 width={50}
                 open={openModal}
                 onClose={() => setOpenModel(false)}>
                 <FormGenderComponent
                     setModalOpen={setOpenModel}
-                    genderSelected={genderEmpty}
+                    genderSelected={genderSelected}
                     title={genderSelected.id ? "Editar género" : "Crear género"}
                     action={genderSelected.id ? updateGender : createGender}
                 />
@@ -84,8 +105,9 @@ const SettingsGendersPage = () => {
                 </Box>
                 <TableComponent
                     editable={true}
-                    deleteable={false}
+                    deleteable={true}
                     onEdit={handleEdit}
+                    onDelete={handleOpenDialog}
                     data={genders}
                     totalRows={count}
                     headers={headCells}

@@ -1,12 +1,13 @@
 import { Fragment, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { createKind, updateKind } from "../store/slices/kind";
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
+import { createKind, deleteKind, updateKind } from "../store/slices/kind";
+import DialogComponent from "../components/common/DialogComponent";
 import FormKindComponent from "../components/settings/FormKindComponent";
 import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
@@ -32,9 +33,12 @@ const SettingsKindsPage = () => {
         },
     ];
 
+    const dispatch = useDispatch<AppDispatch>();
+
     const { kindEmpty, handleGetKinds } = useKind();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [kindSelected, setKindSelected] = useState<Kind>(kindEmpty);
 
     const { kinds, count } = useSelector(
@@ -51,7 +55,24 @@ const SettingsKindsPage = () => {
         setKindSelected(kindEmpty);
     }
 
+    const handleOpenDialog = (id: string) => {
+        const kind = kinds.find(e => e.id === id);
+        kind && setKindSelected(kind);
+        setOpenDialog(true);
+    }
+
+    const handleDelete = () => {
+        dispatch(deleteKind(kindSelected.id));
+        setOpenDialog(false);
+    }
+
     return (<Fragment>
+        <DialogComponent
+            title={"Está seguro que desea eliminar este tipo de producto?"}
+            description={"Luego de eliminar el tipo de producto no podrá reversar esta operación."}
+            open={openDialog}
+            handleClose={() => setOpenDialog(false)}
+            action={handleDelete} />
         <ModalComponent
             width={50}
             open={openModal}
@@ -82,8 +103,9 @@ const SettingsKindsPage = () => {
             </Box>
             <TableComponent
                 editable={true}
-                deleteable={false}
+                deleteable={true}
                 onEdit={handleEdit}
+                onDelete={handleOpenDialog}
                 data={kinds}
                 totalRows={count}
                 headers={headCells}

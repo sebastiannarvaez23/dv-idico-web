@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../../store";
-import { fetchCreateKind, fetchGetKind, fetchGetKinds, fetchUpdateKind } from "../../../services/kind";
+import { fetchCreateKind, fetchDeleteKind, fetchGetKind, fetchGetKinds, fetchUpdateKind } from "../../../services/kind";
 import { setAlert } from '../common';
 import { setCount, setEmptyKindSelected, setKindSelected, setKinds, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
 
@@ -55,11 +55,10 @@ export const updateKind = (kind: Kind) => {
     };
 };
 
-export const deleteKind = () => {
+export const deleteKind = (id: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            //const { kindSelected } = getState().kind;
-            //await fetchDeleteKind(kindSelected.id);
+            await fetchDeleteKind(id);
             await dispatch(setEmptyKindSelected());
             await dispatch(getKinds());
             await dispatch(setAlert({ type: 'success', message: 'Tipo de producto eliminado exitosamente!' }));

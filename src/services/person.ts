@@ -17,23 +17,18 @@ export const fetchGetPerson = async (id: string): Promise<Person> => {
     return response.data;
 };
 
-export const fetchCreatePerson = async (person: FormData): Promise<Person> => {
-    person.delete('id');
-    const response = await api.post('/person', person, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchCreatePerson = async (person: Person): Promise<Person> => {
+    const { id, ...rest } = person;
+    const response = await api.post('/person', { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al crear Persona: ${error.message}`);
         })
     return response.data;
 };
 
-export const fetchUpdatePerson = async (person: FormData): Promise<Person> => {
-    const id = person.get('id');
-    person.delete('id');
-    const response = await api.put(`/person/${id}`, person, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    })
+export const fetchUpdatePerson = async (person: Person): Promise<Person> => {
+    const { id, ...rest } = person;
+    const response = await api.put(`/person/${id}`, { ...rest })
         .catch((error: any) => {
             throw new Error(`Error al actualizar la Persona: ${error.message}`);
         })

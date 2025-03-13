@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../../store";
-import { fetchCreateGender, fetchGetGender, fetchGetGenders, fetchUpdateGender } from "../../../services/gender";
+import { fetchCreateGender, fetchDeleteGender, fetchGetGender, fetchGetGenders, fetchUpdateGender } from "../../../services/gender";
 import { setAlert } from '../common';
 import { setCount, setEmptyGenderSelected, setGenderSelected, setGenders, startLoadingGenderSelected, startLoadingGenders } from "./genderSlice";
 
@@ -55,11 +55,10 @@ export const updateGender = (gender: Gender) => {
     };
 };
 
-export const deleteGender = () => {
+export const deleteGender = (id: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            //const { genderSelected } = getState().gender;
-            //await fetchDeleteGender(genderSelected.id);
+            await fetchDeleteGender(id);
             await dispatch(setEmptyGenderSelected());
             await dispatch(getGenders());
             await dispatch(setAlert({ type: 'success', message: 'Género de producto eliminado exitosamente!' }));

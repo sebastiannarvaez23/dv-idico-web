@@ -30,7 +30,7 @@ export const getPerson = (id: string) => {
     };
 };
 
-export const createPerson = (person: FormData) => {
+export const createPerson = (person: Person) => {
     return async (dispatch: AppDispatch) => {
         try {
             const personCreated: Person = await fetchCreatePerson(person);
@@ -42,7 +42,7 @@ export const createPerson = (person: FormData) => {
     };
 };
 
-export const updatePerson = (person: FormData) => {
+export const updatePerson = (person: Person) => {
     return async (dispatch: AppDispatch) => {
         try {
             const personUpdated = await fetchUpdatePerson(person);
