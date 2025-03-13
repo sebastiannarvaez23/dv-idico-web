@@ -89,6 +89,14 @@ const SettingsRolesPage = () => {
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de roles</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
+                    onClick={() => alert('Funcionalidad en construcción')}
+                    sx={{ backgroundColor: '#161732', marginBottom: '20px', marginRight: '12px' }}
+                    size='large'
+                    variant="contained"
+                    color="primary">
+                    Asiganar permisos
+                </Button>
+                <Button
                     onClick={handleOpenModal}
                     sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
                     size='large'
