@@ -131,14 +131,16 @@ const SettingsUserPage = () => {
                 </Grid>
             </Box>
             <TableComponent
-                onEdit={handleEdit}
-                onDelete={() => { }}
                 editable={true}
                 deleteable={false}
                 data={persons}
                 totalRows={count}
                 headers={headCells}
                 title={"Personas"}
+                filters={[debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue]}
+                page={page}
+                onEdit={handleEdit}
+                onDelete={() => { }}
                 changePage={handleGetPersons} />
         </SettingsLayoutComponent>
     </Fragment>)

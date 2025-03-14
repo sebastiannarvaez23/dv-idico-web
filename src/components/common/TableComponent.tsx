@@ -68,6 +68,20 @@ interface EnhancedTableProps {
     rowCount: number;
 }
 
+interface TablePropsComponent {
+    editable: boolean,
+    deleteable: boolean,
+    data: Data[],
+    title: string,
+    headers: HeadCell[],
+    totalRows: number,
+    filters: string[],
+    page: number,
+    onEdit: (id: string) => void,
+    onDelete: (id: string) => void,
+    changePage: (page: number, ...filters: string[]) => void,
+}
+
 function EnhancedTableHead(props: EnhancedTableProps) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
         props;
@@ -87,21 +101,18 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         onChange={onSelectAllClick}
                         inputProps={{
                             'aria-label': 'select all desserts',
-                        }}
-                    />
+                        }} />
                 </TableCell>
                 {props.headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
+                        sortDirection={orderBy === headCell.id ? order : false}>
                         <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
+                            onClick={createSortHandler(headCell.id)}>
                             {headCell.label}
                             {orderBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
@@ -115,6 +126,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableHead>
     );
 }
+
 interface EnhancedTableToolbarProps {
     numSelected: number;
     title: string;
@@ -181,24 +193,30 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     );
 }
 
-const TableComponent = ({ editable, deleteable, headers, data, title, totalRows, onDelete, onEdit, changePage }:
-    { editable: boolean, deleteable: boolean, data: Data[], title: string, headers: HeadCell[], totalRows: number, onEdit: (id: string) => void, onDelete: (id: string) => void, changePage: (page: number) => void }
-) => {
+const TableComponent = ({
+    editable,
+    deleteable,
+    headers,
+    data,
+    title,
+    totalRows,
+    filters,
+    page,
+    onDelete,
+    onEdit,
+    changePage
+}: TablePropsComponent) => {
 
     const rowsPerPage: number = 10;
 
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('firstName');
     const [selected, setSelected] = React.useState<readonly string[]>([]);
-    const [page, setPage] = React.useState(1);
     const [dense, setDense] = React.useState(false);
     const [rows, setRows] = React.useState<Data[]>([]);
     const [totalPages, setTotalPages] = React.useState(1);
 
-    const handleRequestSort = (
-        event: React.MouseEvent<unknown>,
-        property: keyof Data,
-    ) => {
+    const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -234,8 +252,7 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
 
     const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
-            setPage(newPage);
-            changePage(newPage);
+            changePage(newPage, ...filters);
         }
     };
 
@@ -243,13 +260,10 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
         setDense(event.target.checked);
     };
 
-    const emptyRows =
-        rows.length < 10 ? 10 - rows.length : 0;
+    const emptyRows = rows.length < 10 ? 10 - rows.length : 0;
 
     const visibleRows = React.useMemo(
-        () =>
-            [...rows]
-                .sort(getComparator(order, orderBy)),
+        () => [...rows].sort(getComparator(order, orderBy)),
         [order, orderBy, page, rowsPerPage, rows]
     );
 
@@ -257,7 +271,7 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
         setRows(data.map(createData));
         const newTotalPages = Math.ceil(totalRows / rowsPerPage);
         setTotalPages(newTotalPages);
-    }, [data]);
+    }, [totalRows, data]);
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -267,8 +281,7 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
                     <Table
                         sx={{ minWidth: 750 }}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
-                    >
+                        size={dense ? 'small' : 'medium'}>
                         <EnhancedTableHead
                             headCells={headers}
                             numSelected={selected.length}
@@ -276,13 +289,11 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
                             orderBy={orderBy as string}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                        />
+                            rowCount={rows.length} />
                         <TableBody>
                             {visibleRows.map((row, index) => {
                                 const isItemSelected = selected.includes(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
-
                                 return (
                                     <TableRow
                                         hover
@@ -315,8 +326,7 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
                                 <TableRow
                                     style={{
                                         height: (dense ? 33 : 53) * emptyRows,
-                                    }}
-                                >
+                                    }}>
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
@@ -329,8 +339,7 @@ const TableComponent = ({ editable, deleteable, headers, data, title, totalRows,
             </Paper>
             <FormControlLabel
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Relleno denso"
-            />
+                label="Relleno denso" />
         </Box>
     );
 }

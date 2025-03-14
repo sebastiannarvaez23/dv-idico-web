@@ -18,8 +18,8 @@ function useService() {
         name: "",
     }
 
-    const handleGetServices = (page: number) => {
-        dispatch(getServices(page));
+    const handleGetServices = (page: number, code?: string, name?: string) => {
+        dispatch(getServices(page, code, name));
     }
 
     const handleOpenModalEditService = () => {

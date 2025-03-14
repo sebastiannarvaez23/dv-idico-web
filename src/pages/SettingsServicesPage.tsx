@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
 import { createService, deleteService, updateService } from "../store/slices/service";
+import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormServiceComponent from "../components/settings/FormServiceComponent";
 import ModalComponent from "../components/common/ModalComponent";
@@ -16,6 +17,9 @@ import useService from "../hooks/useService.hook";
 
 
 const SettingsServicesPage = () => {
+
+    const { services, count, page } = useSelector(
+        (state: RootState) => state.service);
 
     interface HeadCell {
         disablePadding: boolean;
@@ -47,8 +51,11 @@ const SettingsServicesPage = () => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [serviceSelected, setServiceSelected] = useState<Service>(serviceEmpty);
 
-    const { services, count } = useSelector(
-        (state: RootState) => state.service);
+    const [searchCodeValue, setSearchCodeValue] = useState<string>('');
+    const [searchNameValue, setSearchNameValue] = useState<string>('');
+
+    const debounceSearchCodeValue = useDebounce(searchCodeValue, 500);
+    const debounceSearchNameValue = useDebounce(searchNameValue, 500);
 
     const handleEdit = (id: string) => {
         setOpenModal(true);
@@ -71,6 +78,10 @@ const SettingsServicesPage = () => {
         setOpenModal(true);
         setServiceSelected(serviceEmpty);
     }
+
+    useEffect(() => {
+        handleGetServices(page, debounceSearchCodeValue, debounceSearchNameValue);
+    }, [debounceSearchCodeValue, debounceSearchNameValue]);
 
     return (<Fragment>
         <DialogComponent
@@ -107,22 +118,36 @@ const SettingsServicesPage = () => {
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={6}>
-                        <TextField sx={{ width: '100%' }} id="outlined-basic" label="Código" variant="outlined" />
+                        <TextField
+                            sx={{ width: '100%' }}
+                            id="outlined-basic"
+                            label="Código"
+                            variant="outlined"
+                            onChange={(e) => setSearchCodeValue(e.target.value)}
+                        />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField sx={{ width: '100%' }} id="outlined-basic" label="Nombre" variant="outlined" />
+                        <TextField
+                            sx={{ width: '100%' }}
+                            id="outlined-basic"
+                            label="Nombre"
+                            variant="outlined"
+                            onChange={(e) => setSearchNameValue(e.target.value)}
+                        />
                     </Grid>
                 </Grid>
             </Box>
             <TableComponent
                 editable={true}
                 deleteable={true}
-                onEdit={handleEdit}
-                onDelete={handleOpenDialog}
                 data={services}
                 totalRows={count}
                 headers={headCells}
                 title={"Servicios"}
+                filters={[debounceSearchCodeValue, debounceSearchNameValue]}
+                page={page}
+                onEdit={handleEdit}
+                onDelete={handleOpenDialog}
                 changePage={handleGetServices} />
         </SettingsLayoutComponent>
     </Fragment>)

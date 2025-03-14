@@ -1,16 +1,19 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateService, fetchDeleteService, fetchGetService, fetchGetServices, fetchUpdateService } from "../../../services/service";
 import { setAlert } from '../common';
-import { setCount, setEmptyServiceSelected, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
+import { setCount, setEmptyServiceSelected, setFilter, setPage, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
+import { uribuild } from "../../../utils/params/uribuild";
 
 
-export const getServices = (page: number = 1) => {
+export const getServices = (page: number = 1, code?: string, name?: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(startLoadingServices());
-            const services = await fetchGetServices(page);
+            const services = await fetchGetServices(uribuild({ page, code, name }));
             await dispatch(setServices({ services: services.rows }));
             await dispatch(setCount({ count: services.count }));
+            await dispatch(setPage({ page }));
+            await dispatch(setFilter({ filter: { code, name } }));
             if (services.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Services almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de servicios.' }));
