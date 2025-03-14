@@ -1,8 +1,8 @@
 import api from "./api";
 
 
-export const fetchGetPersons = async (page: number): Promise<{ count: number; rows: Person[] }> => {
-    const response = await api.get(`/person?page=${page}`)
+export const fetchGetPersons = async (queryParams: string): Promise<{ count: number; rows: Person[] }> => {
+    const response = await api.get(`/person${queryParams}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Personas: ${error.message}`);
         })

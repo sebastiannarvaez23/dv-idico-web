@@ -20,8 +20,8 @@ function usePerson() {
         birthDate: "",
     }
 
-    const handleGetPersons = (page: number) => {
-        dispatch(getPersons(page));
+    const handleGetPersons = (page: number, firstName?: string, lastName?: string, email?: string) => {
+        dispatch(getPersons(page, firstName, lastName, email));
     }
 
     const handleOpenModalEditPerson = () => {

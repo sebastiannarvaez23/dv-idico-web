@@ -1,22 +1,23 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 
 import Typography from '@mui/material/Typography';
 
+import { Box } from "@mui/system";
+import { Grid, TextField } from "@mui/material";
 import { RootState } from "../store/store";
+import { updatePerson } from "../store/slices/person";
+import { useDebounce } from "../hooks/useDebounce.hook";
+import FormPersonComponent from "../components/settings/FormPersonComponent";
+import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import usePerson from "../hooks/usePerson.hook";
-import { Box } from "@mui/system";
-import { Grid, TextField } from "@mui/material";
-import ModalComponent from "../components/common/ModalComponent";
-import FormPersonComponent from "../components/settings/FormPersonComponent";
-import { updatePerson } from "../store/slices/person";
 
 
 const SettingsUserPage = () => {
 
-    const { persons, count } = useSelector(
+    const { persons, count, page } = useSelector(
         (state: RootState) => state.person);
 
     interface HeadCell {
@@ -64,11 +65,23 @@ const SettingsUserPage = () => {
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [personSelected, setPersonSelected] = useState<Person>(personEmpty);
 
+    const [searchFirstNameValue, setSearchFirstNameValue] = useState<string>('');
+    const [searchLastNameValue, setSearchLastNameValue] = useState<string>('');
+    const [searchEmailValue, setSearchEmailValue] = useState<string>('');
+
+    const debounceFirstNameValue = useDebounce(searchFirstNameValue, 500);
+    const debounceSearchLastNameValue = useDebounce(searchLastNameValue, 500);
+    const debounceSearchEmailValue = useDebounce(searchEmailValue, 500);
+
     const handleEdit = (id: string) => {
         setOpenModel(true);
         const person = persons.find(e => e.id === id);
         person && setPersonSelected(person);
     }
+
+    useEffect(() => {
+        handleGetPersons(page, debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue);
+    }, [debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue]);
 
     return (<Fragment>
         <ModalComponent
@@ -89,18 +102,37 @@ const SettingsUserPage = () => {
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
                 <Grid container sx={{ alignContent: 'center' }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     <Grid item xs={2} sm={4} md={4}>
-                        <TextField sx={{ width: '95%' }} id="outlined-basic" label="Nombres" variant="outlined" />
+                        <TextField
+                            sx={{ width: '95%' }}
+                            id="outlined-basic"
+                            label="Nombres"
+                            variant="outlined"
+                            onChange={(e) => setSearchFirstNameValue(e.target.value)}
+                        />
                     </Grid>
                     <Grid item xs={2} sm={4} md={4}>
-                        <TextField sx={{ width: '95%' }} id="outlined-basic" label="Apellidos" variant="outlined" />
+                        <TextField
+                            sx={{ width: '95%' }}
+                            id="outlined-basic"
+                            label="Apellidos"
+                            variant="outlined"
+                            onChange={(e) => setSearchLastNameValue(e.target.value)}
+                        />
                     </Grid>
                     <Grid item xs={2} sm={4} md={4}>
-                        <TextField sx={{ width: '95%' }} id="outlined-basic" label="Email" variant="outlined" />
+                        <TextField
+                            sx={{ width: '95%' }}
+                            id="outlined-basic"
+                            label="Email"
+                            variant="outlined"
+                            onChange={(e) => setSearchEmailValue(e.target.value)}
+                        />
                     </Grid>
                 </Grid>
             </Box>
             <TableComponent
                 onEdit={handleEdit}
+                onDelete={() => { }}
                 editable={true}
                 deleteable={false}
                 data={persons}

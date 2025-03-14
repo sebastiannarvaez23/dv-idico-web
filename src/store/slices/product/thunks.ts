@@ -13,8 +13,8 @@ export const getProducts = (page: number = 1, title?: string) => {
             const products = await fetchGetProducts(uribuild({ page, title }));
             await dispatch(setProducts({ products: products.rows }));
             await dispatch(setCount({ count: products.count }));
-            await dispatch(setPage({ count: products.count }));
-            await dispatch(setFilter({ count: products.count }));
+            await dispatch(setPage({ page }));
+            await dispatch(setFilter({ filter: title }));
             if (!title && products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
             else if (title && products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen productos para los filtros especificados' }));
             else if (productSelected?.id === '') dispatch(getProduct(products.rows[0].id));
