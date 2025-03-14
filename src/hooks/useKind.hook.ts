@@ -14,8 +14,8 @@ function useKind() {
         name: ""
     }
 
-    const handleGetKinds = (page: number) => {
-        dispatch(getKinds(page));
+    const handleGetKinds = (page: number, name?: string) => {
+        dispatch(getKinds(page, name));
     }
 
     useEffect(() => {

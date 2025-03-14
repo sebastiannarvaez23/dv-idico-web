@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
 import { createKind, deleteKind, updateKind } from "../store/slices/kind";
+import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormKindComponent from "../components/settings/FormKindComponent";
 import ModalComponent from "../components/common/ModalComponent";
@@ -16,6 +17,9 @@ import useKind from "../hooks/useKind.hook";
 
 
 const SettingsKindsPage = () => {
+
+    const { kinds, count, page } = useSelector(
+        (state: RootState) => state.kind);
 
     interface HeadCell {
         disablePadding: boolean;
@@ -41,8 +45,9 @@ const SettingsKindsPage = () => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [kindSelected, setKindSelected] = useState<Kind>(kindEmpty);
 
-    const { kinds, count } = useSelector(
-        (state: RootState) => state.kind);
+    const [searchNameValue, setSearchNameValue] = useState<string>('');
+
+    const debounceSearchNameValue = useDebounce(searchNameValue, 500);
 
     const handleEdit = (id: string) => {
         setOpenModel(true);
@@ -66,6 +71,10 @@ const SettingsKindsPage = () => {
         setOpenDialog(false);
     }
 
+    useEffect(() => {
+        handleGetKinds(page, debounceSearchNameValue);
+    }, [debounceSearchNameValue]);
+
     return (<Fragment>
         <DialogComponent
             title={"Está seguro que desea eliminar este tipo de producto?"}
@@ -81,8 +90,7 @@ const SettingsKindsPage = () => {
                 setModalOpen={setOpenModel}
                 kindSelected={kindSelected}
                 title={kindSelected.id ? "Editar tipo de producto" : "Crear tipo de producto"}
-                action={kindSelected.id ? updateKind : createKind}
-            />
+                action={kindSelected.id ? updateKind : createKind} />
         </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Tipos de Producto</Typography>
@@ -99,17 +107,24 @@ const SettingsKindsPage = () => {
                 </Button>
             </Box>
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
-                <TextField sx={{ width: '100%' }} id="outlined-basic" label="Nombre" variant="outlined" />
+                <TextField
+                    sx={{ width: '100%' }}
+                    id="outlined-basic"
+                    label="Nombre"
+                    variant="outlined"
+                    onChange={(e) => setSearchNameValue(e.target.value)} />
             </Box>
             <TableComponent
                 editable={true}
                 deleteable={true}
-                onEdit={handleEdit}
-                onDelete={handleOpenDialog}
                 data={kinds}
                 totalRows={count}
                 headers={headCells}
                 title={"Tipos de producto"}
+                filters={[debounceSearchNameValue]}
+                page={page}
+                onEdit={handleEdit}
+                onDelete={handleOpenDialog}
                 changePage={handleGetKinds} />
         </SettingsLayoutComponent>
     </Fragment>)

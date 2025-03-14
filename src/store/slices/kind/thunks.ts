@@ -1,16 +1,19 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateKind, fetchDeleteKind, fetchGetKind, fetchGetKinds, fetchUpdateKind } from "../../../services/kind";
 import { setAlert } from '../common';
-import { setCount, setEmptyKindSelected, setKindSelected, setKinds, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
+import { setCount, setEmptyKindSelected, setFilter, setKindSelected, setKinds, setPage, startLoadingKindSelected, startLoadingKinds } from "./kindSlice";
+import { uribuild } from "../../../utils/params/uribuild";
 
 
-export const getKinds = (page: number = 1) => {
+export const getKinds = (page: number = 1, name?: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(startLoadingKinds());
-            const kinds = await fetchGetKinds(page);
+            const kinds = await fetchGetKinds(uribuild({ page, name }));
             await dispatch(setKinds({ kinds: kinds.rows }));
             await dispatch(setCount({ count: kinds.count }));
+            await dispatch(setPage({ page }));
+            await dispatch(setFilter({ filter: { name } }));
             if (kinds.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de tipos de productos.' }));
