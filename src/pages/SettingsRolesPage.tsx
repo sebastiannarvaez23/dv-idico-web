@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
@@ -13,9 +13,13 @@ import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useRole from "../hooks/useRole.hook";
+import { useDebounce } from "../hooks/useDebounce.hook";
 
 
 const SettingsRolesPage = () => {
+
+    const { roles, count, page } = useSelector(
+        (state: RootState) => state.role);
 
     interface HeadCell {
         disablePadding: boolean;
@@ -35,14 +39,15 @@ const SettingsRolesPage = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { handleGetRoles, roleEmpty } = useRole();
+    const { roleEmpty, handleGetRoles } = useRole();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [roleSelected, setRoleSelected] = useState<Role>(roleEmpty);
 
-    const { roles, count } = useSelector(
-        (state: RootState) => state.role);
+    const [searchNameValue, setSearchNameValue] = useState<string>('');
+
+    const debounceSearchNameValue = useDebounce(searchNameValue, 500);
 
     const handleEdit = (id: string) => {
         setOpenModel(true);
@@ -65,6 +70,10 @@ const SettingsRolesPage = () => {
         setOpenModel(true);
         setRoleSelected(roleEmpty);
     }
+
+    useEffect(() => {
+        handleGetRoles(page, debounceSearchNameValue);
+    }, [debounceSearchNameValue]);
 
     return (<Fragment>
         <DialogComponent
@@ -106,17 +115,24 @@ const SettingsRolesPage = () => {
                 </Button>
             </Box>
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
-                <TextField sx={{ width: '100%' }} id="outlined-basic" label="Nombre" variant="outlined" />
+                <TextField
+                    sx={{ width: '100%' }}
+                    id="outlined-basic"
+                    label="Nombre"
+                    variant="outlined"
+                    onChange={(e) => setSearchNameValue(e.target.value)} />
             </Box>
             <TableComponent
                 editable={true}
                 deleteable={true}
-                onEdit={handleEdit}
-                onDelete={handleOpenDialog}
                 data={roles}
                 totalRows={count}
                 headers={headCells}
                 title={"Roles"}
+                filters={[debounceSearchNameValue]}
+                page={page}
+                onEdit={handleEdit}
+                onDelete={handleOpenDialog}
                 changePage={handleGetRoles} />
         </SettingsLayoutComponent>
     </Fragment>)

@@ -1,8 +1,8 @@
 import api from "./api";
 
 
-export const fetchGetRoles = async (page: number): Promise<{ count: number; rows: Role[] }> => {
-    const response = await api.get(`/role?page=${page}`)
+export const fetchGetRoles = async (queryParams: string): Promise<{ count: number; rows: Role[] }> => {
+    const response = await api.get(`/role${queryParams}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de Roles: ${error.message}`);
         })

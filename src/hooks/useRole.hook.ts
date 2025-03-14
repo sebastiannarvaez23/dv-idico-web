@@ -17,8 +17,8 @@ function useRole() {
         name: "",
     }
 
-    const handleGetRoles = (page: number) => {
-        dispatch(getRoles(page));
+    const handleGetRoles = (page: number, name?: string) => {
+        dispatch(getRoles(page, name));
     }
 
     const handleOpenModalEditRole = () => {

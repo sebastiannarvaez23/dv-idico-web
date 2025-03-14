@@ -1,16 +1,19 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateRole, fetchDeleteRole, fetchGetRole, fetchGetRoles, fetchUpdateRole } from "../../../services/role";
 import { setAlert } from '../common';
-import { setCount, setEmptyRoleSelected, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
+import { setCount, setEmptyRoleSelected, setFilter, setPage, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
+import { uribuild } from "../../../utils/params/uribuild";
 
 
-export const getRoles = (page: number = 1) => {
+export const getRoles = (page: number = 1, name?: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(startLoadingRoles());
-            const roles = await fetchGetRoles(page);
+            const roles = await fetchGetRoles(uribuild({ page, name }));
             await dispatch(setRoles({ roles: roles.rows }));
             await dispatch(setCount({ count: roles.count }));
+            await dispatch(setPage({ page }));
+            await dispatch(setFilter({ filter: { name } }));
             if (roles.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Roles almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de roles.' }));
