@@ -1,8 +1,8 @@
 import api from "./api";
 
 
-export const fetchGetGenders = async (page: number): Promise<{ count: number; rows: Gender[] }> => {
-    const response = await api.get(`/product-gender?page=${page}`)
+export const fetchGetGenders = async (queryParams: string): Promise<{ count: number; rows: Gender[] }> => {
+    const response = await api.get(`/product-gender${queryParams}`)
         .catch((error: any) => {
             throw new Error(`Error al obtener listado de géneros de producto: ${error.message}`);
         })

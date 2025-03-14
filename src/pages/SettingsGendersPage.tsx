@@ -1,22 +1,26 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { Button, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { createGender } from "../store/slices/gender";
 import { AppDispatch, RootState } from "../store/store";
+import { createGender } from "../store/slices/gender";
 import { deleteGender, updateGender } from '../store/slices/gender/thunks';
+import { useDebounce } from "../hooks/useDebounce.hook";
+import DialogComponent from "../components/common/DialogComponent";
 import FormGenderComponent from "../components/settings/FormGenderComponent";
 import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useGender from "../hooks/useGender.hook";
-import DialogComponent from "../components/common/DialogComponent";
 
 
 const SettingsGendersPage = () => {
+
+    const { genders, count, page } = useSelector(
+        (state: RootState) => state.gender);
 
     interface HeadCell {
         disablePadding: boolean;
@@ -42,8 +46,9 @@ const SettingsGendersPage = () => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [genderSelected, setGenderSelected] = useState<Gender>(genderEmpty);
 
-    const { genders, count } = useSelector(
-        (state: RootState) => state.gender);
+    const [searchNameValue, setSearchNameValue] = useState<string>('');
+
+    const debounceSearchNameValue = useDebounce(searchNameValue, 500);
 
     const handleEdit = (id: string) => {
         setOpenModel(true);
@@ -66,6 +71,10 @@ const SettingsGendersPage = () => {
         gender && setGenderSelected(gender);
         setOpenDialog(true);
     }
+
+    useEffect(() => {
+        handleGetGenders(page, debounceSearchNameValue);
+    }, [debounceSearchNameValue]);
 
     return (
         <Fragment>
@@ -101,17 +110,24 @@ const SettingsGendersPage = () => {
                     </Button>
                 </Box>
                 <Box sx={{ flexGrow: 1, margin: '12px' }}>
-                    <TextField sx={{ width: '100%' }} id="outlined-basic" label="Nombre" variant="outlined" />
+                    <TextField
+                        sx={{ width: '100%' }}
+                        id="outlined-basic"
+                        label="Nombre"
+                        variant="outlined"
+                        onChange={(e) => setSearchNameValue(e.target.value)} />
                 </Box>
                 <TableComponent
                     editable={true}
                     deleteable={true}
-                    onEdit={handleEdit}
-                    onDelete={handleOpenDialog}
                     data={genders}
                     totalRows={count}
                     headers={headCells}
                     title={"Géneros de producto"}
+                    filters={[debounceSearchNameValue]}
+                    page={page}
+                    onEdit={handleEdit}
+                    onDelete={handleOpenDialog}
                     changePage={handleGetGenders} />
             </SettingsLayoutComponent>
         </Fragment >

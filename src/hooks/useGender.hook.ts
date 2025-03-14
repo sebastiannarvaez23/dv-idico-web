@@ -15,8 +15,8 @@ function useGender() {
         name: ""
     }
 
-    const handleGetGenders = (page: number) => {
-        dispatch(getGenders(page));
+    const handleGetGenders = (page: number, name?: string) => {
+        dispatch(getGenders(page, name));
     }
 
     useEffect(() => {

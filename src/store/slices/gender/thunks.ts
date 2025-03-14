@@ -1,16 +1,19 @@
 import { AppDispatch, RootState } from "../../store";
 import { fetchCreateGender, fetchDeleteGender, fetchGetGender, fetchGetGenders, fetchUpdateGender } from "../../../services/gender";
 import { setAlert } from '../common';
-import { setCount, setEmptyGenderSelected, setGenderSelected, setGenders, startLoadingGenderSelected, startLoadingGenders } from "./genderSlice";
+import { setCount, setEmptyGenderSelected, setFilter, setGenderSelected, setGenders, setPage, startLoadingGenderSelected, startLoadingGenders } from "./genderSlice";
+import { uribuild } from "../../../utils/params/uribuild";
 
 
-export const getGenders = (page: number = 1) => {
+export const getGenders = (page: number = 1, name?: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             dispatch(startLoadingGenders());
-            const genders = await fetchGetGenders(page);
+            const genders = await fetchGetGenders(uribuild({ page, name }));
             await dispatch(setGenders({ genders: genders.rows }));
             await dispatch(setCount({ count: genders.count }));
+            await dispatch(setPage({ page }));
+            await dispatch(setFilter({ filter: { name } }));
             if (genders.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de géneros de producto.' }));
