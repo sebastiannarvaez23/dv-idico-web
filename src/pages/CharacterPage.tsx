@@ -1,6 +1,4 @@
-import { Fragment, useEffect } from 'react';
-
-import { Button } from '@mui/material';
+import { Fragment } from 'react';
 
 import { createCharacter, deleteCharacter, updateCharacter } from '../store/slices/character';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
@@ -12,6 +10,7 @@ import ModalComponent from '../components/common/ModalComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import useCharacter from '../hooks/useCharacter.hook';
 import InformationCharacterComponent from '../components/home/InformationCharacterComponent';
+import { ButtonComponent } from '../components/common/ButtonComponent';
 
 
 const CharacterPage = () => {
@@ -55,7 +54,8 @@ const CharacterPage = () => {
                 width={50}
                 open={modalEditCharacter}
                 onClose={handleCloseModalEditCharacter}>
-                <FormCharacterComponent title="Editar Personaje"
+                <FormCharacterComponent
+                    title="Editar Personaje"
                     setModalOpen={setModalEditCharacter}
                     characterSelected={characterSelected}
                     action={updateCharacter}
@@ -70,14 +70,11 @@ const CharacterPage = () => {
                 titleSection={"Personaje"}
                 titleListSection={"Listado de Personajes"}
                 detailElement={characterDto}
-                detailLabels={detailLabelsCharacter}
                 totalRows={count}
                 page={page}
                 filter={filter}
                 handleGetElements={handleGetCharacters}
                 listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
-                editElement={handleOpenModalEditCharacter}
-                deleteElement={deleteCharacter}
                 sectionSelected={SECTION}>
                 <InformationCharacterComponent
                     element={characterDto}
@@ -85,15 +82,13 @@ const CharacterPage = () => {
                     deleteElement={deleteCharacter}
                     editElement={handleOpenModalEditCharacter} />
             </ContainerSectionComponent>
-            <Button
+            <ButtonComponent
+                authorization={true}
+                label={'Agregar Personaje'}
+                margin={'20px 4px'}
+                size={'large'}
                 onClick={handleOpenModalCreateCharacter}
-                sx={{ backgroundColor: '#161732' }}
-                size='large'
-                style={{ margin: '20px 4px' }}
-                variant="contained"
-                color="primary">
-                Agregar Personaje
-            </Button>
+            />
         </Fragment>
     );
 }

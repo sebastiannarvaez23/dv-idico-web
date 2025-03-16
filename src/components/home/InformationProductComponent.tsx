@@ -6,6 +6,7 @@ import { Button, Typography } from '@mui/material';
 import { AppDispatch } from '../../store/store';
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DialogComponent from '../common/DialogComponent';
+import { ButtonComponent } from '../common/ButtonComponent';
 
 
 interface InformationProductComponentProps {
@@ -58,12 +59,20 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
             <Typography variant="body2" color="textSecondary" component="p">
                 {label.label4} {(element.list1.length === 0) ? "Sin información." : element.list1.filter(Boolean).join(", ") + "."}
             </Typography>
-            <Button sx={{ backgroundColor: '#161732' }} onClick={editElement} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
-                editar
-            </Button>
-            <Button sx={{ backgroundColor: '#161732' }} onClick={() => setOpenDialog(true)} size='small' style={{ margin: '20px 4px' }} variant="contained" color="primary">
-                Eliminar
-            </Button>
+            <ButtonComponent
+                authorization={true}
+                label={'Editar'}
+                margin={'20px 4px'}
+                size={'small'}
+                onClick={editElement}
+            />
+            <ButtonComponent
+                authorization={true}
+                label={'Eliminar'}
+                margin={'20px 4px'}
+                size={'small'}
+                onClick={() => setOpenDialog(true)}
+            />
             <DialogComponent
                 title={"Está seguro que desea eliminar este producto?"}
                 description={"Luego de eliminar el producto no podrá reversar esta operación."}

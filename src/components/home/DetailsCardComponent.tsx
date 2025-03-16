@@ -5,19 +5,14 @@ import Lottie from 'lottie-react';
 
 import loadingAnimation from '../../../public/loading.json';
 import { RootState } from '../../store/store';
-import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 
 
 interface DetailsCardComponentProps {
     element: DetailsCardElement;
-    label: DetailsLabelCardElement;
     children?: React.ReactNode;
-    deleteElement: DeleteElementFunction;
-    editElement: () => void;
 }
 
-const DetailsCardComponent = ({ element, label, children, editElement, deleteElement }: DetailsCardComponentProps) => {
-
+const DetailsCardComponent = ({ element, children }: DetailsCardComponentProps) => {
 
     const { isLoadingCharacterSelected } = useSelector(
         (state: RootState) => state.character);

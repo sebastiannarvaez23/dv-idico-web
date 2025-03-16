@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Button, Rating } from '@mui/material';
+import { Rating } from '@mui/material';
 
 import { createProduct, deleteProduct, updateProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
@@ -12,6 +12,7 @@ import ModalComponent from '../components/common/ModalComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import useProduct from '../hooks/useProduct.hook';
 import InformationProductComponent from '../components/home/InformationProductComponent';
+import { ButtonComponent } from '../components/common/ButtonComponent';
 
 
 const ProductPage = () => {
@@ -78,13 +79,10 @@ const ProductPage = () => {
                 titleListSection={"Listado de Series y Peliculas"}
                 detailElement={productDto}
                 totalRows={count}
-                detailLabels={detailLabelsProduct}
                 page={page}
                 filter={filter}
                 handleGetElements={handleGetProducts}
                 listElement={products?.map(e => mapProductToDetailsCardElement(e)) ?? []}
-                editElement={handleOpenModalEditProduct}
-                deleteElement={deleteProduct}
                 sectionSelected={SECTION}>
                 <InformationProductComponent
                     element={productDto}
@@ -98,14 +96,13 @@ const ProductPage = () => {
                     />
                 </InformationProductComponent>
             </ContainerSectionComponent>
-            <Button
+            <ButtonComponent
+                authorization={true}
+                label={'Agregar Producto'}
+                margin={'20px 4px'}
+                size={'large'}
                 onClick={handleOpenModalCreateProduct}
-                sx={{ backgroundColor: '#161732' }}
-                size='large' style={{ margin: '20px 4px' }}
-                variant="contained"
-                color="primary">
-                Agregar Producto
-            </Button>
+            />
         </Fragment>
     );
 }
