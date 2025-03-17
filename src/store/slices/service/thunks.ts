@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from "../../store";
+import { AppDispatch } from "../../store";
 import { fetchCreateService, fetchDeleteService, fetchGetService, fetchGetServices, fetchUpdateService } from "../../../services/service";
 import { setAlert } from '../common';
 import { setCount, setEmptyServiceSelected, setFilter, setPage, setServiceSelected, setServices, startLoadingServiceSelected, startLoadingServices } from "./serviceSlice";
@@ -59,7 +59,7 @@ export const updateService = (service: Service) => {
 };
 
 export const deleteService = (id: string) => {
-    return async (dispatch: AppDispatch, getState: () => RootState) => {
+    return async (dispatch: AppDispatch) => {
         try {
             await fetchDeleteService(id);
             await dispatch(setEmptyServiceSelected());

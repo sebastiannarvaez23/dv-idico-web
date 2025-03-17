@@ -40,7 +40,7 @@ function useService() {
 
     useEffect(() => {
         dispatch(getServices());
-    }, [])
+    }, []);
 
     return {
         serviceEmpty,

@@ -17,3 +17,10 @@ export const fetchSignup = async (dataFormRegister: DataFormRegister): Promise<v
             throw new Error(`Error al registrar nuevo usuario: ${error.message}`)
         });
 };
+
+export const fetchLogout = async (nickname: string): Promise<void> => {
+    await api.post('/auth/logout', { nickname })
+        .catch((error: any) => {
+            throw new Error(`Error al registrar nuevo usuario: ${error.message}`)
+        });
+}

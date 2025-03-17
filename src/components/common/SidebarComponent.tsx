@@ -1,18 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 
 import { AppBar, Toolbar, Typography, IconButton, SvgIcon } from '@mui/material';
-import { Logout } from '@mui/icons-material';
+import { Logout, Login } from '@mui/icons-material';
 import SettingsIcon from '@mui/icons-material/Settings';
+
+import useSession from '../../hooks/useSession.hook';
 
 
 const SidebarComponent = () => {
 
     const navigate = useNavigate();
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/auth');
-    };
+    const { isAuthenticate, nickname, handleLogout } = useSession();
 
     const handleSettings = () => {
         navigate('/settings/users');
@@ -35,13 +33,15 @@ const SidebarComponent = () => {
                 </Typography>
                 <div style={{ flexGrow: 1 }}></div>
                 <Typography style={{ marginRight: '2%' }} variant="body1" noWrap>
-                    Bienvenido al universo de Disney
+                    {isAuthenticate && nickname + ','} Bienvenido al universo de Disney
                 </Typography>
-                <IconButton onClick={handleSettings} color="inherit" disableRipple sx={{ '&:focus': { outline: 'none' } }}>
+
+                {isAuthenticate && <IconButton onClick={handleSettings} color="inherit" disableRipple sx={{ '&:focus': { outline: 'none' } }}>
                     <SettingsIcon />
-                </IconButton>
-                <IconButton color="inherit" onClick={handleLogout} disableRipple sx={{ '&:focus': { outline: 'none' } }}>
-                    <Logout />
+                </IconButton>}
+
+                <IconButton color="inherit" onClick={() => isAuthenticate && handleLogout(nickname!) || navigate('/auth')} disableRipple sx={{ '&:focus': { outline: 'none' } }}>
+                    {isAuthenticate && <Logout /> || <Login />}
                 </IconButton>
             </Toolbar>
         </AppBar>

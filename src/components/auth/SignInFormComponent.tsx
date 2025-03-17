@@ -1,35 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Container, Typography, TextField, Button, Alert } from '@mui/material';
+import { Container, Typography, TextField, Button, Alert, Box } from '@mui/material';
 
-import { fetchSignin } from '../../services/auth';
+import { EncryptionUtil } from '../../utils/cipher/encryption.util';
 import useAlert from '../../hooks/useAlert.hook';
+import useSession from '../../hooks/useSession.hook';
 
 
-const LoginFormComponent = () => {
+const SignInFormComponent = () => {
 
-    const [mail, setMail] = useState('');
+    const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const navigate = useNavigate();
+    const { handleSignIn } = useSession();
     const { showAlert } = useAlert();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        try {
-            if (mail === '' || password === '') {
-                setError('Complete el formulario para iniciar sesión.');
-                return;
-            }
-            const newToken = await fetchSignin(mail, password);
-            localStorage.setItem('token', newToken);
-            navigate('/');
-            showAlert('success', '¡Has iniciado sesión con éxito!');
-        } catch (error) {
-            setError('Hubo un error al iniciar sesión. Por favor, verifica tus credenciales y vuelve a intentarlo.');
+        const cipher: EncryptionUtil = new EncryptionUtil(import.meta.env.VITE_SECRET_KEY!);
+
+        if (nickname === '' || password === '') {
+            setError('Complete el formulario para iniciar sesión.');
+            return;
         }
+        handleSignIn({ nickname, password: cipher.encrypt(password) })
+            .catch(e => {
+                setError('Hubo un error al iniciar sesión. Por favor, verifica tus credenciales y vuelve a intentarlo.');
+                console.error(e);
+            });
+        showAlert('success', '¡Has iniciado sesión con éxito!');
     };
 
     return (
@@ -43,8 +45,8 @@ const LoginFormComponent = () => {
                     label="Usuario"
                     variant="outlined"
                     fullWidth
-                    value={mail}
-                    onChange={(e) => setMail(e.target.value)}
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
                     margin="normal"
                 />
                 <TextField
@@ -60,8 +62,11 @@ const LoginFormComponent = () => {
                     Iniciar sesión
                 </Button>
             </form>
+            <Box mt={2}>
+                <a onClick={() => navigate('/')}>Continuar explorando el universo de Disney</a>
+            </Box>
         </Container>
     );
 }
 
-export default LoginFormComponent;
+export default SignInFormComponent;
