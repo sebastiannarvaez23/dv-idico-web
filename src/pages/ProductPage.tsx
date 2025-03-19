@@ -3,16 +3,17 @@ import { useSelector } from 'react-redux';
 
 import { Rating } from '@mui/material';
 
+import { ButtonComponent } from '../components/common/ButtonComponent';
 import { createProduct, deleteProduct, updateProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
 import { RootState } from '../store/store';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
 import FormProductComponent from '../components/home/FormProductComponent';
+import InformationProductComponent from '../components/home/InformationProductComponent';
 import ModalComponent from '../components/common/ModalComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import useProduct from '../hooks/useProduct.hook';
-import InformationProductComponent from '../components/home/InformationProductComponent';
-import { ButtonComponent } from '../components/common/ButtonComponent';
+import useSession from '../hooks/useSession.hook';
 
 
 const ProductPage = () => {
@@ -21,6 +22,8 @@ const ProductPage = () => {
 
     const { products, productSelected, count, page, filter } = useSelector(
         (state: RootState) => state.product);
+
+    const { handleValidateAuthorization } = useSession();
 
     const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
@@ -97,7 +100,7 @@ const ProductPage = () => {
                 </InformationProductComponent>
             </ContainerSectionComponent>
             <ButtonComponent
-                authorization={true}
+                authorization={handleValidateAuthorization('0603')}
                 label={'Agregar Producto'}
                 margin={'20px 4px'}
                 size={'large'}

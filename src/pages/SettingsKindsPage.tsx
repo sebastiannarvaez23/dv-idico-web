@@ -2,10 +2,11 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
+import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createKind, deleteKind, updateKind } from "../store/slices/kind";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
@@ -14,6 +15,7 @@ import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useKind from "../hooks/useKind.hook";
+import useSession from "../hooks/useSession.hook";
 
 
 const SettingsKindsPage = () => {
@@ -40,6 +42,7 @@ const SettingsKindsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { kindEmpty, handleGetKinds } = useKind();
+    const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -97,14 +100,13 @@ const SettingsKindsPage = () => {
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de tipos de producto</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
+                <ButtonComponent
+                    authorization={handleValidateAuthorization('0703')}
+                    label={'Crear tipo de producto'}
+                    margin={'0px 0px 20px 0px'}
+                    size={'large'}
                     onClick={handleOpenModal}
-                    sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
-                    size='large'
-                    variant="contained"
-                    color="primary">
-                    Crear tipo de producto
-                </Button>
+                />
             </Box>
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
                 <TextField
@@ -115,8 +117,8 @@ const SettingsKindsPage = () => {
                     onChange={(e) => setSearchNameValue(e.target.value)} />
             </Box>
             <TableComponent
-                editable={true}
-                deleteable={true}
+                editable={handleValidateAuthorization('0704')}
+                deleteable={handleValidateAuthorization('0705')}
                 data={kinds}
                 totalRows={count}
                 headers={headCells}

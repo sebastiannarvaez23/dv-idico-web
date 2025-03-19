@@ -17,10 +17,13 @@ import PeopleIcon from '@mui/icons-material/People';
 import SecurityIcon from '@mui/icons-material/Security';
 import StarBorder from '@mui/icons-material/StarBorder';
 
+import useSession from '../../hooks/useSession.hook';
+
 
 const NestedList = () => {
 
     const navigate = useNavigate();
+    const { handleValidateAuthorization } = useSession();
 
     const [openParameters, setOpenParameters] = React.useState(true);
     const [openSecurity, setOpenSecurity] = React.useState(true);
@@ -43,11 +46,13 @@ const NestedList = () => {
                     Configuración
                 </ListSubheader>
             }>
-            <ListItemButton onClick={() => navigate('/settings/users')}>
+            <ListItemButton
+                disabled={!handleValidateAuthorization('0201')}
+                onClick={() => navigate('/settings/users')}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>
-                <ListItemText primary="Usuarios" />
+                <ListItemText primary="Personas" />
             </ListItemButton>
 
             <ListItemButton onClick={handleClickSecurity}>
@@ -59,18 +64,27 @@ const NestedList = () => {
             </ListItemButton>
             <Collapse in={openSecurity} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/services')}>
+
+                    <ListItemButton
+                        disabled={!handleValidateAuthorization('0401')}
+                        sx={{ pl: 4 }}
+                        onClick={() => navigate('/settings/services')}>
                         <ListItemIcon>
                             <ManageAccountsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Gestionar Servicios" />
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/roles')}>
+
+                    <ListItemButton
+                        disabled={!handleValidateAuthorization('0301')}
+                        sx={{ pl: 4 }}
+                        onClick={() => navigate('/settings/roles')}>
                         <ListItemIcon>
                             <AssignmentIndIcon />
                         </ListItemIcon>
                         <ListItemText primary="Gestionar Roles" />
                     </ListItemButton>
+
                 </List>
             </Collapse>
 
@@ -83,18 +97,27 @@ const NestedList = () => {
             </ListItemButton>
             <Collapse in={openParameters} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/kinds')}>
+
+                    <ListItemButton
+                        disabled={!handleValidateAuthorization('0701')}
+                        sx={{ pl: 4 }}
+                        onClick={() => navigate('/settings/kinds')}>
                         <ListItemIcon>
                             <CategoryIcon />
                         </ListItemIcon>
                         <ListItemText primary="Tipos de Producto" />
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => navigate('/settings/genders')}>
+
+                    <ListItemButton
+                        disabled={!handleValidateAuthorization('0801')}
+                        sx={{ pl: 4 }}
+                        onClick={() => navigate('/settings/genders')}>
                         <ListItemIcon>
                             <StarBorder />
                         </ListItemIcon>
                         <ListItemText primary="Géneros" />
                     </ListItemButton>
+
                 </List>
             </Collapse>
         </List>

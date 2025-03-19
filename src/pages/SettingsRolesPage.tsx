@@ -6,14 +6,16 @@ import { Button, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
+import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createRole, deleteRole, updateRole } from "../store/slices/role";
+import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormRoleComponent from "../components/settings/FormRoleComponent";
 import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useRole from "../hooks/useRole.hook";
-import { useDebounce } from "../hooks/useDebounce.hook";
+import useSession from "../hooks/useSession.hook";
 
 
 const SettingsRolesPage = () => {
@@ -40,6 +42,7 @@ const SettingsRolesPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { roleEmpty, handleGetRoles } = useRole();
+    const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -105,14 +108,13 @@ const SettingsRolesPage = () => {
                     color="primary">
                     Asiganar permisos
                 </Button>
-                <Button
+                <ButtonComponent
+                    authorization={handleValidateAuthorization('0303')}
+                    label={'Crear rol'}
+                    margin={'0px 0px 20px 0px'}
+                    size={'large'}
                     onClick={handleOpenModal}
-                    sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
-                    size='large'
-                    variant="contained"
-                    color="primary">
-                    Crear rol
-                </Button>
+                />
             </Box>
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
                 <TextField
@@ -123,8 +125,8 @@ const SettingsRolesPage = () => {
                     onChange={(e) => setSearchNameValue(e.target.value)} />
             </Box>
             <TableComponent
-                editable={true}
-                deleteable={true}
+                editable={handleValidateAuthorization('0304')}
+                deleteable={handleValidateAuthorization('0305')}
                 data={roles}
                 totalRows={count}
                 headers={headCells}

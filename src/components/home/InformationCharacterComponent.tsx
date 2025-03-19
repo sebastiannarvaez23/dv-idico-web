@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 import { Typography } from '@mui/material';
 
 import { AppDispatch } from '../../store/store';
+import { ButtonComponent } from '../common/ButtonComponent';
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DialogComponent from '../common/DialogComponent';
-import { ButtonComponent } from '../common/ButtonComponent';
+import useSession from '../../hooks/useSession.hook';
 
 
 interface InformationCharacterComponentProps {
@@ -20,6 +21,8 @@ const InformationCharacterComponent = ({ element, label, deleteElement, editElem
 
     const dispatch = useDispatch<AppDispatch>();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const { handleValidateAuthorization } = useSession();
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
@@ -53,14 +56,14 @@ const InformationCharacterComponent = ({ element, label, deleteElement, editElem
                 {label.label4} {(element.list1.length === 0) ? "Sin información." : element.list1.filter(Boolean).join(", ") + "."}
             </Typography>
             <ButtonComponent
-                authorization={true}
+                authorization={handleValidateAuthorization('0504')}
                 label={'Editar'}
                 margin={'20px 4px'}
                 size={'small'}
                 onClick={editElement}
             />
             <ButtonComponent
-                authorization={true}
+                authorization={handleValidateAuthorization('0505')}
                 label={'Eliminar'}
                 margin={'20px 4px'}
                 size={'small'}

@@ -13,6 +13,7 @@ import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import usePerson from "../hooks/usePerson.hook";
+import useSession from "../hooks/useSession.hook";
 
 
 const SettingsUserPage = () => {
@@ -61,6 +62,7 @@ const SettingsUserPage = () => {
     ];
 
     const { personEmpty, handleGetPersons } = usePerson();
+    const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [personSelected, setPersonSelected] = useState<Person>(personEmpty);
@@ -131,8 +133,8 @@ const SettingsUserPage = () => {
                 </Grid>
             </Box>
             <TableComponent
-                editable={true}
-                deleteable={false}
+                editable={handleValidateAuthorization('0204')}
+                deleteable={handleValidateAuthorization('0205')}
                 data={persons}
                 totalRows={count}
                 headers={headCells}

@@ -1,12 +1,13 @@
 import { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { AppDispatch } from '../../store/store';
+import { ButtonComponent } from '../common/ButtonComponent';
 import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DialogComponent from '../common/DialogComponent';
-import { ButtonComponent } from '../common/ButtonComponent';
+import useSession from '../../hooks/useSession.hook';
 
 
 interface InformationProductComponentProps {
@@ -22,6 +23,8 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
     const dispatch = useDispatch<AppDispatch>();
 
     const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const { handleValidateAuthorization } = useSession();
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
@@ -60,14 +63,14 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
                 {label.label4} {(element.list1.length === 0) ? "Sin información." : element.list1.filter(Boolean).join(", ") + "."}
             </Typography>
             <ButtonComponent
-                authorization={true}
+                authorization={handleValidateAuthorization('0604')}
                 label={'Editar'}
                 margin={'20px 4px'}
                 size={'small'}
                 onClick={editElement}
             />
             <ButtonComponent
-                authorization={true}
+                authorization={handleValidateAuthorization('0605')}
                 label={'Eliminar'}
                 margin={'20px 4px'}
                 size={'small'}

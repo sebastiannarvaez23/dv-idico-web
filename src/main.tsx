@@ -15,32 +15,33 @@ import useSession from './hooks/useSession.hook.ts';
 
 import './index.css';
 
-const PrivateRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
-  const { isAuthenticate, isLoading } = useSession();
+const PrivateRoute: React.FC<{ service: string, element: React.ReactNode }> = ({ service, element }) => {
+  const { isAuthenticate, isLoading, handleValidateAuthorization } = useSession();
   if (isLoading) return;
+  if (!handleValidateAuthorization(service)) return;
   return isAuthenticate ? <>{element}</> : <Navigate to="/auth" />;
 };
 
 const routes: RouteObject[] = [
   {
     path: '/settings/users',
-    element: <PrivateRoute element={<SettingsUserPage />} />
+    element: <PrivateRoute service={'0201'} element={<SettingsUserPage />} />
   },
   {
     path: '/settings/services',
-    element: <PrivateRoute element={<SettingsServicesPage />} />
+    element: <PrivateRoute service={'0401'} element={<SettingsServicesPage />} />
   },
   {
     path: '/settings/roles',
-    element: <PrivateRoute element={<SettingsRolesPage />} />
+    element: <PrivateRoute service={'0301'} element={<SettingsRolesPage />} />
   },
   {
     path: '/settings/kinds',
-    element: <PrivateRoute element={<SettingsKindsPage />} />
+    element: <PrivateRoute service={'0701'} element={<SettingsKindsPage />} />
   },
   {
     path: '/settings/genders',
-    element: <PrivateRoute element={<SettingsGendersPage />} />
+    element: <PrivateRoute service={'0801'} element={<SettingsGendersPage />} />
   },
   {
     path: '/auth',

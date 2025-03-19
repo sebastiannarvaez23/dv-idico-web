@@ -1,16 +1,17 @@
 import { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 
+import { ButtonComponent } from '../components/common/ButtonComponent';
 import { createCharacter, deleteCharacter, updateCharacter } from '../store/slices/character';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import { RootState } from '../store/store';
-import { useSelector } from 'react-redux';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
 import FormCharacterComponent from '../components/home/FormCharacterComponent';
+import InformationCharacterComponent from '../components/home/InformationCharacterComponent';
 import ModalComponent from '../components/common/ModalComponent';
 import SearchElementComponent from '../components/home/SearchElementComponent';
 import useCharacter from '../hooks/useCharacter.hook';
-import InformationCharacterComponent from '../components/home/InformationCharacterComponent';
-import { ButtonComponent } from '../components/common/ButtonComponent';
+import useSession from '../hooks/useSession.hook';
 
 
 const CharacterPage = () => {
@@ -19,6 +20,8 @@ const CharacterPage = () => {
 
     const { characters, characterSelected, count, page, filter } = useSelector(
         (state: RootState) => state.character);
+
+    const { handleValidateAuthorization } = useSession();
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
 
@@ -83,7 +86,7 @@ const CharacterPage = () => {
                     editElement={handleOpenModalEditCharacter} />
             </ContainerSectionComponent>
             <ButtonComponent
-                authorization={true}
+                authorization={handleValidateAuthorization('0503')}
                 label={'Agregar Personaje'}
                 margin={'20px 4px'}
                 size={'large'}

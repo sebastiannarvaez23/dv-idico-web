@@ -2,10 +2,11 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
+import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createGender } from "../store/slices/gender";
 import { deleteGender, updateGender } from '../store/slices/gender/thunks';
 import { useDebounce } from "../hooks/useDebounce.hook";
@@ -15,6 +16,7 @@ import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useGender from "../hooks/useGender.hook";
+import useSession from "../hooks/useSession.hook";
 
 
 const SettingsGendersPage = () => {
@@ -41,6 +43,7 @@ const SettingsGendersPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { handleGetGenders, genderEmpty } = useGender();
+    const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -100,14 +103,13 @@ const SettingsGendersPage = () => {
                 <hr />
                 <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de géneros de producto</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
+                    <ButtonComponent
+                        authorization={handleValidateAuthorization('0803')}
+                        label={'Crear género de producto'}
+                        margin={'0px 0px 20px 0px'}
+                        size={'large'}
                         onClick={handleOpenModal}
-                        sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
-                        size='large'
-                        variant="contained"
-                        color="primary">
-                        Crear género de producto
-                    </Button>
+                    />
                 </Box>
                 <Box sx={{ flexGrow: 1, margin: '12px' }}>
                     <TextField
@@ -118,8 +120,8 @@ const SettingsGendersPage = () => {
                         onChange={(e) => setSearchNameValue(e.target.value)} />
                 </Box>
                 <TableComponent
-                    editable={true}
-                    deleteable={true}
+                    editable={handleValidateAuthorization('0804')}
+                    deleteable={handleValidateAuthorization('0805')}
                     data={genders}
                     totalRows={count}
                     headers={headCells}

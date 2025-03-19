@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { jwtDecode } from "jwt-decode";
 
 import { AppDispatch, RootState } from "../store/store";
 import { logout, setSession, signin } from "../store/slices/session";
 
 function useSession() {
-    const { isAuthenticate, nickname } = useSelector((state: RootState) => state.session);
+
+    const { isAuthenticate, nickname, permissions } = useSelector((state: RootState) => state.session);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
@@ -23,13 +25,16 @@ function useSession() {
                 permissions: decoded.services
             }));
         } catch (error) {
-            console.error("Error decodificando el token:", error);
             localStorage.removeItem("token");
             dispatch(logout(nickname!, navigate));
         } finally {
             setIsLoading(false);
         }
     };
+
+    const handleValidateAuthorization = (service: string): boolean => {
+        return permissions.includes(service);
+    }
 
     const handleSignIn = (credentials: { nickname: string, password: string }) => {
         return dispatch(signin(credentials, navigate));
@@ -41,11 +46,8 @@ function useSession() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) {
-            reUseSessionActive(token);
-        } else {
-            setIsLoading(false);
-        }
+        if (token) reUseSessionActive(token);
+        else setIsLoading(false);
     }, []);
 
     return {
@@ -53,7 +55,8 @@ function useSession() {
         nickname,
         isLoading,
         handleSignIn,
-        handleLogout
+        handleLogout,
+        handleValidateAuthorization
     };
 }
 

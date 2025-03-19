@@ -2,10 +2,11 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
-import { Button, Grid, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
+import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createService, deleteService, updateService } from "../store/slices/service";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
@@ -14,6 +15,7 @@ import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useService from "../hooks/useService.hook";
+import useSession from "../hooks/useSession.hook";
 
 
 const SettingsServicesPage = () => {
@@ -46,6 +48,7 @@ const SettingsServicesPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { serviceEmpty, handleGetServices } = useService();
+    const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -106,14 +109,13 @@ const SettingsServicesPage = () => {
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de servicios</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
+                <ButtonComponent
+                    authorization={handleValidateAuthorization('0403')}
+                    label={'Crear servicio'}
+                    margin={'0px 0px 20px 0px'}
+                    size={'large'}
                     onClick={handleOpenModal}
-                    sx={{ backgroundColor: '#161732', marginBottom: '20px' }}
-                    size='large'
-                    variant="contained"
-                    color="primary">
-                    Crear servicio
-                </Button>
+                />
             </Box>
             <Box sx={{ flexGrow: 1, margin: '12px' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -138,8 +140,8 @@ const SettingsServicesPage = () => {
                 </Grid>
             </Box>
             <TableComponent
-                editable={true}
-                deleteable={true}
+                editable={handleValidateAuthorization('0404')}
+                deleteable={handleValidateAuthorization('0405')}
                 data={services}
                 totalRows={count}
                 headers={headCells}
