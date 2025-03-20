@@ -23,7 +23,17 @@ const SidebarComponent = () => {
     return (
         <AppBar sx={{ backgroundColor: '#161732', position: "fixed" }}>
             <Toolbar>
-                <IconButton color="inherit" onClick={handleHome} disableRipple sx={{ '&:focus': { outline: 'none' } }}>
+                <IconButton
+                    color="inherit"
+                    onClick={handleHome}
+                    disableRipple
+                    sx={{
+                        '&:focus': { outline: 'none' },
+                        '&:hover': {
+                            transform: 'scale(1.1)',
+                            transition: 'transform 0.3s ease-in-out',
+                        },
+                    }}>
                     <SvgIcon sx={{ marginRight: '20px', marginLeft: '20px' }}>
                         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                     </SvgIcon>
@@ -35,13 +45,33 @@ const SidebarComponent = () => {
                 <Typography style={{ marginRight: '2%' }} variant="body1" noWrap>
                     {isAuthenticated && nickname + ','} Bienvenido al universo de Disney
                 </Typography>
-
-                {isAuthenticated && <IconButton onClick={handleSettings} color="inherit" disableRipple sx={{ '&:focus': { outline: 'none' } }}>
-                    <SettingsIcon />
-                </IconButton>}
-
-                <IconButton color="inherit" onClick={() => isAuthenticated && handleLogout(nickname!) || navigate('/auth')} disableRipple sx={{ '&:focus': { outline: 'none' } }}>
-                    {isAuthenticated && <Logout /> || <Login />}
+                {isAuthenticated && (
+                    <IconButton
+                        onClick={handleSettings}
+                        color="inherit"
+                        disableRipple
+                        sx={{
+                            '&:focus': { outline: 'none' },
+                            '&:hover': {
+                                transform: 'scale(1.1)',
+                                transition: 'transform 0.3s ease-in-out',
+                            },
+                        }}>
+                        <SettingsIcon />
+                    </IconButton>
+                )}
+                <IconButton
+                    color="inherit"
+                    onClick={() => (isAuthenticated ? handleLogout(nickname!) : navigate('/auth'))}
+                    disableRipple
+                    sx={{
+                        '&:focus': { outline: 'none' },
+                        '&:hover': {
+                            transform: 'scale(1.1)',
+                            transition: 'transform 0.3s ease-in-out',
+                        },
+                    }}>
+                    {isAuthenticated ? <Logout /> : <Login />}
                 </IconButton>
             </Toolbar>
         </AppBar>
