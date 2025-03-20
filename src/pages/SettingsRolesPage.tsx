@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box } from "@mui/system";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 import { AppDispatch, RootState } from "../store/store";
@@ -42,12 +42,11 @@ const SettingsRolesPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { roleEmpty, handleGetRoles } = useRole();
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [roleSelected, setRoleSelected] = useState<Role>(roleEmpty);
-
     const [searchNameValue, setSearchNameValue] = useState<string>('');
 
     const debounceSearchNameValue = useDebounce(searchNameValue, 500);
@@ -100,16 +99,17 @@ const SettingsRolesPage = () => {
             <hr />
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de roles</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                    onClick={() => alert('Funcionalidad en construcción')}
-                    sx={{ backgroundColor: '#161732', marginBottom: '20px', marginRight: '12px' }}
-                    size='large'
-                    variant="contained"
-                    color="primary">
-                    Asiganar permisos
-                </Button>
                 <ButtonComponent
-                    authorization={handleValidateAuthorization('0303')}
+                    isAuthenticated={isAuthenticated}
+                    isAuthorized={handleValidateAuthorization('0306')}
+                    label={'Asiganar permisos'}
+                    margin={'0px 12px 20px 0px'}
+                    size={'large'}
+                    onClick={() => alert('Funcionalidad en construcción')}
+                />
+                <ButtonComponent
+                    isAuthenticated={isAuthenticated}
+                    isAuthorized={handleValidateAuthorization('0303')}
                     label={'Crear rol'}
                     margin={'0px 0px 20px 0px'}
                     size={'large'}

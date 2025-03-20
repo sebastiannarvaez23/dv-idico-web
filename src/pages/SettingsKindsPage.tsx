@@ -42,12 +42,11 @@ const SettingsKindsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { kindEmpty, handleGetKinds } = useKind();
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [kindSelected, setKindSelected] = useState<Kind>(kindEmpty);
-
     const [searchNameValue, setSearchNameValue] = useState<string>('');
 
     const debounceSearchNameValue = useDebounce(searchNameValue, 500);
@@ -101,7 +100,8 @@ const SettingsKindsPage = () => {
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de tipos de producto</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <ButtonComponent
-                    authorization={handleValidateAuthorization('0703')}
+                    isAuthenticated={isAuthenticated}
+                    isAuthorized={handleValidateAuthorization('0703')}
                     label={'Crear tipo de producto'}
                     margin={'0px 0px 20px 0px'}
                     size={'large'}

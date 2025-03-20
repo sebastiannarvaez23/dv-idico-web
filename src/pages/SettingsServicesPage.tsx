@@ -46,14 +46,12 @@ const SettingsServicesPage = () => {
     ];
 
     const dispatch = useDispatch<AppDispatch>();
-
     const { serviceEmpty, handleGetServices } = useService();
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [serviceSelected, setServiceSelected] = useState<Service>(serviceEmpty);
-
     const [searchCodeValue, setSearchCodeValue] = useState<string>('');
     const [searchNameValue, setSearchNameValue] = useState<string>('');
 
@@ -110,7 +108,8 @@ const SettingsServicesPage = () => {
             <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de servicios</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <ButtonComponent
-                    authorization={handleValidateAuthorization('0403')}
+                    isAuthenticated={isAuthenticated}
+                    isAuthorized={handleValidateAuthorization('0403')}
                     label={'Crear servicio'}
                     margin={'0px 0px 20px 0px'}
                     size={'large'}

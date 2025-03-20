@@ -3,18 +3,19 @@ import { Fragment } from "react";
 
 
 interface ButtonComponentProps {
-    authorization: boolean;
+    isAuthenticated: boolean;
+    isAuthorized: boolean;
     label: string;
     margin: string;
     size: "small" | "large" | "medium";
     onClick: () => void;
 }
 
-export const ButtonComponent = ({ authorization, label, margin, size, onClick }: ButtonComponentProps) => {
+export const ButtonComponent = ({ isAuthenticated, isAuthorized, label, margin, size, onClick }: ButtonComponentProps) => {
     return (
         <Fragment>
-            <Button
-                disabled={!authorization}
+            {isAuthenticated && <Button
+                disabled={!isAuthorized}
                 onClick={onClick}
                 sx={{ backgroundColor: "#161732" }}
                 style={{ margin: margin }}
@@ -22,7 +23,7 @@ export const ButtonComponent = ({ authorization, label, margin, size, onClick }:
                 size={size}
                 color="primary">
                 {label}
-            </Button>
+            </Button>}
         </Fragment>
     );
 }

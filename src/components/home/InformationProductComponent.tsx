@@ -24,7 +24,7 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
 
     const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
@@ -63,14 +63,16 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
                 {label.label4} {(element.list1.length === 0) ? "Sin información." : element.list1.filter(Boolean).join(", ") + "."}
             </Typography>
             <ButtonComponent
-                authorization={handleValidateAuthorization('0604')}
+                isAuthenticated={isAuthenticated}
+                isAuthorized={handleValidateAuthorization('0604')}
                 label={'Editar'}
                 margin={'20px 4px'}
                 size={'small'}
                 onClick={editElement}
             />
             <ButtonComponent
-                authorization={handleValidateAuthorization('0605')}
+                isAuthenticated={isAuthenticated}
+                isAuthorized={handleValidateAuthorization('0605')}
                 label={'Eliminar'}
                 margin={'20px 4px'}
                 size={'small'}

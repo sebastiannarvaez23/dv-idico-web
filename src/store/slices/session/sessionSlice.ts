@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 export interface ServiceState {
-    isAuthenticate: boolean;
+    isAuthenticated: boolean;
     nickname: string | undefined;
     role: string | undefined;
     permissions: string[];
 }
 
 const initialState: ServiceState = {
-    isAuthenticate: false,
+    isAuthenticated: false,
     nickname: undefined,
     role: undefined,
     permissions: [],
@@ -20,7 +20,7 @@ export const sessionSlice = createSlice({
     initialState,
     reducers: {
         setSession: (state, action) => {
-            state.isAuthenticate = action.payload.isAuthenticate;
+            state.isAuthenticated = action.payload.isAuthenticated;
             state.nickname = action.payload.nickname;
             state.role = action.payload.role;
             state.permissions = action.payload.permissions;

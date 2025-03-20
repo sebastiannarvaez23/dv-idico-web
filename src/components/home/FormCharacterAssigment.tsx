@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from "react";
 
 import { Button, Typography, Box } from "@mui/material";
@@ -22,14 +22,17 @@ interface FormCharacterProps {
 
 const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, deleteAction }: FormCharacterProps) => {
 
+    const { page } = useSelector(
+        (state: RootState) => state.character);
+
     useCharacter();
+
     const dispatch = useDispatch<AppDispatch>();
 
-    const [toInclude, setToInclude] = useState<string[]>([]); // ID de registros a incluir
-    const [toExclude, setToExclude] = useState<string[]>([]); // ID de registros a excluir
+    const [toInclude, setToInclude] = useState<string[]>([]);
+    const [toExclude, setToExclude] = useState<string[]>([]);
     const [characters, setCharacters] = useState<DetailsCardElement[]>([]);
     const [charactersBackUp, setCharactersBackUp] = useState<CharacterAssigment[]>([]);
-    const [page, setPage] = useState<number>(1);
     const [totalRows, setTotalRows] = useState<number>(0);
 
     const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
@@ -116,7 +119,6 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
                         elements={characters}
                         totalRows={totalRows}
                         page={page}
-                        setPage={setPage}
                         handleCheck={handleCheck}
                         handleGetElements={(pg: number) => { fetchData(pg) }}
                     />

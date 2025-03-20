@@ -23,7 +23,7 @@ const ProductPage = () => {
     const { products, productSelected, count, page, filter } = useSelector(
         (state: RootState) => state.product);
 
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
@@ -100,7 +100,8 @@ const ProductPage = () => {
                 </InformationProductComponent>
             </ContainerSectionComponent>
             <ButtonComponent
-                authorization={handleValidateAuthorization('0603')}
+                isAuthenticated={isAuthenticated}
+                isAuthorized={handleValidateAuthorization('0603')}
                 label={'Agregar Producto'}
                 margin={'20px 4px'}
                 size={'large'}

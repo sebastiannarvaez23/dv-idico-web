@@ -19,10 +19,10 @@ interface InformationCharacterComponentProps {
 
 const InformationCharacterComponent = ({ element, label, deleteElement, editElement }: InformationCharacterComponentProps) => {
 
-    const dispatch = useDispatch<AppDispatch>();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-    const { handleValidateAuthorization } = useSession();
+    const dispatch = useDispatch<AppDispatch>();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
@@ -56,14 +56,16 @@ const InformationCharacterComponent = ({ element, label, deleteElement, editElem
                 {label.label4} {(element.list1.length === 0) ? "Sin información." : element.list1.filter(Boolean).join(", ") + "."}
             </Typography>
             <ButtonComponent
-                authorization={handleValidateAuthorization('0504')}
+                isAuthenticated={isAuthenticated}
+                isAuthorized={handleValidateAuthorization('0504')}
                 label={'Editar'}
                 margin={'20px 4px'}
                 size={'small'}
                 onClick={editElement}
             />
             <ButtonComponent
-                authorization={handleValidateAuthorization('0505')}
+                isAuthenticated={isAuthenticated}
+                isAuthorized={handleValidateAuthorization('0505')}
                 label={'Eliminar'}
                 margin={'20px 4px'}
                 size={'small'}

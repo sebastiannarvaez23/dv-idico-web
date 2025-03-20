@@ -16,10 +16,10 @@ import useSession from './hooks/useSession.hook.ts';
 import './index.css';
 
 const PrivateRoute: React.FC<{ service: string, element: React.ReactNode }> = ({ service, element }) => {
-  const { isAuthenticate, isLoading, handleValidateAuthorization } = useSession();
+  const { isAuthenticated, isLoading, handleValidateAuthorization } = useSession();
   if (isLoading) return;
   if (!handleValidateAuthorization(service)) return;
-  return isAuthenticate ? <>{element}</> : <Navigate to="/auth" />;
+  return isAuthenticated ? <>{element}</> : <Navigate to="/auth" />;
 };
 
 const routes: RouteObject[] = [

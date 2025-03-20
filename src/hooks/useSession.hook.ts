@@ -9,7 +9,7 @@ import { logout, setSession, signin } from "../store/slices/session";
 
 function useSession() {
 
-    const { isAuthenticate, nickname, permissions } = useSelector((state: RootState) => state.session);
+    const { isAuthenticated, nickname, permissions } = useSelector((state: RootState) => state.session);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ function useSession() {
         try {
             const decoded: TokenSession = jwtDecode(token);
             await dispatch(setSession({
-                isAuthenticate: true,
+                isAuthenticated: true,
                 nickname: decoded.sub,
                 role: decoded.role,
                 permissions: decoded.services
@@ -51,7 +51,7 @@ function useSession() {
     }, []);
 
     return {
-        isAuthenticate,
+        isAuthenticated,
         nickname,
         isLoading,
         handleSignIn,

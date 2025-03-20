@@ -11,7 +11,7 @@ export const signin = ({ nickname, password }: { nickname: string, password: str
             const token = await fetchSignin(nickname, password);
             localStorage.setItem('token', token);
             const decoded: TokenSession = jwtDecode(token);
-            await dispatch(setSession({ isAuthenticate: true, nickname: decoded.sub, role: decoded.role, permissions: decoded.services }));
+            await dispatch(setSession({ isAuthenticated: true, nickname: decoded.sub, role: decoded.role, permissions: decoded.services }));
             navigate('/');
         } catch (error: any) {
             throw error;
@@ -24,7 +24,7 @@ export const logout = (nickname: string, navigate: (path: string) => void) => {
         try {
             await fetchLogout(nickname);
             localStorage.removeItem('token');
-            await dispatch(setSession({ isAuthenticate: false, nickname: undefined, role: undefined, permissions: [] }));
+            await dispatch(setSession({ isAuthenticated: false, nickname: undefined, role: undefined, permissions: [] }));
             navigate('/auth');
         } catch (error: any) {
             throw error;

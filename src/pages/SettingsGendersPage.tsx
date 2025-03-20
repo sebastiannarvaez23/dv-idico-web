@@ -41,14 +41,12 @@ const SettingsGendersPage = () => {
     ];
 
     const dispatch = useDispatch<AppDispatch>();
-
     const { handleGetGenders, genderEmpty } = useGender();
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [genderSelected, setGenderSelected] = useState<Gender>(genderEmpty);
-
     const [searchNameValue, setSearchNameValue] = useState<string>('');
 
     const debounceSearchNameValue = useDebounce(searchNameValue, 500);
@@ -104,7 +102,8 @@ const SettingsGendersPage = () => {
                 <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de géneros de producto</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <ButtonComponent
-                        authorization={handleValidateAuthorization('0803')}
+                        isAuthenticated={isAuthenticated}
+                        isAuthorized={handleValidateAuthorization('0803')}
                         label={'Crear género de producto'}
                         margin={'0px 0px 20px 0px'}
                         size={'large'}

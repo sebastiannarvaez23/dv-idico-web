@@ -21,7 +21,7 @@ const CharacterPage = () => {
     const { characters, characterSelected, count, page, filter } = useSelector(
         (state: RootState) => state.character);
 
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
 
@@ -86,7 +86,8 @@ const CharacterPage = () => {
                     editElement={handleOpenModalEditCharacter} />
             </ContainerSectionComponent>
             <ButtonComponent
-                authorization={handleValidateAuthorization('0503')}
+                isAuthenticated={isAuthenticated}
+                isAuthorized={handleValidateAuthorization('0503')}
                 label={'Agregar Personaje'}
                 margin={'20px 4px'}
                 size={'large'}

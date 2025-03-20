@@ -62,7 +62,7 @@ const SettingsUserPage = () => {
     ];
 
     const { personEmpty, handleGetPersons } = usePerson();
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [personSelected, setPersonSelected] = useState<Person>(personEmpty);
