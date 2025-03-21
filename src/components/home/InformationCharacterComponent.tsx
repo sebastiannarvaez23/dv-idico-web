@@ -1,11 +1,8 @@
 import { Fragment, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
-import { AppDispatch } from '../../store/store';
 import { ButtonComponent } from '../common/ButtonComponent';
-import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DialogComponent from '../common/DialogComponent';
 import useSession from '../../hooks/useSession.hook';
 
@@ -13,15 +10,13 @@ import useSession from '../../hooks/useSession.hook';
 interface InformationCharacterComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
-    deleteElement: DeleteElementFunction;
-    editElement: () => void;
+    deleteElement: () => void;
+    updateElement: () => void;
 }
 
-const InformationCharacterComponent = ({ element, label, deleteElement, editElement }: InformationCharacterComponentProps) => {
+const InformationCharacterComponent = ({ element, label, deleteElement, updateElement }: InformationCharacterComponentProps) => {
 
     const [openDialog, setOpenDialog] = useState<boolean>(false);
-
-    const dispatch = useDispatch<AppDispatch>();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const handleCloseDialog = () => {
@@ -29,7 +24,7 @@ const InformationCharacterComponent = ({ element, label, deleteElement, editElem
     }
 
     const handleDeleteCharacter = () => {
-        dispatch(deleteElement());
+        deleteElement();
         handleCloseDialog();
     }
 
@@ -61,7 +56,7 @@ const InformationCharacterComponent = ({ element, label, deleteElement, editElem
                 label={'Editar'}
                 margin={'20px 4px'}
                 size={'small'}
-                onClick={editElement}
+                onClick={updateElement}
             />
             <ButtonComponent
                 isAuthenticated={isAuthenticated}

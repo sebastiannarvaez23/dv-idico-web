@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { Grid, TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { AppDispatch, RootState } from "../store/store";
+import { AppDispatch } from "../store/store";
 import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createService, deleteService, updateService } from "../store/slices/service";
 import { useDebounce } from "../hooks/useDebounce.hook";
@@ -20,8 +20,7 @@ import useSession from "../hooks/useSession.hook";
 
 const SettingsServicesPage = () => {
 
-    const { services, count, page } = useSelector(
-        (state: RootState) => state.service);
+    const { services, count, page } = useService();
 
     interface HeadCell {
         disablePadding: boolean;

@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch } from '../store/store';
-import { getProducts } from '../store/slices/product';
+import { AppDispatch, RootState } from '../store/store';
+import { characterAddAssignment, characterDeleteAssignment, createProduct, deleteProduct, getProducts, updateProduct } from '../store/slices/product';
 
 
 function useProduct() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const {
+        isLoadingProductSelected,
+        isLoadingProducts,
+        products,
+        productSelected,
+        count,
+        page,
+        filter,
+    } = useSelector((state: RootState) => state.product);
 
     const [modalEditProduct, setModalEditProduct] = useState(false);
     const [modalCreateProduct, setModalCreateProduct] = useState(false);
@@ -59,26 +69,57 @@ function useProduct() {
         setModalAssigmentCharacter(false);
     }
 
+    const handleAssignCharacterToProduct = (characters: { characters: string[] }) => {
+        dispatch(characterAddAssignment(characters));
+    }
+
+    const handleRevokeCharacterToProduct = (characters: { characters: string[] }) => {
+        dispatch(characterDeleteAssignment(characters));
+    }
+
+    const handleCreateProduct = (product: FormData, page: number) => {
+        dispatch(createProduct(product, page));
+    }
+    const handleUpdateProduct = (product: FormData, page: number) => {
+        dispatch(updateProduct(product, page));
+    }
+
+    const handleDeleteProduct = () => {
+        dispatch(deleteProduct());
+    }
+
     useEffect(() => {
-        dispatch(getProducts());
+        if (products.length === 0) dispatch(getProducts());
     }, [])
 
     return {
-        productEmpty,
+        count,
         detailLabelsProduct,
+        filter,
+        isLoadingProducts,
+        isLoadingProductSelected,
         modalAssigmentCharacter,
         modalCreateProduct,
         modalEditProduct,
+        page,
+        productEmpty,
+        products,
+        productSelected,
+        handleDeleteProduct,
+        handleCreateProduct,
+        handleUpdateProduct,
+        handleAssignCharacterToProduct,
+        handleRevokeCharacterToProduct,
+        handleCloseModalAssigmentCharacter,
+        handleCloseModalCreateProduct,
+        handleCloseModalEditProduct,
         handleGetProducts,
         handleOpenModalAssigmentCharacter,
-        setModalAssigmentCharacter,
-        setModalEditProduct,
-        setModalCreateProduct,
-        handleCloseModalAssigmentCharacter,
-        handleOpenModalEditProduct,
-        handleCloseModalEditProduct,
         handleOpenModalCreateProduct,
-        handleCloseModalCreateProduct,
+        handleOpenModalEditProduct,
+        setModalAssigmentCharacter,
+        setModalCreateProduct,
+        setModalEditProduct,
     };
 }
 

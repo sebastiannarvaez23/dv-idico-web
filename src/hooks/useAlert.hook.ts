@@ -36,7 +36,7 @@ const useAlert = () => {
         };
     }, [alert]);
 
-    return { showAlert, hideAlert };
+    return { alert, showAlert, hideAlert };
 };
 
 export default useAlert;

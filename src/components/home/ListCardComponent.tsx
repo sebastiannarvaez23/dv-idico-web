@@ -1,15 +1,17 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Grid, Card, Pagination } from '@mui/material';
 
-import { AppDispatch, RootState } from '../../store/store';
+import { AppDispatch } from '../../store/store';
 import { getCharacter } from '../../store/slices/character';
 import { getProduct } from '../../store/slices/product';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 import { mapDetailsCardElementToProduct } from '../../utils/mappers/product.mapper';
 import RowListComponent from '../common/RowListComponent';
 import RowListLoadingComponent from '../common/RowListLoadingComponent';
+import useCharacter from '../../hooks/useCharacter.hook';
+import useProduct from '../../hooks/useProduct.hook';
 
 
 interface ListCardComponentProps {
@@ -30,11 +32,8 @@ const ListCardComponent: React.FC<ListCardComponentProps> = (
     { elements, totalRows, sectionSelected, margin = '10px 0', height = '47vh', page, filter, handleGetElements, handleCheck }
 ) => {
 
-    const { isLoadingCharacters } = useSelector(
-        (state: RootState) => state.character);
-
-    const { isLoadingProducts } = useSelector(
-        (state: RootState) => state.product);
+    const { isLoadingCharacters } = useCharacter();
+    const { isLoadingProducts } = useProduct();
 
     const [totalPages, setTotalPages] = React.useState(1);
 

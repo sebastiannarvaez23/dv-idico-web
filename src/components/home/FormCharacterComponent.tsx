@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { Button, Typography, Box, TextField, Input } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
-import { AppDispatch } from "../../store/store";
 
 
 interface FormCharacterProps {
@@ -13,12 +10,11 @@ interface FormCharacterProps {
     title: string;
     page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData, pg: number) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: FormData, pg: number) => void;
 }
 
 const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected, page }: FormCharacterProps) => {
 
-    const dispatch = useDispatch<AppDispatch>();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const validationSchema = Yup.object({
@@ -53,7 +49,7 @@ const FormCharacterComponent = ({ setModalOpen, action, title, characterSelected
         formDataToSend.append('age', character.age);
         formDataToSend.append('history', character.history);
         (selectedFile) && formDataToSend.append('image', selectedFile);
-        dispatch(action(formDataToSend, page));
+        action(formDataToSend, page);
         await setModalOpen(false);
     };
 

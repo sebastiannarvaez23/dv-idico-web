@@ -1,11 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
 
 import Typography from '@mui/material/Typography';
 
 import { Box } from "@mui/system";
 import { Grid, TextField } from "@mui/material";
-import { RootState } from "../store/store";
 import { updatePerson } from "../store/slices/person";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import FormPersonComponent from "../components/settings/FormPersonComponent";
@@ -17,9 +15,6 @@ import useSession from "../hooks/useSession.hook";
 
 
 const SettingsUserPage = () => {
-
-    const { persons, count, page } = useSelector(
-        (state: RootState) => state.person);
 
     interface HeadCell {
         disablePadding: boolean;
@@ -61,12 +56,11 @@ const SettingsUserPage = () => {
         },
     ];
 
-    const { personEmpty, handleGetPersons } = usePerson();
-    const { isAuthenticated, handleValidateAuthorization } = useSession();
+    const { persons, count, page, personEmpty, handleGetPersons } = usePerson();
+    const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [personSelected, setPersonSelected] = useState<Person>(personEmpty);
-
     const [searchFirstNameValue, setSearchFirstNameValue] = useState<string>('');
     const [searchLastNameValue, setSearchLastNameValue] = useState<string>('');
     const [searchEmailValue, setSearchEmailValue] = useState<string>('');

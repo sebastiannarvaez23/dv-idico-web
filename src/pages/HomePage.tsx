@@ -1,7 +1,5 @@
 import { Fragment, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../store/store';
 import CharacterPage from './CharacterPage';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import NavbarAppComponent from '../components/home/NavbarAppComponent';
@@ -12,10 +10,7 @@ import useAlert from '../hooks/useAlert.hook';
 
 const HomePage = () => {
 
-    const { alert } = useSelector(
-        (state: RootState) => state.common);
-
-    const { hideAlert } = useAlert();
+    const { alert, hideAlert } = useAlert();
 
     const [sectionSelected, setSectionSelected] = useState<TypSection>("products");
 

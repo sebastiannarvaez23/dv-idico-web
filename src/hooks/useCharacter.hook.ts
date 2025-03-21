@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch } from '../store/store';
-import { getCharacters } from '../store/slices/character';
+import { AppDispatch, RootState } from '../store/store';
+import { createCharacter, deleteCharacter, getCharacters, updateCharacter } from '../store/slices/character';
 
 
 function useCharacter() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const {
+        characters,
+        characterSelected,
+        count,
+        filter,
+        page,
+        isLoadingCharacterSelected,
+        isLoadingCharacters
+    } = useSelector((state: RootState) => state.character);
 
     const [modalEditCharacter, setModalEditCharacter] = useState(false);
     const [modalCreateCharacter, setModalCreateCharacter] = useState(false);
@@ -48,22 +58,43 @@ function useCharacter() {
         setModalCreateCharacter(false);
     };
 
+    const handleCreateCharacter = (character: FormData, page: number) => {
+        dispatch(createCharacter(character, page));
+    }
+    const handleUpdateCharacter = (character: FormData, page: number) => {
+        dispatch(updateCharacter(character, page));
+    }
+
+    const handleDeleteCharacter = () => {
+        dispatch(deleteCharacter());
+    }
+
     useEffect(() => {
-        dispatch(getCharacters());
+        if (characters.length === 0) dispatch(getCharacters());
     }, [])
 
     return {
         characterEmpty,
+        characters,
+        characterSelected,
+        count,
         detailLabelsCharacter,
+        filter,
+        isLoadingCharacters,
+        isLoadingCharacterSelected,
         modalCreateCharacter,
         modalEditCharacter,
-        handleGetCharacters,
-        setModalEditCharacter,
-        setModalCreateCharacter,
-        handleOpenModalEditCharacter,
-        handleCloseModalEditCharacter,
-        handleOpenModalCreateCharacter,
+        page,
+        handleUpdateCharacter,
+        handleCreateCharacter,
+        handleDeleteCharacter,
         handleCloseModalCreateCharacter,
+        handleCloseModalEditCharacter,
+        handleGetCharacters,
+        handleOpenModalCreateCharacter,
+        handleOpenModalEditCharacter,
+        setModalCreateCharacter,
+        setModalEditCharacter,
     }
 }
 

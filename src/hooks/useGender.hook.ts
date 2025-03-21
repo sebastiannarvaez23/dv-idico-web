@@ -1,13 +1,16 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { AppDispatch } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 import { getGenders } from "../store/slices/gender";
 
 
 function useGender() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const { count, page, genders } = useSelector(
+        (state: RootState) => state.gender);
 
     const genderEmpty: Gender = {
         id: "",
@@ -24,7 +27,10 @@ function useGender() {
     }, []);
 
     return {
+        count,
         genderEmpty,
+        genders,
+        page,
         handleGetGenders
     }
 }

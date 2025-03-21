@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
-
 import { Card, CardContent, CardMedia, Grid } from '@mui/material';
 import Lottie from 'lottie-react';
 
 import loadingAnimation from '../../../public/loading.json';
-import { RootState } from '../../store/store';
+import useCharacter from '../../hooks/useCharacter.hook';
+import useProduct from '../../hooks/useProduct.hook';
 
 
 interface DetailsCardComponentProps {
@@ -14,11 +13,8 @@ interface DetailsCardComponentProps {
 
 const DetailsCardComponent = ({ element, children }: DetailsCardComponentProps) => {
 
-    const { isLoadingCharacterSelected } = useSelector(
-        (state: RootState) => state.character);
-
-    const { isLoadingProductSelected } = useSelector(
-        (state: RootState) => state.product);
+    const { isLoadingCharacterSelected } = useCharacter();
+    const { isLoadingProductSelected } = useProduct();
 
     return (
         <Card style={{ marginBottom: '20px', height: '47vh' }}>

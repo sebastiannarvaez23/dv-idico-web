@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { getPersons } from '../store/slices/person/thunks';
 
 function usePerson() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const { persons, count, page } = useSelector(
+        (state: RootState) => state.person);
 
     const [modalEditPerson, setModalEditPerson] = useState(false);
     const [modalCreatePerson, setModalCreatePerson] = useState(false);
@@ -45,16 +48,19 @@ function usePerson() {
     }, [])
 
     return {
-        personEmpty,
+        count,
         modalCreatePerson,
         modalEditPerson,
-        setModalEditPerson,
-        setModalCreatePerson,
-        handleGetPersons,
-        handleOpenModalEditPerson,
-        handleCloseModalEditPerson,
-        handleOpenModalCreatePerson,
+        page,
+        personEmpty,
+        persons,
         handleCloseModalCreatePerson,
+        handleCloseModalEditPerson,
+        handleGetPersons,
+        handleOpenModalCreatePerson,
+        handleOpenModalEditPerson,
+        setModalCreatePerson,
+        setModalEditPerson,
     }
 }
 

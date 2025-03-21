@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { AppDispatch, RootState } from "../store/store";
+import { AppDispatch } from "../store/store";
 import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createGender } from "../store/slices/gender";
 import { deleteGender, updateGender } from '../store/slices/gender/thunks';
@@ -21,8 +21,7 @@ import useSession from "../hooks/useSession.hook";
 
 const SettingsGendersPage = () => {
 
-    const { genders, count, page } = useSelector(
-        (state: RootState) => state.gender);
+    const { genders, count, page } = useGender();
 
     interface HeadCell {
         disablePadding: boolean;

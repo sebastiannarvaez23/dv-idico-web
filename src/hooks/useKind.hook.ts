@@ -1,13 +1,16 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { AppDispatch } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 import { getKinds } from "../store/slices/kind";
 
 
 function useKind() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const { kinds, count, page } = useSelector(
+        (state: RootState) => state.kind);
 
     const kindEmpty: Kind = {
         id: "",
@@ -23,7 +26,10 @@ function useKind() {
     }, []);
 
     return {
+        count,
         kindEmpty,
+        kinds,
+        page,
         handleGetKinds
     }
 }

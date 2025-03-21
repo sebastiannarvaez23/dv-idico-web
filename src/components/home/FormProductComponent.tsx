@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
@@ -9,8 +8,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import dayjs, { Dayjs } from "dayjs";
 
-import { AppDispatch, RootState } from "../../store/store";
-import { characterAddAssignment, characterDeleteAssignment } from "../../store/slices/product";
 import FormCharacterAssigment from "./FormCharacterAssigment";
 import ModalComponent from "../common/ModalComponent";
 import useGender from "../../hooks/useGender.hook";
@@ -25,16 +22,15 @@ interface FormProductProps {
     handleCloseModalAssigmentCharacter?: () => void;
     handleOpenModalAssigmentCharacter?: () => void;
     setModalOpen: (fun: boolean) => void;
-    action: (data: FormData, pg: number) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: FormData, pg: number) => void;
 }
 
-const FormProductComponent = ({ productSelected, title, action, setModalOpen, modalAssigmentCharacter, handleCloseModalAssigmentCharacter, handleOpenModalAssigmentCharacter, page }: FormProductProps) => {
+const FormProductComponent = ({ page, productSelected, title, modalAssigmentCharacter, action, setModalOpen, handleCloseModalAssigmentCharacter, handleOpenModalAssigmentCharacter }: FormProductProps) => {
 
-    const dispatch = useDispatch<AppDispatch>();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const { } = useGender();
-    const { } = useKind();
+    const { genders } = useGender();
+    const { kinds } = useKind();
 
     const validationSchema = Yup.object({
         qualification: Yup.number()
@@ -72,12 +68,6 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
         }
     };
 
-    const { genders } = useSelector(
-        (state: RootState) => state.gender);
-
-    const { kinds } = useSelector(
-        (state: RootState) => state.kind);
-
     const handleSubmit = async (values: Product) => {
         const formDataToSend = new FormData();
         formDataToSend.append('id', values.id);
@@ -87,7 +77,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
         formDataToSend.append('genderId', values.gender.id as string);
         formDataToSend.append('kindId', values.kind.id as string);
         (selectedFile) && formDataToSend.append('image', selectedFile);
-        dispatch(action(formDataToSend, page));
+        action(formDataToSend, page);
         await setModalOpen(false);
     };
 
@@ -254,8 +244,7 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
                             color="primary"
                             style={{ marginTop: "20px", marginLeft: "12px", color: "#161732", borderColor: "#161732" }}
                             onClick={handleOpenModalAssigmentCharacter}
-                        >Asignar personajes</Button>)
-                    }
+                        >Asignar personajes</Button>)}
                 </Box>
             </form >
             {formik.values.id &&
@@ -265,8 +254,6 @@ const FormProductComponent = ({ productSelected, title, action, setModalOpen, mo
                     onClose={handleCloseModalAssigmentCharacter!}>
                     <FormCharacterAssigment
                         setModalOpen={setModalOpen}
-                        addAction={characterAddAssignment}
-                        deleteAction={characterDeleteAssignment}
                         productSelected={productSelected}
                     />
                 </ModalComponent>)}

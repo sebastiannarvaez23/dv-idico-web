@@ -1,33 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
 
 import { Button, Typography, Box } from "@mui/material";
 import { useFormik } from "formik";
 import TextField from '@mui/material/TextField';
 
-import { AppDispatch, RootState } from "../../store/store";
+import { AppDispatch } from "../../store/store";
 import { fetchGetCharactersAssignedProduct } from '../../services/character';
-import { uribuild } from '../../utils/params/uribuild';
-import useCharacter from "../../hooks/useCharacter.hook";
-import ListCardComponent from './ListCardComponent';
 import { mapCharacterAssignedToDetailsCardElement } from '../../utils/mappers/character-assigment.mapper';
+import { uribuild } from '../../utils/params/uribuild';
+import ListCardComponent from './ListCardComponent';
+import useCharacter from "../../hooks/useCharacter.hook";
+import useProduct from '../../hooks/useProduct.hook';
 
 
 interface FormCharacterProps {
     productSelected: Product;
     setModalOpen: (fun: boolean) => void;
-    addAction: (characters: { characters: string[] }) => (dispatch: AppDispatch, getState: () => RootState) => Promise<void>;
-    deleteAction: (characters: { characters: string[] }) => (dispatch: AppDispatch, getState: () => RootState) => Promise<void>;
 }
 
-const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, deleteAction }: FormCharacterProps) => {
+const FormCharacterAssigment = ({ productSelected, setModalOpen }: FormCharacterProps) => {
 
-    const { page } = useSelector(
-        (state: RootState) => state.character);
-
-    useCharacter();
-
-    const dispatch = useDispatch<AppDispatch>();
+    const { page } = useCharacter();
+    const { handleAssignCharacterToProduct, handleRevokeCharacterToProduct } = useProduct();
 
     const [toInclude, setToInclude] = useState<string[]>([]);
     const [toExclude, setToExclude] = useState<string[]>([]);
@@ -70,8 +65,8 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen, addAction, dele
     }
 
     const handleSubmit = async (characters: { addCharacters: string[], deleteCharacters: string[] }) => {
-        if (characters.addCharacters.length > 0) dispatch(addAction({ characters: characters.addCharacters }));
-        if (characters.deleteCharacters.length > 0) dispatch(deleteAction({ characters: characters.deleteCharacters }));
+        if (characters.addCharacters.length > 0) handleAssignCharacterToProduct({ characters: characters.addCharacters });
+        if (characters.deleteCharacters.length > 0) handleRevokeCharacterToProduct({ characters: characters.deleteCharacters });
         await setModalOpen(false);
     };
 

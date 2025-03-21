@@ -1,9 +1,7 @@
 import { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Container } from '@mui/system';
 
-import { RootState } from '../../store/store';
 import FloatingAlertComponent from '../home/FloatingAlertComponent';
 import NestedList from './SidebarLateralComponent';
 import SidebarComponent from '../common/SidebarComponent';
@@ -11,10 +9,7 @@ import useAlert from '../../hooks/useAlert.hook';
 
 const SettingsLayoutComponent = ({ children }: { children: React.ReactNode }) => {
 
-    const { alert } = useSelector(
-        (state: RootState) => state.common);
-
-    const { hideAlert } = useAlert();
+    const { alert, hideAlert } = useAlert();
 
     return (
         <Fragment>

@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { getRoles } from '../store/slices/role/thunks';
 
 
 function useRole() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const { roles, count, page } = useSelector(
+        (state: RootState) => state.role);
 
     const [modalEditRole, setModalEditRole] = useState(false);
     const [modalCreateRole, setModalCreateRole] = useState(false);
@@ -42,16 +45,19 @@ function useRole() {
     }, [])
 
     return {
-        roleEmpty,
+        count,
         modalCreateRole,
         modalEditRole,
-        setModalEditRole,
-        setModalCreateRole,
-        handleGetRoles,
-        handleOpenModalEditRole,
-        handleCloseModalEditRole,
-        handleOpenModalCreateRole,
+        page,
+        roleEmpty,
+        roles,
         handleCloseModalCreateRole,
+        handleCloseModalEditRole,
+        handleGetRoles,
+        handleOpenModalCreateRole,
+        handleOpenModalEditRole,
+        setModalCreateRole,
+        setModalEditRole,
     }
 }
 

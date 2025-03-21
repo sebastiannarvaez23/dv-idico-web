@@ -1,10 +1,7 @@
 import { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 
 import { ButtonComponent } from '../components/common/ButtonComponent';
-import { createCharacter, deleteCharacter, updateCharacter } from '../store/slices/character';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
-import { RootState } from '../store/store';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
 import FormCharacterComponent from '../components/home/FormCharacterComponent';
 import InformationCharacterComponent from '../components/home/InformationCharacterComponent';
@@ -18,26 +15,30 @@ const CharacterPage = () => {
 
     const SECTION: TypSection = "characters";
 
-    const { characters, characterSelected, count, page, filter } = useSelector(
-        (state: RootState) => state.character);
-
+    const {
+        characterEmpty,
+        characters,
+        characterSelected,
+        count,
+        detailLabelsCharacter,
+        filter,
+        modalCreateCharacter,
+        modalEditCharacter,
+        page,
+        handleCloseModalCreateCharacter,
+        handleCloseModalEditCharacter,
+        handleCreateCharacter,
+        handleDeleteCharacter,
+        handleGetCharacters,
+        handleOpenModalCreateCharacter,
+        handleOpenModalEditCharacter,
+        handleUpdateCharacter,
+        setModalCreateCharacter,
+        setModalEditCharacter,
+    } = useCharacter();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const characterDto: DetailsCardElement = mapCharacterToDetailsCardElement(characterSelected);
-
-    const {
-        characterEmpty,
-        detailLabelsCharacter,
-        modalCreateCharacter,
-        modalEditCharacter,
-        handleGetCharacters,
-        setModalEditCharacter,
-        setModalCreateCharacter,
-        handleOpenModalEditCharacter,
-        handleCloseModalEditCharacter,
-        handleOpenModalCreateCharacter,
-        handleCloseModalCreateCharacter
-    } = useCharacter();
 
     return (
         <Fragment>
@@ -49,7 +50,7 @@ const CharacterPage = () => {
                     title="Agregar Personaje"
                     setModalOpen={setModalCreateCharacter}
                     characterSelected={characterEmpty}
-                    action={createCharacter}
+                    action={handleCreateCharacter}
                     page={page}
                 />
             </ModalComponent>
@@ -61,7 +62,7 @@ const CharacterPage = () => {
                     title="Editar Personaje"
                     setModalOpen={setModalEditCharacter}
                     characterSelected={characterSelected}
-                    action={updateCharacter}
+                    action={handleUpdateCharacter}
                     page={page}
                 />
             </ModalComponent>
@@ -82,8 +83,8 @@ const CharacterPage = () => {
                 <InformationCharacterComponent
                     element={characterDto}
                     label={detailLabelsCharacter}
-                    deleteElement={deleteCharacter}
-                    editElement={handleOpenModalEditCharacter} />
+                    deleteElement={handleDeleteCharacter}
+                    updateElement={handleOpenModalEditCharacter} />
             </ContainerSectionComponent>
             <ButtonComponent
                 isAuthenticated={isAuthenticated}

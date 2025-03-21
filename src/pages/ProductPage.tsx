@@ -1,12 +1,9 @@
 import { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Rating } from '@mui/material';
 
 import { ButtonComponent } from '../components/common/ButtonComponent';
-import { createProduct, deleteProduct, updateProduct } from '../store/slices/product';
 import { mapProductToDetailsCardElement } from '../utils/mappers/product.mapper';
-import { RootState } from '../store/store';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
 import FormProductComponent from '../components/home/FormProductComponent';
 import InformationProductComponent from '../components/home/InformationProductComponent';
@@ -20,29 +17,33 @@ const ProductPage = () => {
 
     const SECTION: TypSection = "products";
 
-    const { products, productSelected, count, page, filter } = useSelector(
-        (state: RootState) => state.product);
-
     const { isAuthenticated, handleValidateAuthorization } = useSession();
-
-    const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
-
     const {
-        productEmpty,
+        count,
         detailLabelsProduct,
+        filter,
+        modalAssigmentCharacter,
         modalCreateProduct,
         modalEditProduct,
-        modalAssigmentCharacter,
+        page,
+        productEmpty,
+        products,
+        productSelected,
+        handleCloseModalAssigmentCharacter,
+        handleCloseModalCreateProduct,
+        handleCloseModalEditProduct,
+        handleCreateProduct,
+        handleDeleteProduct,
         handleGetProducts,
         handleOpenModalAssigmentCharacter,
-        handleCloseModalAssigmentCharacter,
-        setModalEditProduct,
-        setModalCreateProduct,
-        handleOpenModalEditProduct,
-        handleCloseModalEditProduct,
         handleOpenModalCreateProduct,
-        handleCloseModalCreateProduct
+        handleOpenModalEditProduct,
+        handleUpdateProduct,
+        setModalCreateProduct,
+        setModalEditProduct,
     } = useProduct();
+
+    const productDto: DetailsCardElement = mapProductToDetailsCardElement(productSelected);
 
     return (
         <Fragment>
@@ -54,7 +55,7 @@ const ProductPage = () => {
                     title="Agregar Producto"
                     setModalOpen={setModalCreateProduct}
                     productSelected={productEmpty}
-                    action={createProduct}
+                    action={handleCreateProduct}
                     page={page}
                 />
             </ModalComponent>
@@ -66,7 +67,7 @@ const ProductPage = () => {
                     title="Editar Producto"
                     setModalOpen={setModalEditProduct}
                     productSelected={productSelected}
-                    action={updateProduct}
+                    action={handleUpdateProduct}
                     modalAssigmentCharacter={modalAssigmentCharacter}
                     handleCloseModalAssigmentCharacter={handleCloseModalAssigmentCharacter}
                     handleOpenModalAssigmentCharacter={handleOpenModalAssigmentCharacter}
@@ -90,7 +91,7 @@ const ProductPage = () => {
                 <InformationProductComponent
                     element={productDto}
                     label={detailLabelsProduct}
-                    deleteElement={deleteProduct}
+                    deleteElement={handleDeleteProduct}
                     editElement={handleOpenModalEditProduct}>
                     <Rating
                         readOnly

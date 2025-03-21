@@ -1,11 +1,8 @@
 import { Fragment, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
-import { AppDispatch } from '../../store/store';
 import { ButtonComponent } from '../common/ButtonComponent';
-import { DeleteElementFunction } from '../../types/TypDeleteElementFunction';
 import DialogComponent from '../common/DialogComponent';
 import useSession from '../../hooks/useSession.hook';
 
@@ -13,14 +10,12 @@ import useSession from '../../hooks/useSession.hook';
 interface InformationProductComponentProps {
     element: DetailsCardElement;
     label: DetailsLabelCardElement;
-    deleteElement: DeleteElementFunction;
+    deleteElement: () => void;
     editElement: () => void;
     children: React.ReactNode;
 }
 
 const InformationProductComponent = ({ element, label, deleteElement, editElement, children }: InformationProductComponentProps) => {
-
-    const dispatch = useDispatch<AppDispatch>();
 
     const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -31,7 +26,7 @@ const InformationProductComponent = ({ element, label, deleteElement, editElemen
     }
 
     const handleDeleteProduct = () => {
-        dispatch(deleteElement());
+        deleteElement();
         handleCloseDialog();
     }
 

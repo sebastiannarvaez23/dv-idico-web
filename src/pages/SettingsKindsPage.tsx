@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { AppDispatch, RootState } from "../store/store";
+import { AppDispatch } from "../store/store";
 import { ButtonComponent } from "../components/common/ButtonComponent";
 import { createKind, deleteKind, updateKind } from "../store/slices/kind";
 import { useDebounce } from "../hooks/useDebounce.hook";
@@ -20,8 +20,7 @@ import useSession from "../hooks/useSession.hook";
 
 const SettingsKindsPage = () => {
 
-    const { kinds, count, page } = useSelector(
-        (state: RootState) => state.kind);
+    const { kinds, count, page } = useKind();
 
     interface HeadCell {
         disablePadding: boolean;

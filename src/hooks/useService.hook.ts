@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { getServices } from '../store/slices/service/thunks';
 
 
 function useService() {
 
     const dispatch = useDispatch<AppDispatch>();
+
+    const { services, count, page } = useSelector(
+        (state: RootState) => state.service);
 
     const [modalEditService, setModalEditService] = useState(false);
     const [modalCreateService, setModalCreateService] = useState(false);
@@ -43,16 +46,19 @@ function useService() {
     }, []);
 
     return {
-        serviceEmpty,
+        count,
         modalCreateService,
         modalEditService,
-        setModalEditService,
-        setModalCreateService,
-        handleGetServices,
-        handleOpenModalEditService,
-        handleCloseModalEditService,
-        handleOpenModalCreateService,
+        page,
+        serviceEmpty,
+        services,
         handleCloseModalCreateService,
+        handleCloseModalEditService,
+        handleGetServices,
+        handleOpenModalCreateService,
+        handleOpenModalEditService,
+        setModalCreateService,
+        setModalEditService,
     }
 }
 
