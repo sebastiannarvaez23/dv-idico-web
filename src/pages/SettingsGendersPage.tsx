@@ -1,14 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { AppDispatch } from "../store/store";
 import { ButtonComponent } from "../components/common/ButtonComponent";
-import { createGender } from "../store/slices/gender";
-import { deleteGender, updateGender } from '../store/slices/gender/thunks';
 import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormGenderComponent from "../components/settings/FormGenderComponent";
@@ -20,8 +16,6 @@ import useSession from "../hooks/useSession.hook";
 
 
 const SettingsGendersPage = () => {
-
-    const { genders, count, page } = useGender();
 
     interface HeadCell {
         disablePadding: boolean;
@@ -39,9 +33,17 @@ const SettingsGendersPage = () => {
         },
     ];
 
-    const dispatch = useDispatch<AppDispatch>();
-    const { handleGetGenders, genderEmpty } = useGender();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
+    const {
+        count,
+        genderEmpty,
+        genders,
+        page,
+        handleCreateGender,
+        handleDeleteGender,
+        handleGetGenders,
+        handleUpdateGender,
+    } = useGender();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -56,14 +58,21 @@ const SettingsGendersPage = () => {
         gender && setGenderSelected(gender);
     }
 
-    const handleOpenModal = () => {
-        setOpenModel(true);
-        setGenderSelected(genderEmpty);
+    const handleCreate = (gender: Gender) => {
+        handleCreateGender(gender);
+    }
+
+    const handleUpdate = (gender: Gender) => {
+        handleUpdateGender(gender);
     }
 
     const handleDelete = () => {
-        dispatch(deleteGender(genderSelected.id));
+        handleDeleteGender(genderSelected.id);
         setOpenDialog(false);
+    }
+    const handleOpenModal = () => {
+        setOpenModel(true);
+        setGenderSelected(genderEmpty);
     }
 
     const handleOpenDialog = (id: string) => {
@@ -92,7 +101,8 @@ const SettingsGendersPage = () => {
                     setModalOpen={setOpenModel}
                     genderSelected={genderSelected}
                     title={genderSelected.id ? "Editar género" : "Crear género"}
-                    action={genderSelected.id ? updateGender : createGender}
+                    action={genderSelected.id ? handleUpdate : handleCreate}
+                    page={page}
                 />
             </ModalComponent>
             <SettingsLayoutComponent>

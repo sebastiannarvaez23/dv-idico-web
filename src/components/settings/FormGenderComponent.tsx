@@ -1,23 +1,19 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
 
 import { Button, Typography, Box, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { AppDispatch } from "../../store/store";
-
 
 interface FormGenderProps {
     genderSelected: Gender;
     title: string;
+    page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: Gender) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Gender, pg: number) => void;
 }
 
-const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: FormGenderProps) => {
-
-    const dispatch = useDispatch<AppDispatch>();
+const FormGenderComponent = ({ setModalOpen, action, title, genderSelected, page }: FormGenderProps) => {
 
     const validationSchema = Yup.object({
         name: Yup.string()
@@ -35,7 +31,7 @@ const FormGenderComponent = ({ setModalOpen, action, title, genderSelected }: Fo
     });
 
     const handleSubmit = async (gender: Gender) => {
-        dispatch(action(gender));
+        action(gender, page);
         await setModalOpen(false);
     };
 

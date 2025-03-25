@@ -2,13 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppDispatch, RootState } from "../store/store";
-import { getGenders } from "../store/slices/gender";
+import { createGender, deleteGender, getGenders, updateGender } from "../store/slices/gender";
 
 
 function useGender() {
 
     const dispatch = useDispatch<AppDispatch>();
-
     const { count, page, genders } = useSelector(
         (state: RootState) => state.gender);
 
@@ -22,6 +21,18 @@ function useGender() {
         dispatch(getGenders(page, name));
     }
 
+    const handleCreateGender = (gender: Gender) => {
+        dispatch(createGender(gender));
+    }
+
+    const handleDeleteGender = (id: string) => {
+        dispatch(deleteGender(id));
+    }
+
+    const handleUpdateGender = (gender: Gender) => {
+        dispatch(updateGender(gender));
+    }
+
     useEffect(() => {
         dispatch(getGenders());
     }, []);
@@ -31,7 +42,10 @@ function useGender() {
         genderEmpty,
         genders,
         page,
-        handleGetGenders
+        handleCreateGender,
+        handleDeleteGender,
+        handleGetGenders,
+        handleUpdateGender,
     }
 }
 
