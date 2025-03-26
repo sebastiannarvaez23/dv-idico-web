@@ -1,13 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { AppDispatch } from "../store/store";
 import { ButtonComponent } from "../components/common/ButtonComponent";
-import { createRole, deleteRole, updateRole } from "../store/slices/role";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormRoleComponent from "../components/settings/FormRoleComponent";
@@ -19,8 +16,6 @@ import useSession from "../hooks/useSession.hook";
 
 
 const SettingsRolesPage = () => {
-
-    const { roles, count, page } = useRole();
 
     interface HeadCell {
         disablePadding: boolean;
@@ -38,9 +33,16 @@ const SettingsRolesPage = () => {
         },
     ];
 
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { roleEmpty, handleGetRoles } = useRole();
+    const {
+        roles,
+        count,
+        page,
+        roleEmpty,
+        handleGetRoles,
+        handleCreateRole,
+        handleUpdateRole,
+        handleDeleteRole,
+    } = useRole();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
@@ -56,15 +58,23 @@ const SettingsRolesPage = () => {
         role && setRoleSelected(role);
     }
 
+    const handleCreate = (role: Role) => {
+        handleCreateRole(role);
+    }
+
+    const handleUpdate = (role: Role) => {
+        handleUpdateRole(role);
+    }
+
+    const handleDelete = () => {
+        handleDeleteRole(roleSelected.id);
+        setOpenDialog(false);
+    }
+
     const handleOpenDialog = (id: string) => {
         const rol = roles.find(e => e.id === id);
         rol && setRoleSelected(rol);
         setOpenDialog(true);
-    }
-
-    const handleDelete = () => {
-        dispatch(deleteRole(roleSelected.id));
-        setOpenDialog(false);
     }
 
     const handleOpenModal = () => {
@@ -90,8 +100,9 @@ const SettingsRolesPage = () => {
             <FormRoleComponent
                 setModalOpen={setOpenModel}
                 roleSelected={roleSelected}
+                page={page}
                 title={roleSelected.id ? "Editar rol" : "Crear rol"}
-                action={roleSelected.id ? updateRole : createRole} />
+                action={roleSelected.id ? handleUpdate : handleCreate} />
         </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Roles</Typography>

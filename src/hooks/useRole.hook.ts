@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
-import { getRoles } from '../store/slices/role/thunks';
+import { createRole, deleteRole, getRoles, updateRole } from '../store/slices/role/thunks';
 
 
 function useRole() {
@@ -22,6 +22,18 @@ function useRole() {
 
     const handleGetRoles = (page: number, name?: string) => {
         dispatch(getRoles(page, name));
+    }
+
+    const handleCreateRole = (role: Role) => {
+        dispatch(createRole(role));
+    }
+
+    const handleUpdateRole = (role: Role) => {
+        dispatch(updateRole(role));
+    }
+
+    const handleDeleteRole = (id: string) => {
+        dispatch(deleteRole(id));
     }
 
     const handleOpenModalEditRole = () => {
@@ -58,6 +70,9 @@ function useRole() {
         handleOpenModalEditRole,
         setModalCreateRole,
         setModalEditRole,
+        handleCreateRole,
+        handleUpdateRole,
+        handleDeleteRole,
     }
 }
 

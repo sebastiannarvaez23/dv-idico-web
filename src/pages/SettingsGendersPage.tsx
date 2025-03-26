@@ -70,6 +70,7 @@ const SettingsGendersPage = () => {
         handleDeleteGender(genderSelected.id);
         setOpenDialog(false);
     }
+
     const handleOpenModal = () => {
         setOpenModel(true);
         setGenderSelected(genderEmpty);

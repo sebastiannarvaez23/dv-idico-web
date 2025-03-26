@@ -1,23 +1,19 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
 
 import { Button, Typography, Box, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { AppDispatch } from "../../store/store";
-
 
 interface FormRoleProps {
     roleSelected: Role;
     title: string;
+    page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: Role) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Role, pg: number) => void;
 }
 
-const FormRoleComponent = ({ setModalOpen, action, title, roleSelected }: FormRoleProps) => {
-
-    const dispatch = useDispatch<AppDispatch>();
+const FormRoleComponent = ({ page, title, roleSelected, setModalOpen, action }: FormRoleProps) => {
 
     const validationSchema = Yup.object({
         name: Yup.string()
@@ -35,7 +31,7 @@ const FormRoleComponent = ({ setModalOpen, action, title, roleSelected }: FormRo
     });
 
     const handleSubmit = async (role: Role) => {
-        dispatch(action(role));
+        action(role, page);
         await setModalOpen(false);
     };
 
