@@ -1,13 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
 
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
-import { AppDispatch } from "../store/store";
 import { ButtonComponent } from "../components/common/ButtonComponent";
-import { createKind, deleteKind, updateKind } from "../store/slices/kind";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormKindComponent from "../components/settings/FormKindComponent";
@@ -19,8 +16,6 @@ import useSession from "../hooks/useSession.hook";
 
 
 const SettingsKindsPage = () => {
-
-    const { kinds, count, page } = useKind();
 
     interface HeadCell {
         disablePadding: boolean;
@@ -38,9 +33,16 @@ const SettingsKindsPage = () => {
         },
     ];
 
-    const dispatch = useDispatch<AppDispatch>();
-
-    const { kindEmpty, handleGetKinds } = useKind();
+    const {
+        kindEmpty,
+        kinds,
+        count,
+        page,
+        handleGetKinds,
+        handleCreateKind,
+        handleUpdateKind,
+        handleDeleteKind,
+    } = useKind();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
@@ -56,6 +58,19 @@ const SettingsKindsPage = () => {
         kind && setKindSelected(kind);
     }
 
+    const handleCreate = (kind: Kind) => {
+        handleCreateKind(kind);
+    }
+
+    const handleUpdate = (kind: Kind) => {
+        handleUpdateKind(kind);
+    }
+
+    const handleDelete = () => {
+        handleDeleteKind(kindSelected.id);
+        setOpenDialog(false);
+    }
+
     const handleOpenModal = () => {
         setOpenModel(true);
         setKindSelected(kindEmpty);
@@ -65,11 +80,6 @@ const SettingsKindsPage = () => {
         const kind = kinds.find(e => e.id === id);
         kind && setKindSelected(kind);
         setOpenDialog(true);
-    }
-
-    const handleDelete = () => {
-        dispatch(deleteKind(kindSelected.id));
-        setOpenDialog(false);
     }
 
     useEffect(() => {
@@ -91,7 +101,8 @@ const SettingsKindsPage = () => {
                 setModalOpen={setOpenModel}
                 kindSelected={kindSelected}
                 title={kindSelected.id ? "Editar tipo de producto" : "Crear tipo de producto"}
-                action={kindSelected.id ? updateKind : createKind} />
+                page={page}
+                action={kindSelected.id ? handleUpdate : handleCreate} />
         </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Tipos de Producto</Typography>

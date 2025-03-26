@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppDispatch, RootState } from "../store/store";
-import { getKinds } from "../store/slices/kind";
+import { createKind, deleteKind, getKinds, updateKind } from "../store/slices/kind";
 
 
 function useKind() {
@@ -21,6 +21,19 @@ function useKind() {
         dispatch(getKinds(page, name));
     }
 
+    const handleCreateKind = (kind: Kind) => {
+        dispatch(createKind(kind));
+    }
+
+    const handleUpdateKind = (kind: Kind) => {
+        dispatch(updateKind(kind));
+    }
+
+    const handleDeleteKind = (id: string) => {
+        dispatch(deleteKind(id));
+    }
+
+
     useEffect(() => {
         dispatch(getKinds());
     }, []);
@@ -30,7 +43,10 @@ function useKind() {
         kindEmpty,
         kinds,
         page,
-        handleGetKinds
+        handleGetKinds,
+        handleCreateKind,
+        handleUpdateKind,
+        handleDeleteKind,
     }
 }
 

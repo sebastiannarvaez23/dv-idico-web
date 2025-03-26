@@ -39,10 +39,10 @@ const SettingsGendersPage = () => {
         genderEmpty,
         genders,
         page,
-        handleCreateGender,
-        handleDeleteGender,
         handleGetGenders,
+        handleCreateGender,
         handleUpdateGender,
+        handleDeleteGender,
     } = useGender();
 
     const [openModal, setOpenModel] = useState<boolean>(false);

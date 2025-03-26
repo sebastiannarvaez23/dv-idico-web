@@ -1,23 +1,19 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
 
 import { Button, Typography, Box, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { AppDispatch } from "../../store/store";
-
 
 interface FormKindProps {
     kindSelected: Kind;
     title: string;
+    page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: Kind) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Gender, pg: number) => void;
 }
 
-const FormKindComponent = ({ setModalOpen, action, title, kindSelected }: FormKindProps) => {
-
-    const dispatch = useDispatch<AppDispatch>();
+const FormKindComponent = ({ page, title, kindSelected, setModalOpen, action }: FormKindProps) => {
 
     const validationSchema = Yup.object({
         name: Yup.string()
@@ -35,7 +31,7 @@ const FormKindComponent = ({ setModalOpen, action, title, kindSelected }: FormKi
     });
 
     const handleSubmit = async (kind: Kind) => {
-        dispatch(action(kind));
+        action(kind, page);
         await setModalOpen(false);
     };
 

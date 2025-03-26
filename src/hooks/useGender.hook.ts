@@ -25,12 +25,12 @@ function useGender() {
         dispatch(createGender(gender));
     }
 
-    const handleDeleteGender = (id: string) => {
-        dispatch(deleteGender(id));
-    }
-
     const handleUpdateGender = (gender: Gender) => {
         dispatch(updateGender(gender));
+    }
+
+    const handleDeleteGender = (id: string) => {
+        dispatch(deleteGender(id));
     }
 
     useEffect(() => {
