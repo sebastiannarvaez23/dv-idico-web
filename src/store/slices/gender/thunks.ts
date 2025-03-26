@@ -62,7 +62,7 @@ export const updateGender = (gender: Gender) => {
 };
 
 export const deleteGender = (id: string) => {
-    return async (dispatch: AppDispatch, getState: () => RootState) => {
+    return async (dispatch: AppDispatch) => {
         try {
             await fetchDeleteGender(id);
             await dispatch(setEmptyGenderSelected());

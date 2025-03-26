@@ -62,7 +62,7 @@ export const updateRole = (role: Role) => {
 };
 
 export const deleteRole = (id: string) => {
-    return async (dispatch: AppDispatch, getState: () => RootState) => {
+    return async (dispatch: AppDispatch) => {
         try {
             await fetchDeleteRole(id);
             await dispatch(setEmptyRoleSelected());
