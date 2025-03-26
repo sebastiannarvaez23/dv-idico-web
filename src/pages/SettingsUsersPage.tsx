@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 
 import { Box } from "@mui/system";
 import { Grid, TextField } from "@mui/material";
-import { updatePerson } from "../store/slices/person";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import FormPersonComponent from "../components/settings/FormPersonComponent";
 import ModalComponent from "../components/common/ModalComponent";
@@ -56,7 +55,7 @@ const SettingsUserPage = () => {
         },
     ];
 
-    const { persons, count, page, personEmpty, handleGetPersons } = usePerson();
+    const { persons, count, page, personEmpty, handleGetPersons, handleUpdatePerson } = usePerson();
     const { handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModel] = useState<boolean>(false);
@@ -75,6 +74,10 @@ const SettingsUserPage = () => {
         person && setPersonSelected(person);
     }
 
+    const handleUpdate = (person: Person) => {
+        handleUpdatePerson(person);
+    }
+
     useEffect(() => {
         handleGetPersons(page, debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue);
     }, [debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue]);
@@ -88,7 +91,8 @@ const SettingsUserPage = () => {
                 setModalOpen={setOpenModel}
                 personSelected={personSelected}
                 title={"Editar persona"}
-                action={updatePerson}
+                page={page}
+                action={handleUpdate}
             />
         </ModalComponent>
         <SettingsLayoutComponent>

@@ -1,11 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import { Grid, Card, Pagination } from '@mui/material';
 
-import { AppDispatch } from '../../store/store';
-import { getCharacter } from '../../store/slices/character';
-import { getProduct } from '../../store/slices/product';
 import { mapDetailsCardElementToCharacter } from '../../utils/mappers/character.mapper';
 import { mapDetailsCardElementToProduct } from '../../utils/mappers/product.mapper';
 import RowListComponent from '../common/RowListComponent';
@@ -32,23 +28,17 @@ const ListCardComponent: React.FC<ListCardComponentProps> = (
     { elements, totalRows, sectionSelected, margin = '10px 0', height = '47vh', page, filter, handleGetElements, handleCheck }
 ) => {
 
-    const { isLoadingCharacters } = useCharacter();
-    const { isLoadingProducts } = useProduct();
+    const { handleGetCharacter, isLoadingCharacters } = useCharacter();
+    const { handleGetProduct, isLoadingProducts } = useProduct();
 
     const [totalPages, setTotalPages] = React.useState(1);
 
-    const dispatch = useDispatch<AppDispatch>();
-
     const handleClickRow = (element: DetailsCardElement): void => {
         if (sectionSelected === "products") {
-            dispatch(
-                getProduct(
-                    mapDetailsCardElementToProduct(element).id));
+            handleGetProduct(mapDetailsCardElementToProduct(element).id);
         }
         if (sectionSelected === "characters") {
-            dispatch(
-                getCharacter(
-                    mapDetailsCardElementToCharacter(element).id));
+            handleGetCharacter(mapDetailsCardElementToCharacter(element).id);
         }
     }
 

@@ -9,7 +9,8 @@ export const mapCharacterToDetailsCardElement = (character: Character): DetailsC
         field5: "",
         image1: character.image,
         list1: character.products,
-        extraField1: ""
+        extraField1: "",
+        check1: undefined,
     };
 }
 

@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Button, Typography, Box, TextField, FormControl } from "@mui/material";
@@ -9,19 +8,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import dayjs, { Dayjs } from "dayjs";
 
-import { AppDispatch } from "../../store/store";
-
 
 interface FormPersonProps {
     personSelected: Person;
     title: string;
+    page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: Person) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Person, pg: number) => void;
 }
 
-const FormPersonComponent = ({ setModalOpen, action, title, personSelected }: FormPersonProps) => {
-
-    const dispatch = useDispatch<AppDispatch>();
+const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action }: FormPersonProps) => {
 
     const validationSchema = Yup.object({
         firstName: Yup.string()
@@ -55,7 +51,7 @@ const FormPersonComponent = ({ setModalOpen, action, title, personSelected }: Fo
     });
 
     const handleSubmit = async (person: Person) => {
-        dispatch(action(person));
+        action(person, page);
         await setModalOpen(false);
     };
 

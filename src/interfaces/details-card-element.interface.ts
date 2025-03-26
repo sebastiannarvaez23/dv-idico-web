@@ -8,5 +8,5 @@ interface DetailsCardElement {
     extraField1: string;
     image1: string | File;
     list1: string[];
-    check1: boolean;
+    check1: boolean | undefined;
 }

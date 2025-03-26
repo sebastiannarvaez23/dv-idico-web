@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
-import { createCharacter, deleteCharacter, getCharacters, updateCharacter } from '../store/slices/character';
+import { createCharacter, deleteCharacter, getCharacter, getCharacters, updateCharacter } from '../store/slices/character';
 
 
 function useCharacter() {
@@ -40,6 +40,10 @@ function useCharacter() {
 
     const handleGetCharacters = (page: number, name?: string) => {
         dispatch(getCharacters(page, name));
+    }
+
+    const handleGetCharacter = (id: string) => {
+        dispatch(getCharacter(id));
     }
 
     const handleOpenModalEditCharacter = () => {
@@ -91,6 +95,7 @@ function useCharacter() {
         handleCloseModalCreateCharacter,
         handleCloseModalEditCharacter,
         handleGetCharacters,
+        handleGetCharacter,
         handleOpenModalCreateCharacter,
         handleOpenModalEditCharacter,
         setModalCreateCharacter,

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
-import { characterAddAssignment, characterDeleteAssignment, createProduct, deleteProduct, getProducts, updateProduct } from '../store/slices/product';
+import { characterAddAssignment, characterDeleteAssignment, createProduct, deleteProduct, getProduct, getProducts, updateProduct } from '../store/slices/product';
 
 
 function useProduct() {
@@ -43,6 +43,10 @@ function useProduct() {
 
     const handleGetProducts = (page: number, title?: string) => {
         dispatch(getProducts(page, title));
+    }
+
+    const handleGetProduct = (id: string) => {
+        dispatch(getProduct(id));
     }
 
     const handleOpenModalEditProduct = () => {
@@ -114,6 +118,7 @@ function useProduct() {
         handleCloseModalCreateProduct,
         handleCloseModalEditProduct,
         handleGetProducts,
+        handleGetProduct,
         handleOpenModalAssigmentCharacter,
         handleOpenModalCreateProduct,
         handleOpenModalEditProduct,

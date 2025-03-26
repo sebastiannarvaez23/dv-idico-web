@@ -35,6 +35,7 @@ export const mapProductToDetailsCardElement = (product: Product): DetailsCardEle
         extraField1: product.gender?.id,
         image1: product.image as string,
         list1: product.characters,
+        check1: undefined,
     };
 }
 
