@@ -1,28 +1,26 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
 
 import { Button, Typography, Box, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { AppDispatch } from "../../store/store";
-
 
 interface FormServiceProps {
     serviceSelected: Service;
     title: string;
+    page: number;
     setModalOpen: (fun: boolean) => void;
-    action: (data: Service) => (dispatch: AppDispatch) => Promise<void>;
+    action: (data: Service, pg: number) => void;
 }
 
-const FormServiceComponent = ({ setModalOpen, action, title, serviceSelected }: FormServiceProps) => {
-
-    const dispatch = useDispatch<AppDispatch>();
+const FormServiceComponent = ({ page, title, serviceSelected, setModalOpen, action }: FormServiceProps) => {
 
     const validationSchema = Yup.object({
         code: Yup.string()
             .required("El código es requerido")
-            .max(4, "El código no puede tener más de 4 caracteres"),
+            .max(4, "El código no puede tener más de 4 caracteres")
+            .min(4, "El código no puede tener menos de 4 caracteres")
+            .matches(/^[0-9]+$/, "El código solo puede contener números"),
         name: Yup.string()
             .required("El nombre es requerido")
             .max(100, "El nombre no puede tener más de 100 caracteres"),
@@ -39,7 +37,7 @@ const FormServiceComponent = ({ setModalOpen, action, title, serviceSelected }: 
     });
 
     const handleSubmit = async (service: Service) => {
-        dispatch(action(service));
+        action(service, page);
         await setModalOpen(false);
     };
 

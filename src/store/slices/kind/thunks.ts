@@ -6,15 +6,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 
 
 export const getKinds = (page: number = 1, name?: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
+            const { kindSelected } = getState().kind;
             dispatch(startLoadingKinds());
             const kinds = await fetchGetKinds(uribuild({ page, name }));
             await dispatch(setKinds({ kinds: kinds.rows }));
             await dispatch(setCount({ count: kinds.count }));
             await dispatch(setPage({ page }));
             await dispatch(setFilter({ filter: { name } }));
-            if (kinds.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
+            if (!name && kinds.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay tipos de producto almacenados' }));
+            else if (name && kinds.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen tipos de producto para los filtros especificados' }));
+            else if (kindSelected?.id === '') dispatch(getKind(kinds.rows[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de tipos de productos.' }));
         }
@@ -59,7 +62,7 @@ export const updateKind = (kind: Kind) => {
 };
 
 export const deleteKind = (id: string) => {
-    return async (dispatch: AppDispatch, getState: () => RootState) => {
+    return async (dispatch: AppDispatch) => {
         try {
             await fetchDeleteKind(id);
             await dispatch(setEmptyKindSelected());

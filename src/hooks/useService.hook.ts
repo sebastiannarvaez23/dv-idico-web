@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
-import { getServices } from '../store/slices/service/thunks';
+import { createService, deleteService, getServices, updateService } from '../store/slices/service/thunks';
 
 
 function useService() {
@@ -23,6 +23,18 @@ function useService() {
 
     const handleGetServices = (page: number, code?: string, name?: string) => {
         dispatch(getServices(page, code, name));
+    }
+
+    const handleCreateService = (service: Service) => {
+        dispatch(createService(service));
+    }
+
+    const handleUpdateService = (service: Service) => {
+        dispatch(updateService(service));
+    }
+
+    const handleDeleteService = (id: string) => {
+        dispatch(deleteService(id));
     }
 
     const handleOpenModalEditService = () => {
@@ -59,6 +71,9 @@ function useService() {
         handleOpenModalEditService,
         setModalCreateService,
         setModalEditService,
+        handleCreateService,
+        handleUpdateService,
+        handleDeleteService,
     }
 }
 

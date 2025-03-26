@@ -20,8 +20,6 @@ import useSession from "../hooks/useSession.hook";
 
 const SettingsServicesPage = () => {
 
-    const { services, count, page } = useService();
-
     interface HeadCell {
         disablePadding: boolean;
         id: keyof Data;
@@ -44,8 +42,16 @@ const SettingsServicesPage = () => {
         },
     ];
 
-    const dispatch = useDispatch<AppDispatch>();
-    const { serviceEmpty, handleGetServices } = useService();
+    const {
+        services,
+        count,
+        page,
+        serviceEmpty,
+        handleGetServices,
+        handleCreateService,
+        handleUpdateService,
+        handleDeleteService,
+    } = useService();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
 
     const [openModal, setOpenModal] = useState<boolean>(false);
@@ -63,15 +69,23 @@ const SettingsServicesPage = () => {
         service && setServiceSelected(service);
     }
 
+    const handleCreate = (service: Service) => {
+        handleCreateService(service);
+    }
+
+    const handleUpdate = (service: Service) => {
+        handleUpdateService(service);
+    }
+
+    const handleDelete = () => {
+        handleDeleteService(serviceSelected.id);
+        setOpenDialog(false);
+    }
+
     const handleOpenDialog = (id: string) => {
         const service = services.find(e => e.id === id);
         service && setServiceSelected(service);
         setOpenDialog(true);
-    }
-
-    const handleDelete = () => {
-        dispatch(deleteService(serviceSelected.id));
-        setOpenDialog(false);
     }
 
     const handleOpenModal = () => {
@@ -97,8 +111,9 @@ const SettingsServicesPage = () => {
             <FormServiceComponent
                 setModalOpen={setOpenModal}
                 serviceSelected={serviceSelected}
+                page={page}
                 title={serviceSelected.id ? "Editar servicio" : "Crear servicio"}
-                action={serviceSelected.id ? updateService : createService}
+                action={serviceSelected.id ? handleUpdate : handleCreate}
             />
         </ModalComponent>
         <SettingsLayoutComponent>

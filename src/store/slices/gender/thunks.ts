@@ -6,15 +6,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 
 
 export const getGenders = (page: number = 1, name?: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
+            const { genderSelected } = getState().gender;
             dispatch(startLoadingGenders());
             const genders = await fetchGetGenders(uribuild({ page, name }));
             await dispatch(setGenders({ genders: genders.rows }));
             await dispatch(setCount({ count: genders.count }));
             await dispatch(setPage({ page }));
             await dispatch(setFilter({ filter: { name } }));
-            if (genders.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Tipos de Producto almacenados' }));
+            if (!name && genders.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay géneros almacenados' }));
+            else if (name && genders.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen géneros para los filtros especificados' }));
+            else if (genderSelected?.id === '') dispatch(getGender(genders.rows[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de géneros de producto.' }));
         }

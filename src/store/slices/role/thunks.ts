@@ -6,15 +6,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 
 
 export const getRoles = (page: number = 1, name?: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
+            const { roleSelected } = getState().role;
             dispatch(startLoadingRoles());
             const roles = await fetchGetRoles(uribuild({ page, name }));
             await dispatch(setRoles({ roles: roles.rows }));
             await dispatch(setCount({ count: roles.count }));
             await dispatch(setPage({ page }));
             await dispatch(setFilter({ filter: { name } }));
-            if (roles.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Roles almacenados' }));
+            if (!name && roles.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay roles almacenados' }));
+            else if (name && roles.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen roles para los filtros especificados' }));
+            else if (roleSelected?.id === '') dispatch(getRole(roles.rows[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de roles.' }));
         }

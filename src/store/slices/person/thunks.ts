@@ -6,16 +6,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 
 
 export const getPersons = (page: number = 1, firstName?: string, lastName?: string, email?: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
+            const { personSelected } = getState().person;
             dispatch(startLoadingPersons());
             const persons = await fetchGetPersons(uribuild({ page, firstName, lastName, email }));
             await dispatch(setPersons({ persons: persons.rows }));
             await dispatch(setCount({ count: persons.count }));
             await dispatch(setPage({ page }));
             await dispatch(setFilter({ filter: { firstName, lastName, email } }));
-            if ((!firstName && !lastName && !email) && persons.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay personas almacenadas' }));
-            else if ((firstName !== '' || lastName !== '' || email !== '') && persons.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen personas para los filtros especificados' }));
+            if (!firstName && !lastName && !email && persons.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay personas almacenadas' }));
+            else if ((firstName || lastName || email) && persons.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen personas para los filtros especificados' }));
+            else if (personSelected?.id === '') dispatch(getPerson(persons.rows[0].id));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de personas.' }));
         }
