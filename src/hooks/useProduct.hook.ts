@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
 import { characterAddAssignment, characterDeleteAssignment, createProduct, deleteProduct, getProduct, getProducts, updateProduct } from '../store/slices/product';
+import { fetchGetCharactersAssignedProduct } from '../services/character';
+import { uribuild } from '../utils/params/uribuild';
 
 
 function useProduct() {
@@ -92,6 +94,10 @@ function useProduct() {
         dispatch(deleteProduct());
     }
 
+    const handleGetCharactersAssignedProduct = async (page: number, filter?: string) => {
+        return await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page, filter }));
+    };
+
     useEffect(() => {
         if (products.length === 0) dispatch(getProducts());
     }, [])
@@ -125,6 +131,7 @@ function useProduct() {
         setModalAssigmentCharacter,
         setModalCreateProduct,
         setModalEditProduct,
+        handleGetCharactersAssignedProduct
     };
 }
 

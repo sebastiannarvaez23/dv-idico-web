@@ -4,13 +4,10 @@ import { Button, Typography, Box } from "@mui/material";
 import { useFormik } from "formik";
 import TextField from '@mui/material/TextField';
 
-import { fetchGetCharactersAssignedProduct } from '../../services/character';
-import { mapCharacterAssignedToDetailsCardElement } from '../../utils/mappers/character-assigment.mapper';
-import { uribuild } from '../../utils/params/uribuild';
 import ListCardComponent from './ListCardComponent';
-import useCharacter from "../../hooks/useCharacter.hook";
 import useProduct from '../../hooks/useProduct.hook';
 import { ContainListRowAssigmentCharacter } from "./ContainListRowAssigmentCharacter";
+import { mapCharacterAssignedToDetailsCardElement } from "../../utils/mappers/character-assigment.mapper";
 
 
 interface FormCharacterProps {
@@ -18,16 +15,20 @@ interface FormCharacterProps {
     setModalOpen: (fun: boolean) => void;
 }
 
-const FormCharacterAssigment = ({ productSelected, setModalOpen }: FormCharacterProps) => {
+const FormCharacterAssigment = ({ setModalOpen }: FormCharacterProps) => {
 
-    const { page } = useCharacter();
-    const { handleAssignCharacterToProduct, handleRevokeCharacterToProduct } = useProduct();
+    const {
+        handleAssignCharacterToProduct,
+        handleRevokeCharacterToProduct,
+        handleGetCharactersAssignedProduct
+    } = useProduct();
 
     const [toInclude, setToInclude] = useState<string[]>([]);
     const [toExclude, setToExclude] = useState<string[]>([]);
     const [characters, setCharacters] = useState<DetailsCardElement[]>([]);
-    const [charactersBackUp, setCharactersBackUp] = useState<CharacterAssigment[]>([]);
+    const [pageAssigment, setPageAssigment] = useState<number>(1);
     const [totalRows, setTotalRows] = useState<number>(0);
+    const [charactersBackUp, setCharactersBackUp] = useState<CharacterAssigment[]>([]);
 
     const formik = useFormik<{ addCharacters: string[], deleteCharacters: string[] }>({
         initialValues: {
@@ -69,24 +70,20 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen }: FormCharacter
         await setModalOpen(false);
     };
 
-    // TODO: Migrate to service and thunk
-    const fetchData = async (pg: number) => {
-        try {
-            const response = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: pg }));
-            setCharactersBackUp(response.rows);
-            const ch = response.rows.map(e => {
-                if (toInclude.includes(e.id)) e.assigned = true
-                return mapCharacterAssignedToDetailsCardElement(e)
-            }) ?? []
-            setTotalRows(response.count);
-            setCharacters(ch);
-        } catch (error) {
-            console.error('Error fetching characters:', error);
-        }
-    };
+    const getCharactersAssignedProduct = async (pg: number, filter?: string) => {
+        const res = await handleGetCharactersAssignedProduct(pg, filter);
+        const ch = await res.rows.map(e => {
+            if (toInclude.includes(e.id)) e.assigned = true
+            return mapCharacterAssignedToDetailsCardElement(e)
+        }) ?? [];
+        setCharactersBackUp(res.rows);
+        setTotalRows(res.count);
+        setCharacters(ch ?? []);
+        setPageAssigment(pg);
+    }
 
     useEffect(() => {
-        fetchData(page);
+        getCharactersAssignedProduct(pageAssigment);
     }, []);
 
     useEffect(() => {
@@ -113,9 +110,9 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen }: FormCharacter
                         height={'40vh'}
                         elements={characters}
                         totalRows={totalRows}
-                        page={page}
+                        page={pageAssigment}
                         handleCheck={handleCheck}
-                        handleGetElements={(pg: number) => { fetchData(pg) }}
+                        handleGetElements={getCharactersAssignedProduct}
                         rowComponent={ContainListRowAssigmentCharacter}
                     />
                 </div>
