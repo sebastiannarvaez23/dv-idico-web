@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
-import { createRole, deleteRole, getRoles, updateRole } from '../store/slices/role/thunks';
+import { createRole, deleteRole, getRoles, serviceAddAssignment, serviceDeleteAssignment, updateRole } from '../store/slices/role/thunks';
 
 
 function useRole() {
@@ -52,6 +52,14 @@ function useRole() {
         setModalCreateRole(false);
     };
 
+    const handleAssignServiceToProduct = (roleId: string, services: { services: string[] }) => {
+        dispatch(serviceAddAssignment(roleId, services));
+    }
+
+    const handleRevokeServiceToProduct = (roleId: string, services: { services: string[] }) => {
+        dispatch(serviceDeleteAssignment(roleId, services));
+    }
+
     useEffect(() => {
         dispatch(getRoles());
     }, [])
@@ -68,6 +76,8 @@ function useRole() {
         handleGetRoles,
         handleOpenModalCreateRole,
         handleOpenModalEditRole,
+        handleAssignServiceToProduct,
+        handleRevokeServiceToProduct,
         setModalCreateRole,
         setModalEditRole,
         handleCreateRole,

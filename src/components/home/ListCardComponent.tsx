@@ -22,10 +22,11 @@ interface ListCardComponentProps {
     handleGetElements: (pg: number, ft?: string) => void;
     setProductSelected?: (e: Product) => void;
     setCharacterSelected?: (e: Character) => void;
+    rowComponent: React.ComponentType<{ element: DetailsCardElement; handleCheck?: (id: string, value: boolean) => void }>;
 }
 
 const ListCardComponent: React.FC<ListCardComponentProps> = (
-    { elements, totalRows, sectionSelected, margin = '10px 0', height = '47vh', page, filter, handleGetElements, handleCheck }
+    { rowComponent: RowComponent, elements, totalRows, sectionSelected, margin = '10px 0', height = '47vh', page, filter, handleGetElements, handleCheck }
 ) => {
 
     const { handleGetCharacter, isLoadingCharacters } = useCharacter();
@@ -57,10 +58,11 @@ const ListCardComponent: React.FC<ListCardComponentProps> = (
         <Card style={{ margin, height }}>
             <div style={{ padding: '20px 0', height: '60vh', maxHeight: '280px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <Grid container spacing={2}>
-                    {elements && elements.map((element, index) => (
-                        <RowListComponent handleCheck={handleCheck} handleClickRow={handleClickRow} element={element} key={index} />
+                    {!isLoadingCharacters && elements && elements.map((element, index) => (
+                        <RowListComponent handleClickRow={handleClickRow} element={element} key={index} >
+                            <RowComponent element={element} handleCheck={handleCheck} />
+                        </RowListComponent>
                     ))}
-
                     {(isLoadingCharacters || isLoadingProducts) && (
                         <RowListLoadingComponent />
                     )}

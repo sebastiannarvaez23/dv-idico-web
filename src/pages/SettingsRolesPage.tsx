@@ -13,6 +13,7 @@ import SettingsLayoutComponent from "../components/settings/SettingsLayoutCompon
 import TableComponent from "../components/common/TableComponent";
 import useRole from "../hooks/useRole.hook";
 import useSession from "../hooks/useSession.hook";
+import { FormRoleAssigmentService } from "../components/settings/FormRoleAssigmentService";
 
 
 const SettingsRolesPage = () => {
@@ -45,10 +46,12 @@ const SettingsRolesPage = () => {
     } = useRole();
     const { isAuthenticated, handleValidateAuthorization } = useSession();
 
+    const [openModalAssigmentService, setOpenModalAssigmentService] = useState<boolean>(false);
     const [openModal, setOpenModel] = useState<boolean>(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [roleSelected, setRoleSelected] = useState<Role>(roleEmpty);
     const [searchNameValue, setSearchNameValue] = useState<string>('');
+    const [rowsSelected, setRowsSelected] = useState<string[]>([]);
 
     const debounceSearchNameValue = useDebounce(searchNameValue, 500);
 
@@ -104,6 +107,15 @@ const SettingsRolesPage = () => {
                 title={roleSelected.id ? "Editar rol" : "Crear rol"}
                 action={roleSelected.id ? handleUpdate : handleCreate} />
         </ModalComponent>
+        <ModalComponent
+            width={50}
+            open={openModalAssigmentService}
+            onClose={() => setOpenModalAssigmentService(false)}>
+            <FormRoleAssigmentService
+                rolesId={rowsSelected}
+                setModalOpen={setOpenModalAssigmentService}
+            />
+        </ModalComponent>
         <SettingsLayoutComponent>
             <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Roles</Typography>
             <hr />
@@ -111,11 +123,11 @@ const SettingsRolesPage = () => {
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <ButtonComponent
                     isAuthenticated={isAuthenticated}
-                    isAuthorized={handleValidateAuthorization('0306')}
+                    isAuthorized={handleValidateAuthorization('0306') && rowsSelected.length > 0}
                     label={'Asiganar permisos'}
                     margin={'0px 12px 20px 0px'}
                     size={'large'}
-                    onClick={() => alert('Funcionalidad en construcción')}
+                    onClick={() => setOpenModalAssigmentService(true)}
                 />
                 <ButtonComponent
                     isAuthenticated={isAuthenticated}
@@ -143,6 +155,7 @@ const SettingsRolesPage = () => {
                 title={"Roles"}
                 filters={[debounceSearchNameValue]}
                 page={page}
+                setRowsSelected={setRowsSelected}
                 onEdit={handleEdit}
                 onDelete={handleOpenDialog}
                 changePage={handleGetRoles} />

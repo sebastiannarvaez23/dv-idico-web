@@ -2,6 +2,7 @@ import { Grid, Paper } from '@mui/material';
 
 import DetailsCardComponent from './DetailsCardComponent';
 import ListCardComponent from './ListCardComponent';
+import { ContainListRow } from './ContainListRow';
 
 
 interface ContainerSectionComponentProps {
@@ -54,7 +55,8 @@ const ContainerSectionComponent = ({
                         totalRows={totalRows}
                         sectionSelected={sectionSelected}
                         handleGetElements={handleGetElements}
-                        setCharacterSelected={setCharacterSelected} />
+                        setCharacterSelected={setCharacterSelected}
+                        rowComponent={ContainListRow} />
                 </Paper>
             </Grid>
         </Grid >

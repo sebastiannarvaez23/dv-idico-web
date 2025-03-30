@@ -42,3 +42,19 @@ export const fetchDeleteRole = async (id: string): Promise<Role> => {
         })
     return response.data;
 };
+
+export const fetchAddServiceAssignment = async (id: string, services: { services: string[] }): Promise<Role> => {
+    const response = await api.post(`/role/add-service-assignment/${id}`, services)
+        .catch((error: any) => {
+            throw new Error(`Error al asignar personajes a pelicula: ${error.message}`);
+        })
+    return response.data;
+}
+
+export const fetchDeleteServiceAssignment = async (id: string, services: { services: string[] }): Promise<Role> => {
+    const response = await api.post(`/role/delete-service-assignment/${id}`, services)
+        .catch((error: any) => {
+            throw new Error(`Error al asignar personajes a pelicula: ${error.message}`);
+        })
+    return response.data;
+}

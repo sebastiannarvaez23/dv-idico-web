@@ -77,6 +77,7 @@ interface TablePropsComponent {
     totalRows: number,
     filters: string[],
     page: number,
+    setRowsSelected?: (rowsSelected: string[]) => void,
     onEdit: (id: string) => void,
     onDelete: (id: string) => void,
     changePage: (page: number, ...filters: string[]) => void,
@@ -202,6 +203,7 @@ const TableComponent = ({
     totalRows,
     filters,
     page,
+    setRowsSelected,
     onDelete,
     onEdit,
     changePage
@@ -248,6 +250,7 @@ const TableComponent = ({
             );
         }
         setSelected(newSelected);
+        setRowsSelected && setRowsSelected(newSelected as string[]);
     };
 
     const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {

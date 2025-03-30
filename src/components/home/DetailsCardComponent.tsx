@@ -1,6 +1,8 @@
-import { Card, CardContent, CardMedia, Grid } from '@mui/material';
+import { Card, CardContent, Grid } from '@mui/material';
+
 import Lottie from 'lottie-react';
 
+import { ImageComponent } from '../common/ImageComponent';
 import loadingAnimation from '../../../public/loading.json';
 import useCharacter from '../../hooks/useCharacter.hook';
 import useProduct from '../../hooks/useProduct.hook';
@@ -30,16 +32,9 @@ const DetailsCardComponent = ({ element, children }: DetailsCardComponentProps) 
                             }} />
                         </div>
                     ) : (
-                        <CardMedia
-                            component="img"
-                            style={{
-                                width: '100%',
-                                height: '340px',
-                                objectFit: 'cover',
-                                borderRadius: '10px',
-                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.8)'
-                            }}
+                        <ImageComponent
                             image={element.image1 as string}
+                            alt={`Imagen de ${element.field1}`}
                         />
                     )}
                 </Grid>

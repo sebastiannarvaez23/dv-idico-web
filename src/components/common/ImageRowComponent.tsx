@@ -5,12 +5,12 @@ import { CardMedia } from "@mui/material";
 import imageDefault from "./../../../assets/app/images/default.png";
 
 
-interface ImageComponentProps {
+interface ImageRowComponentProps {
     image: string | undefined;
     alt: string | undefined;
 }
 
-export const ImageComponent = ({ image, alt }: ImageComponentProps) => {
+export const ImageRowComponent = ({ image, alt }: ImageRowComponentProps) => {
     return (
         <Fragment>
             <CardMedia
@@ -18,11 +18,11 @@ export const ImageComponent = ({ image, alt }: ImageComponentProps) => {
                 alt={`Imagen de ${alt}`}
                 component="img"
                 style={{
-                    width: '100%',
-                    height: '340px',
+                    width: '40px',
+                    height: '60px',
                     objectFit: 'cover',
-                    borderRadius: '10px',
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.8)'
+                    borderRadius: '4px',
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)'
                 }} />
         </Fragment>
     );

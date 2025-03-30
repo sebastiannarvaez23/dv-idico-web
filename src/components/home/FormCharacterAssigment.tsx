@@ -1,17 +1,16 @@
-import { useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
 
 import { Button, Typography, Box } from "@mui/material";
 import { useFormik } from "formik";
 import TextField from '@mui/material/TextField';
 
-import { AppDispatch } from "../../store/store";
 import { fetchGetCharactersAssignedProduct } from '../../services/character';
 import { mapCharacterAssignedToDetailsCardElement } from '../../utils/mappers/character-assigment.mapper';
 import { uribuild } from '../../utils/params/uribuild';
 import ListCardComponent from './ListCardComponent';
 import useCharacter from "../../hooks/useCharacter.hook";
 import useProduct from '../../hooks/useProduct.hook';
+import { ContainListRowAssigmentCharacter } from "./ContainListRowAssigmentCharacter";
 
 
 interface FormCharacterProps {
@@ -70,6 +69,7 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen }: FormCharacter
         await setModalOpen(false);
     };
 
+    // TODO: Migrate to service and thunk
     const fetchData = async (pg: number) => {
         try {
             const response = await fetchGetCharactersAssignedProduct(productSelected.id, uribuild({ page: pg }));
@@ -116,6 +116,7 @@ const FormCharacterAssigment = ({ productSelected, setModalOpen }: FormCharacter
                         page={page}
                         handleCheck={handleCheck}
                         handleGetElements={(pg: number) => { fetchData(pg) }}
+                        rowComponent={ContainListRowAssigmentCharacter}
                     />
                 </div>
                 <Button

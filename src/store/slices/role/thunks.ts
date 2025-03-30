@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "../../store";
-import { fetchCreateRole, fetchDeleteRole, fetchGetRole, fetchGetRoles, fetchUpdateRole } from "../../../services/role";
+import { fetchAddServiceAssignment, fetchCreateRole, fetchDeleteRole, fetchDeleteServiceAssignment, fetchGetRole, fetchGetRoles, fetchUpdateRole } from "../../../services/role";
 import { setAlert } from '../common';
 import { setCount, setEmptyRoleSelected, setFilter, setPage, setRoleSelected, setRoles, startLoadingRoleSelected, startLoadingRoles } from "./roleSlice";
 import { uribuild } from "../../../utils/params/uribuild";
@@ -73,3 +73,27 @@ export const deleteRole = (id: string) => {
         }
     };
 };
+
+export const serviceAddAssignment = (roleId: string, services: { services: string[] }) => {
+    return async (dispatch: AppDispatch): Promise<void> => {
+        try {
+            await fetchAddServiceAssignment(roleId, services);
+            await dispatch(getRoles());
+            await dispatch(setAlert({ type: 'success', message: 'Servicios asignados exitosamente!' }));
+        } catch (error: any) {
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error asignando los servicios al rol.' }));
+        }
+    }
+}
+
+export const serviceDeleteAssignment = (roleId: string, services: { services: string[] }) => {
+    return async (dispatch: AppDispatch): Promise<void> => {
+        try {
+            await fetchDeleteServiceAssignment(roleId, services);
+            await dispatch(getRoles());
+            await dispatch(setAlert({ type: 'success', message: 'Servicios asignados exitosamente!' }));
+        } catch (error: any) {
+            dispatch(setAlert({ type: 'error', message: 'Ocurrió un error revocando los servicios al rol.' }));
+        }
+    }
+}
