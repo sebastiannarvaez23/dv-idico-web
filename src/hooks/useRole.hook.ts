@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
 import { createRole, deleteRole, getRoles, serviceAddAssignment, serviceDeleteAssignment, updateRole } from '../store/slices/role/thunks';
+import { uribuild } from '../utils/params/uribuild';
+import { fetchGetServicesAssignedRole } from '../services/service';
 
 
 function useRole() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { roles, count, page } = useSelector(
+    const { roleSelected, roles, count, page } = useSelector(
         (state: RootState) => state.role);
 
     const [modalEditRole, setModalEditRole] = useState(false);
@@ -52,13 +54,17 @@ function useRole() {
         setModalCreateRole(false);
     };
 
-    const handleAssignServiceToProduct = (roleId: string, services: { services: string[] }) => {
+    const handleAssignServiceToRole = (roleId: string, services: { services: string[] }) => {
         dispatch(serviceAddAssignment(roleId, services));
     }
 
-    const handleRevokeServiceToProduct = (roleId: string, services: { services: string[] }) => {
+    const handleRevokeServiceToRole = (roleId: string, services: { services: string[] }) => {
         dispatch(serviceDeleteAssignment(roleId, services));
     }
+
+    const handleGetServicesAssignedRole = async (roleId: string, page: number, filter?: string) => {
+        return await fetchGetServicesAssignedRole(roleId, uribuild({ page, filter }));
+    };
 
     useEffect(() => {
         dispatch(getRoles());
@@ -76,13 +82,14 @@ function useRole() {
         handleGetRoles,
         handleOpenModalCreateRole,
         handleOpenModalEditRole,
-        handleAssignServiceToProduct,
-        handleRevokeServiceToProduct,
+        handleAssignServiceToRole,
+        handleRevokeServiceToRole,
         setModalCreateRole,
         setModalEditRole,
         handleCreateRole,
         handleUpdateRole,
         handleDeleteRole,
+        handleGetServicesAssignedRole,
     }
 }
 

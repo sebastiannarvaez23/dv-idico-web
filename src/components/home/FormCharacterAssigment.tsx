@@ -11,7 +11,6 @@ import { mapCharacterAssignedToDetailsCardElement } from "../../utils/mappers/ch
 
 
 interface FormCharacterProps {
-    productSelected: Product;
     setModalOpen: (fun: boolean) => void;
 }
 

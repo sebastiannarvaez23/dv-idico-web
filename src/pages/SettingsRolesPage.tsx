@@ -61,6 +61,12 @@ const SettingsRolesPage = () => {
         role && setRoleSelected(role);
     }
 
+    const handleAssignmentService = () => {
+        setOpenModalAssigmentService(true);
+        const role = roles.find(e => e.id === rowsSelected[0]);
+        role && setRoleSelected(role);
+    }
+
     const handleCreate = (role: Role) => {
         handleCreateRole(role);
     }
@@ -112,8 +118,8 @@ const SettingsRolesPage = () => {
             open={openModalAssigmentService}
             onClose={() => setOpenModalAssigmentService(false)}>
             <FormRoleAssigmentService
-                rolesId={rowsSelected}
-                setModalOpen={setOpenModalAssigmentService}
+                roleSelected={roleSelected}
+                setModalOpen={handleAssignmentService}
             />
         </ModalComponent>
         <SettingsLayoutComponent>
@@ -123,11 +129,11 @@ const SettingsRolesPage = () => {
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <ButtonComponent
                     isAuthenticated={isAuthenticated}
-                    isAuthorized={handleValidateAuthorization('0306') && rowsSelected.length > 0}
-                    label={'Asiganar permisos'}
+                    isAuthorized={handleValidateAuthorization('0306') && rowsSelected.length == 1}
+                    label={'Asignar permisos'}
                     margin={'0px 12px 20px 0px'}
                     size={'large'}
-                    onClick={() => setOpenModalAssigmentService(true)}
+                    onClick={handleAssignmentService}
                 />
                 <ButtonComponent
                     isAuthenticated={isAuthenticated}

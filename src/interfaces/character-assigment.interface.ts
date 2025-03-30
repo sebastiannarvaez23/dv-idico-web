@@ -4,5 +4,5 @@ interface CharacterAssigment {
     age: string;
     history: string;
     image: File | string;
-    assigned: boolean;
+    assigned: boolean | undefined;
 }
