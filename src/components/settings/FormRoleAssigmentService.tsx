@@ -63,7 +63,7 @@ export const FormRoleAssigmentService = ({ roleSelected, setModalOpen }: FormRol
         setServices(se);
     }
 
-    const getServicesAssignedRole = async (roleId: string, pg: number, filter?: string) => {
+    const getServicesAssignedRole = async (pg: number, roleId: string, filter?: string) => {
         const res = await handleGetServicesAssignedRole(roleId, pg, filter);
         const se = await res.rows.map(e => {
             if (toInclude.includes(e.id)) e.assigned = true;
@@ -82,7 +82,7 @@ export const FormRoleAssigmentService = ({ roleSelected, setModalOpen }: FormRol
     };
 
     useEffect(() => {
-        getServicesAssignedRole(roleSelected.id, pageAssigment);
+        getServicesAssignedRole(pageAssigment, roleSelected.id);
     }, []);
 
     useEffect(() => {
@@ -112,7 +112,7 @@ export const FormRoleAssigmentService = ({ roleSelected, setModalOpen }: FormRol
                             totalRows={totalRows}
                             page={pageAssigment}
                             handleCheck={handleCheck}
-                            handleGetElements={() => getServicesAssignedRole(roleSelected.id, pageAssigment)}
+                            handleGetElements={(pg: number, ft?: string) => getServicesAssignedRole(pg, roleSelected.id, ft)}
                             rowComponent={ContainListRowAssigmentService}
                         />
                     </div>

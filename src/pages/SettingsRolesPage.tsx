@@ -119,7 +119,7 @@ const SettingsRolesPage = () => {
             onClose={() => setOpenModalAssigmentService(false)}>
             <FormRoleAssigmentService
                 roleSelected={roleSelected}
-                setModalOpen={handleAssignmentService}
+                setModalOpen={setOpenModalAssigmentService}
             />
         </ModalComponent>
         <SettingsLayoutComponent>
