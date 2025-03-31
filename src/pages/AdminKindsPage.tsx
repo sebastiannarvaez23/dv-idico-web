@@ -15,7 +15,7 @@ import useKind from "../hooks/useKind.hook";
 import useSession from "../hooks/useSession.hook";
 
 
-const SettingsKindsPage = () => {
+const AdminKindsPage = () => {
 
     interface HeadCell {
         disablePadding: boolean;
@@ -142,4 +142,4 @@ const SettingsKindsPage = () => {
     </Fragment>)
 }
 
-export default SettingsKindsPage;
+export default AdminKindsPage;

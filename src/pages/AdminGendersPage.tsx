@@ -15,7 +15,7 @@ import useGender from "../hooks/useGender.hook";
 import useSession from "../hooks/useSession.hook";
 
 
-const SettingsGendersPage = () => {
+const AdminGendersPage = () => {
 
     interface HeadCell {
         disablePadding: boolean;
@@ -145,4 +145,4 @@ const SettingsGendersPage = () => {
     )
 }
 
-export default SettingsGendersPage;
+export default AdminGendersPage;

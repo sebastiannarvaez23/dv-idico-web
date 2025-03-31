@@ -15,7 +15,7 @@ import useService from "../hooks/useService.hook";
 import useSession from "../hooks/useSession.hook";
 
 
-const SettingsServicesPage = () => {
+const AdminServicesPage = () => {
 
     interface HeadCell {
         disablePadding: boolean;
@@ -165,4 +165,4 @@ const SettingsServicesPage = () => {
     </Fragment>)
 }
 
-export default SettingsServicesPage;
+export default AdminServicesPage;

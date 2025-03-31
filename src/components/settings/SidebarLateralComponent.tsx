@@ -16,6 +16,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PeopleIcon from '@mui/icons-material/People';
 import SecurityIcon from '@mui/icons-material/Security';
 import StarBorder from '@mui/icons-material/StarBorder';
+import SwitchAccessShortcutAddIcon from '@mui/icons-material/SwitchAccessShortcutAdd';
 
 import useSession from '../../hooks/useSession.hook';
 
@@ -67,10 +68,19 @@ const NestedList = () => {
 
                     <ListItemButton
                         disabled={!handleValidateAuthorization('0401')}
+                        sx={{ pl: 4 }}>
+                        <ListItemIcon>
+                            <ManageAccountsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Gestionar Usuarios" />
+                    </ListItemButton>
+
+                    <ListItemButton
+                        disabled={!handleValidateAuthorization('0401')}
                         sx={{ pl: 4 }}
                         onClick={() => navigate('/settings/services')}>
                         <ListItemIcon>
-                            <ManageAccountsIcon />
+                            <SwitchAccessShortcutAddIcon />
                         </ListItemIcon>
                         <ListItemText primary="Gestionar Servicios" />
                     </ListItemButton>

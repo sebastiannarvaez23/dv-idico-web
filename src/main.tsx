@@ -5,11 +5,11 @@ import { RouterProvider, createBrowserRouter, RouteObject, Navigate } from 'reac
 import { store } from './store/store';
 
 import HomePage from './pages/HomePage.tsx';
-import SettingsGendersPage from './pages/SettingsGendersPage.tsx';
-import SettingsKindsPage from './pages/SettingsKindsPage.tsx';
-import SettingsRolesPage from './pages/SettingsRolesPage.tsx';
-import SettingsServicesPage from './pages/SettingsServicesPage.tsx';
-import SettingsUserPage from './pages/SettingsUsersPage.tsx';
+import AdminGendersPage from './pages/AdminGendersPage.tsx';
+import AdminKindsPage from './pages/AdminKindsPage.tsx';
+import AdminRolesPage from './pages/AdminRolesPage.tsx';
+import AdminServicesPage from './pages/AdminServicesPage.tsx';
+import AdminUserPage from './pages/AdminUsersPage.tsx';
 import SignInFormComponent from './components/auth/SignInFormComponent.tsx';
 import useSession from './hooks/useSession.hook.ts';
 
@@ -25,23 +25,23 @@ const PrivateRoute: React.FC<{ service: string, element: React.ReactNode }> = ({
 const routes: RouteObject[] = [
   {
     path: '/settings/users',
-    element: <PrivateRoute service={'0201'} element={<SettingsUserPage />} />
+    element: <PrivateRoute service={'0201'} element={<AdminUserPage />} />
   },
   {
     path: '/settings/services',
-    element: <PrivateRoute service={'0401'} element={<SettingsServicesPage />} />
+    element: <PrivateRoute service={'0401'} element={<AdminServicesPage />} />
   },
   {
     path: '/settings/roles',
-    element: <PrivateRoute service={'0301'} element={<SettingsRolesPage />} />
+    element: <PrivateRoute service={'0301'} element={<AdminRolesPage />} />
   },
   {
     path: '/settings/kinds',
-    element: <PrivateRoute service={'0701'} element={<SettingsKindsPage />} />
+    element: <PrivateRoute service={'0701'} element={<AdminKindsPage />} />
   },
   {
     path: '/settings/genders',
-    element: <PrivateRoute service={'0801'} element={<SettingsGendersPage />} />
+    element: <PrivateRoute service={'0801'} element={<AdminGendersPage />} />
   },
   {
     path: '/auth',

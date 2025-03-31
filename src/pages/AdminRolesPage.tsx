@@ -16,7 +16,7 @@ import useSession from "../hooks/useSession.hook";
 import { FormRoleAssigmentService } from "../components/settings/FormRoleAssigmentService";
 
 
-const SettingsRolesPage = () => {
+const AdminRolesPage = () => {
 
     interface HeadCell {
         disablePadding: boolean;
@@ -169,4 +169,4 @@ const SettingsRolesPage = () => {
     </Fragment>)
 }
 
-export default SettingsRolesPage;
+export default AdminRolesPage;

@@ -13,7 +13,7 @@ import usePerson from "../hooks/usePerson.hook";
 import useSession from "../hooks/useSession.hook";
 
 
-const SettingsUserPage = () => {
+const AdminUserPage = () => {
 
     interface HeadCell {
         disablePadding: boolean;
@@ -146,4 +146,4 @@ const SettingsUserPage = () => {
     </Fragment>)
 }
 
-export default SettingsUserPage;
+export default AdminUserPage;
