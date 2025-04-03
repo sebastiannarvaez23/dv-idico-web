@@ -4,16 +4,17 @@ import { Provider } from 'react-redux';
 import { RouterProvider, createBrowserRouter, RouteObject, Navigate } from 'react-router-dom';
 import { store } from './store/store';
 
-import HomePage from './pages/HomePage.tsx';
 import AdminGendersPage from './pages/AdminGendersPage.tsx';
 import AdminKindsPage from './pages/AdminKindsPage.tsx';
+import AdminPersonsPage from './pages/AdminPersonsPage.tsx';
 import AdminRolesPage from './pages/AdminRolesPage.tsx';
 import AdminServicesPage from './pages/AdminServicesPage.tsx';
-import AdminUserPage from './pages/AdminUsersPage.tsx';
+import HomePage from './pages/HomePage.tsx';
 import SignInFormComponent from './components/auth/SignInFormComponent.tsx';
 import useSession from './hooks/useSession.hook.ts';
 
 import './index.css';
+import AdminUsersPage from './pages/AdminUsersPage.tsx';
 
 const PrivateRoute: React.FC<{ service: string, element: React.ReactNode }> = ({ service, element }) => {
   const { isAuthenticated, isLoading, handleValidateAuthorization } = useSession();
@@ -24,8 +25,12 @@ const PrivateRoute: React.FC<{ service: string, element: React.ReactNode }> = ({
 
 const routes: RouteObject[] = [
   {
+    path: '/settings/persons',
+    element: <PrivateRoute service={'0201'} element={<AdminPersonsPage />} />
+  },
+  {
     path: '/settings/users',
-    element: <PrivateRoute service={'0201'} element={<AdminUserPage />} />
+    element: <PrivateRoute service={'0201'} element={<AdminUsersPage />} />
   },
   {
     path: '/settings/services',

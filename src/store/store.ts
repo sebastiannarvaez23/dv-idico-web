@@ -9,6 +9,7 @@ import { productSlice } from './slices/product';
 import { roleSlice } from './slices/role';
 import { serviceSlice } from './slices/service/serviceSlice';
 import { sessionSlice } from './slices/session';
+import { userSlice } from './slices/user';
 
 
 export const store = configureStore({
@@ -22,6 +23,7 @@ export const store = configureStore({
         role: roleSlice.reducer,
         service: serviceSlice.reducer,
         session: sessionSlice.reducer,
+        user: userSlice.reducer,
     },
 });
 

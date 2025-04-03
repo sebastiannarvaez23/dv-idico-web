@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
-export interface ServiceState {
+export interface SessionState {
     isAuthenticated: boolean;
     nickname: string | undefined;
     role: string | undefined;
     permissions: string[];
 }
 
-const initialState: ServiceState = {
+const initialState: SessionState = {
     isAuthenticated: false,
     nickname: undefined,
     role: undefined,

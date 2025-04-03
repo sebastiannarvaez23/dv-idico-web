@@ -1,19 +1,18 @@
-import { Fragment, useEffect, useState } from "react";
-
-import Typography from '@mui/material/Typography';
+import { Fragment, useState } from "react";
 
 import { Box } from "@mui/system";
 import { Grid, TextField } from "@mui/material";
-import { useDebounce } from "../hooks/useDebounce.hook";
-import FormPersonComponent from "../components/settings/FormPersonComponent";
-import ModalComponent from "../components/common/ModalComponent";
+import Typography from '@mui/material/Typography';
+
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
+import { ButtonComponent } from "../components/common/ButtonComponent";
 import TableComponent from "../components/common/TableComponent";
-import usePerson from "../hooks/usePerson.hook";
 import useSession from "../hooks/useSession.hook";
 
 
-const AdminUserPage = () => {
+const AdminUsersPage = () => {
+
+    const steps = ['Creación de usuario', 'creación de persona'];
 
     interface HeadCell {
         disablePadding: boolean;
@@ -24,126 +23,115 @@ const AdminUserPage = () => {
 
     const headCells: HeadCell[] = [
         {
-            id: 'firstName',
+            id: 'code',
             numeric: false,
             disablePadding: true,
-            label: 'Nombres'
+            label: 'Código'
         },
         {
-            id: 'lastName',
+            id: 'name',
             numeric: false,
             disablePadding: false,
-            label: 'Apellidos',
-        },
-        {
-            id: 'email',
-            numeric: false,
-            disablePadding: false,
-            label: 'Email',
-        },
-        {
-            id: 'phone',
-            numeric: false,
-            disablePadding: false,
-            label: 'Teléfono',
-        },
-        {
-            id: 'birthDate',
-            numeric: false,
-            disablePadding: false,
-            label: 'Fec Nacimiento',
+            label: 'Nombre',
         },
     ];
 
-    const { persons, count, page, personEmpty, handleGetPersons, handleUpdatePerson } = usePerson();
-    const { handleValidateAuthorization } = useSession();
+    const { isAuthenticated, handleValidateAuthorization } = useSession();
+    const { userEmpty } = useUser();
 
-    const [openModal, setOpenModel] = useState<boolean>(false);
-    const [personSelected, setPersonSelected] = useState<Person>(personEmpty);
-    const [searchFirstNameValue, setSearchFirstNameValue] = useState<string>('');
-    const [searchLastNameValue, setSearchLastNameValue] = useState<string>('');
-    const [searchEmailValue, setSearchEmailValue] = useState<string>('');
-
-    const debounceFirstNameValue = useDebounce(searchFirstNameValue, 500);
-    const debounceSearchLastNameValue = useDebounce(searchLastNameValue, 500);
-    const debounceSearchEmailValue = useDebounce(searchEmailValue, 500);
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [userSelected, setServiceSelected] = useState<Service>(userEmpty);
+    const [searchCodeValue, setSearchCodeValue] = useState<string>('');
+    const [searchNameValue, setSearchNameValue] = useState<string>('');
 
     const handleEdit = (id: string) => {
-        setOpenModel(true);
-        const person = persons.find(e => e.id === id);
-        person && setPersonSelected(person);
+        setOpenModal(true);
+        const user = users.find(e => e.id === id);
+        user && setUserSelected(user);
     }
 
-    const handleUpdate = (person: Person) => {
-        handleUpdatePerson(person);
+    const handleCreate = (user: User) => {
+        handleCreateUser(user);
+    }
+
+    const handleUpdate = (user: User) => {
+        handleUpdateUser(user);
+    }
+
+    const handleDelete = () => {
+        handleDeleteUser(userSelected.id);
+        setOpenDialog(false);
+    }
+
+    const handleOpenDialog = (id: string) => {
+        const user = users.find(e => e.id === id);
+        user && setUserSelected(user);
+        setOpenDialog(true);
+    }
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+        setUserSelected(userEmpty);
     }
 
     useEffect(() => {
-        handleGetPersons(page, debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue);
-    }, [debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue]);
+        handleGetUsers(page, debounceSearchCodeValue, debounceSearchNameValue);
+    }, [debounceSearchCodeValue, debounceSearchNameValue]);
 
-    return (<Fragment>
-        <ModalComponent
-            width={50}
-            open={openModal}
-            onClose={() => setOpenModel(false)}>
-            <FormPersonComponent
-                setModalOpen={setOpenModel}
-                personSelected={personSelected}
-                title={"Editar persona"}
-                page={page}
-                action={handleUpdate}
-            />
-        </ModalComponent>
-        <SettingsLayoutComponent>
-            <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Personas</Typography>
-            <hr />
-            <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de personas</Typography>
-            <Box sx={{ flexGrow: 1, margin: '12px' }}>
-                <Grid container sx={{ alignContent: 'center' }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <Grid item xs={2} sm={4} md={4}>
-                        <TextField
-                            sx={{ width: '95%' }}
-                            id="outlined-basic"
-                            label="Nombres"
-                            variant="outlined"
-                            onChange={(e) => setSearchFirstNameValue(e.target.value)}
-                        />
+    return (
+        <Fragment>
+            <SettingsLayoutComponent>
+                <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Usuarios</Typography>
+                <hr />
+                <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de servicios</Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <ButtonComponent
+                        isAuthenticated={isAuthenticated}
+                        isAuthorized={handleValidateAuthorization('0403')}
+                        label={'Crear servicio'}
+                        margin={'0px 0px 20px 0px'}
+                        size={'large'}
+                        onClick={handleOpenModal}
+                    />
+                </Box>
+                <Box sx={{ flexGrow: 1, margin: '12px' }}>
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        <Grid item xs={6}>
+                            <TextField
+                                sx={{ width: '100%' }}
+                                id="outlined-basic"
+                                label="Código"
+                                variant="outlined"
+                                onChange={(e) => setSearchCodeValue(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                sx={{ width: '100%' }}
+                                id="outlined-basic"
+                                label="Nombre"
+                                variant="outlined"
+                                onChange={(e) => setSearchNameValue(e.target.value)}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={2} sm={4} md={4}>
-                        <TextField
-                            sx={{ width: '95%' }}
-                            id="outlined-basic"
-                            label="Apellidos"
-                            variant="outlined"
-                            onChange={(e) => setSearchLastNameValue(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={2} sm={4} md={4}>
-                        <TextField
-                            sx={{ width: '95%' }}
-                            id="outlined-basic"
-                            label="Email"
-                            variant="outlined"
-                            onChange={(e) => setSearchEmailValue(e.target.value)}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
-            <TableComponent
-                editable={handleValidateAuthorization('0204')}
-                deleteable={handleValidateAuthorization('0205')}
-                data={persons}
-                totalRows={count}
-                headers={headCells}
-                title={"Personas"}
-                filters={[debounceFirstNameValue, debounceSearchLastNameValue, debounceSearchEmailValue]}
-                page={page}
-                onEdit={handleEdit}
-                onDelete={() => { }}
-                changePage={handleGetPersons} />
-        </SettingsLayoutComponent>
-    </Fragment>)
+                </Box>
+                <TableComponent
+                    editable={handleValidateAuthorization('0404')}
+                    deleteable={handleValidateAuthorization('0405')}
+                    data={users}
+                    totalRows={count}
+                    headers={headCells}
+                    title={"Servicios"}
+                    filters={[debounceSearchCodeValue, debounceSearchNameValue]}
+                    page={page}
+                    onEdit={handleEdit}
+                    onDelete={handleOpenDialog}
+                    changePage={handleGetUsers} />
+            </SettingsLayoutComponent>
+        </Fragment>
+    );
 }
 
-export default AdminUserPage;
+export default AdminUsersPage;

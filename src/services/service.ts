@@ -46,7 +46,7 @@ export const fetchDeleteService = async (id: string): Promise<Service> => {
 export const fetchGetServicesAssignedRole = async (roleId: string, queryParams: string): Promise<{ count: number; rows: CharacterAssigment[] }> => {
     const response = await api.get(`/service/assigned-role/${roleId}${queryParams}`)
         .catch((error: any) => {
-            throw new Error(`Error al obtener listado de Personajes: ${error.message}`);
+            throw new Error(`Error al obtener listado de servicios: ${error.message}`);
         })
     return response.data;
 };

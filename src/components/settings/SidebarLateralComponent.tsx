@@ -49,7 +49,7 @@ const NestedList = () => {
             }>
             <ListItemButton
                 disabled={!handleValidateAuthorization('0201')}
-                onClick={() => navigate('/settings/users')}>
+                onClick={() => navigate('/settings/persons')}>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>
@@ -68,7 +68,8 @@ const NestedList = () => {
 
                     <ListItemButton
                         disabled={!handleValidateAuthorization('0401')}
-                        sx={{ pl: 4 }}>
+                        sx={{ pl: 4 }}
+                        onClick={() => navigate('/settings/users')}>
                         <ListItemIcon>
                             <ManageAccountsIcon />
                         </ListItemIcon>
