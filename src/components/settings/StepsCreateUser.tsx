@@ -1,9 +1,8 @@
 import { Fragment, useState } from "react";
 
-import { Typography } from "@mui/material";
-
 import SteperComponent from "../common/SteperComponent";
-import { ButtonComponent } from "../common/ButtonComponent";
+import FormUserComponent from "./FormUserComponent";
+import useUser from "../../hooks/useUser.hook";
 
 
 const StepsCreateUser = () => {
@@ -11,6 +10,9 @@ const StepsCreateUser = () => {
     const steps = ['Creación de usuario', 'creación de persona'];
 
     const [activeStep, setActiveStep] = useState<number>(0);
+    const [modalOpen, setOpenModal] = useState<boolean>(false);
+
+    const { userEmpty, page } = useUser();
 
     const nextStep = () => {
         if (activeStep < steps.length - 1) {
@@ -20,19 +22,16 @@ const StepsCreateUser = () => {
 
     return (
         <Fragment>
-            <Typography variant="h6">{"Creación de usuario"}</Typography>
             <SteperComponent
                 steps={steps}
                 active={activeStep}
             />
-            <ButtonComponent
-                label={"siguiente"}
-                size={"medium"}
-                isAuthenticated={true}
-                isAuthorized={true}
-                margin={'10px'}
-                onClick={nextStep}
-            />
+            <FormUserComponent
+                userSelected={userEmpty}
+                title={"Creación de usuario"}
+                page={page}
+                setModalOpen={setOpenModal}
+                action={() => nextStep} />
         </Fragment>
     )
 }
