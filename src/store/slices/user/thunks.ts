@@ -41,7 +41,8 @@ export const createUser = (user: User) => {
         try {
             const userCreated: User = await fetchCreateUser(user);
             await dispatch(getUsers());
-            await dispatch(setAlert({ type: 'success', message: `Servicio "${userCreated.nickname}" creado exitosamente!` }));
+            await dispatch(setUserSelected({ user }));
+            await dispatch(setAlert({ type: 'success', message: `Usuario "${userCreated.nickname}" creado exitosamente!` }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando el usuario.' }));
         }
@@ -54,7 +55,7 @@ export const updateUser = (user: User) => {
             const userUpdated = await fetchUpdateUser(user);
             await dispatch(setUserSelected({ user: userUpdated }));
             await dispatch(getUsers());
-            await dispatch(setAlert({ type: 'success', message: 'Servicio actualizado exitosamente!' }));
+            await dispatch(setAlert({ type: 'success', message: 'Usuario actualizado exitosamente!' }));
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error actualizando el usuario.' }));
         }

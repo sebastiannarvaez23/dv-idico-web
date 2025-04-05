@@ -7,9 +7,11 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import dayjs, { Dayjs } from "dayjs";
+import AutoCompleteComponent from "../common/AutoCompleteComponent";
 
 
 interface FormPersonProps {
+    userSelected: User,
     personSelected: Person;
     title: string;
     page: number;
@@ -17,7 +19,7 @@ interface FormPersonProps {
     action: (data: Person, pg: number) => void;
 }
 
-const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action }: FormPersonProps) => {
+const FormPersonComponent = ({ page, title, personSelected, userSelected, setModalOpen, action }: FormPersonProps) => {
 
     const validationSchema = Yup.object({
         firstName: Yup.string()
@@ -45,6 +47,8 @@ const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action
             email: personSelected.email,
             phone: personSelected.phone,
             birthDate: dayjs(personSelected.birthDate).toString(),
+            userId: userSelected.id,
+            roleId: personSelected.roleId,
         },
         validationSchema,
         onSubmit: (values) => handleSubmit(values)
@@ -78,8 +82,7 @@ const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action
                             helperText={formik.touched.firstName && formik.errors.firstName}
                             onChange={formik.handleChange}
                             fullWidth
-                            margin="normal"
-                        />
+                            margin="normal" />
                         <TextField
                             label="Apellidos"
                             name="lastName"
@@ -88,8 +91,7 @@ const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action
                             helperText={formik.touched.lastName && formik.errors.lastName}
                             onChange={formik.handleChange}
                             fullWidth
-                            margin="normal"
-                        />
+                            margin="normal" />
                         <TextField
                             label="Email"
                             name="email"
@@ -98,8 +100,7 @@ const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action
                             helperText={formik.touched.email && formik.errors.email}
                             onChange={formik.handleChange}
                             fullWidth
-                            margin="normal"
-                        />
+                            margin="normal" />
                         <TextField
                             label="Teléfono"
                             name="phone"
@@ -108,17 +109,14 @@ const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action
                             helperText={formik.touched.phone && formik.errors.phone}
                             onChange={formik.handleChange}
                             fullWidth
-                            margin="normal"
-                        />
+                            margin="normal" />
                         <FormControl
                             fullWidth
                             margin="normal"
-                            error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}
-                        >
+                            error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={['DatePicker']} sx={{ width: '100%' }}>
                                     <DatePicker
-                                        disabled={true}
                                         label="Fecha de nacimiento"
                                         name="birthDate"
                                         value={dayjs(formik.values.birthDate)}
@@ -136,6 +134,10 @@ const FormPersonComponent = ({ page, title, personSelected, setModalOpen, action
                                 </DemoContainer>
                             </LocalizationProvider>
                         </FormControl>
+                        <AutoCompleteComponent
+                            label={"Rol"}
+                            list={[{ label: 'rol 1', value: '1' }, { label: 'rol 2', value: '2' }]}
+                        />
                     </div>
                     <Button
                         sx={{ backgroundColor: '#161732' }}

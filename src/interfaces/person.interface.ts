@@ -5,5 +5,7 @@ interface Person {
     email: string;
     phone: string;
     birthDate: string;
+    userId: string;
+    roleId: string;
     [key: string]: string;
 }

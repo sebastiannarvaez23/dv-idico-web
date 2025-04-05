@@ -8,7 +8,7 @@ import { createUser, getUsers, updateUser } from '../store/slices/user';
 function useUser() {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { users, count, page } = useSelector(
+    const { users, userSelected, count, page } = useSelector(
         (state: RootState) => state.user);
 
     const [modalEditUser, setModalEditUser] = useState(false);
@@ -46,6 +46,7 @@ function useUser() {
         modalEditUser,
         modalCreateUser,
         userEmpty,
+        userSelected,
         setModalEditUser,
         setModalCreateUser,
         handleGetUsers,

@@ -3,9 +3,13 @@ import { Fragment } from "react";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
+interface SelectAutocompleteItem {
+    label: string;
+    value: string;
+}
 
 interface AutoCompleteComponentProps {
-    list: string[];
+    list: SelectAutocompleteItem[];
     label: string;
 }
 
@@ -15,11 +19,11 @@ const AutoCompleteComponent = ({ list, label }: AutoCompleteComponentProps) => {
             <Autocomplete
                 freeSolo
                 id="free-solo-2-demo"
-                disableClearable
                 options={list}
                 renderInput={(params) => (
                     <TextField
                         {...params}
+                        margin="normal"
                         label={label}
                         InputProps={{
                             ...params.InputProps,

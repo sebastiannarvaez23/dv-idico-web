@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
-import { getPersons, updatePerson } from '../store/slices/person/thunks';
+import { createPerson, getPersons, updatePerson } from '../store/slices/person/thunks';
 
 function usePerson() {
 
@@ -21,10 +21,16 @@ function usePerson() {
         email: "",
         phone: "",
         birthDate: "",
+        userId: "",
+        roleId: ""
     }
 
     const handleGetPersons = (page: number, firstName?: string, lastName?: string, email?: string) => {
         dispatch(getPersons(page, firstName, lastName, email));
+    }
+
+    const handleCreatePerson = (person: Person) => {
+        dispatch(createPerson(person));
     }
 
     const handleUpdatePerson = (person: Person) => {
@@ -61,6 +67,7 @@ function usePerson() {
         handleCloseModalCreatePerson,
         handleCloseModalEditPerson,
         handleGetPersons,
+        handleCreatePerson,
         handleUpdatePerson,
         handleOpenModalCreatePerson,
         handleOpenModalEditPerson,
