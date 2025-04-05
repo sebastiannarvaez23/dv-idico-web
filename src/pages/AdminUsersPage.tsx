@@ -7,15 +7,15 @@ import Typography from '@mui/material/Typography';
 import { ButtonComponent } from "../components/common/ButtonComponent";
 import { mapUserToRowTableUser } from "../utils/mappers/user-row-table.mapper";
 import { useDebounce } from "../hooks/useDebounce.hook";
+import ModalComponent from "../components/common/ModalComponent";
 import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useSession from "../hooks/useSession.hook";
 import useUser from "../hooks/useUser.hook";
+import StepsCreateUser from "../components/settings/StepsCreateUser";
 
 
 const AdminUsersPage = () => {
-
-    const steps = ['Creación de usuario', 'creación de persona'];
 
     interface HeadCell {
         disablePadding: boolean;
@@ -88,6 +88,12 @@ const AdminUsersPage = () => {
 
     return (
         <Fragment>
+            <ModalComponent
+                width={50}
+                open={openModal}
+                onClose={() => setOpenModal(false)}>
+                <StepsCreateUser />
+            </ModalComponent>
             <SettingsLayoutComponent>
                 <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Usuarios</Typography>
                 <hr />
