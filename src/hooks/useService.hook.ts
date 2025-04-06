@@ -9,7 +9,7 @@ function useService() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { services, count, page } = useSelector(
+    const { isLoadingServices, services, count, page } = useSelector(
         (state: RootState) => state.service);
 
     const [modalEditService, setModalEditService] = useState(false);
@@ -54,7 +54,7 @@ function useService() {
     };
 
     useEffect(() => {
-        if (services.length === 0) dispatch(getServices());
+        if (services.length === 0 && !isLoadingServices) dispatch(getServices());
     }, []);
 
     return {

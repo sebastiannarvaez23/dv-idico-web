@@ -9,7 +9,7 @@ function useKind() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { kinds, count, page } = useSelector(
+    const { isLoadingKinds, kinds, count, page } = useSelector(
         (state: RootState) => state.kind);
 
     const kindEmpty: Kind = {
@@ -35,7 +35,7 @@ function useKind() {
 
 
     useEffect(() => {
-        if (kinds.length === 0) dispatch(getKinds());
+        if (kinds.length === 0, !isLoadingKinds) dispatch(getKinds());
     }, []);
 
     return {

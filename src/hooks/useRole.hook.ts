@@ -67,7 +67,7 @@ function useRole() {
     };
 
     useEffect(() => {
-        if (roles.length === 0) dispatch(getRoles());
+        if (roles.length === 0 && !isLoadingRoles) dispatch(getRoles());
     }, [])
 
     return {

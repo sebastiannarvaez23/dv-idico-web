@@ -9,7 +9,7 @@ import { fetchGetUserByNickname } from '../services/user';
 function useUser() {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { users, userSelected, count, page } = useSelector(
+    const { isLoadingUsers, users, userSelected, count, page } = useSelector(
         (state: RootState) => state.user);
 
     const [modalEditUser, setModalEditUser] = useState(false);
@@ -41,7 +41,7 @@ function useUser() {
     };
 
     useEffect(() => {
-        if (users.length === 0) dispatch(getUsers());
+        if (users.length === 0 && !isLoadingUsers) dispatch(getUsers());
     }, []);
 
     return {

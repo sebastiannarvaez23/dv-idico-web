@@ -8,16 +8,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 export const getCharacters = (page: number = 1, name?: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { characterSelected } = getState().character;
-            dispatch(startLoadingCharacters());
-            const characters = await fetchGetCharacters(uribuild({ page, name }));
-            await dispatch(setCharacters({ characters: characters.rows }));
-            await dispatch(setCount({ count: characters.count }));
-            await dispatch(setPage({ page }));
-            await dispatch(setFilter({ filter: name }));
-            if (!name && characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay personajes almacenados' }));
-            else if (name && characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen personajes para los filtros especificados' }));
-            else if (characterSelected?.id === '') dispatch(getCharacter(characters.rows[0].id));
+            const { isLoadingCharacters, characterSelected } = getState().character;
+            if (!isLoadingCharacters) {
+                dispatch(startLoadingCharacters());
+                const characters = await fetchGetCharacters(uribuild({ page, name }));
+                await dispatch(setCharacters({ characters: characters.rows }));
+                await dispatch(setCount({ count: characters.count }));
+                await dispatch(setPage({ page }));
+                await dispatch(setFilter({ filter: name }));
+                if (!name && characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay personajes almacenados' }));
+                else if (name && characters.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen personajes para los filtros especificados' }));
+                else if (characterSelected?.id === '') dispatch(getCharacter(characters.rows[0].id));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo la lista de Personajes' }));
         }

@@ -8,7 +8,7 @@ import { createGender, deleteGender, getGenders, updateGender } from "../store/s
 function useGender() {
 
     const dispatch = useDispatch<AppDispatch>();
-    const { count, page, genders } = useSelector(
+    const { isLoadingGenders, count, page, genders } = useSelector(
         (state: RootState) => state.gender);
 
     const genderEmpty: Gender = {
@@ -34,7 +34,7 @@ function useGender() {
     }
 
     useEffect(() => {
-        if (genders.length === 0) dispatch(getGenders());
+        if (genders.length === 0 && !isLoadingGenders) dispatch(getGenders());
     }, []);
 
     return {

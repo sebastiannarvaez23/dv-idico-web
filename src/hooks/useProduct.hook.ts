@@ -99,7 +99,7 @@ function useProduct() {
     };
 
     useEffect(() => {
-        if (products.length === 0) dispatch(getProducts());
+        if (products.length === 0 && !isLoadingProducts) dispatch(getProducts());
     }, [])
 
     return {

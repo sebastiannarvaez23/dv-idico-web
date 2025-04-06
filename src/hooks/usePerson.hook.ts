@@ -8,7 +8,7 @@ function usePerson() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { persons, count, page } = useSelector(
+    const { isLoadingPersons, persons, count, page } = useSelector(
         (state: RootState) => state.person);
 
     const [modalEditPerson, setModalEditPerson] = useState(false);
@@ -54,7 +54,7 @@ function usePerson() {
     };
 
     useEffect(() => {
-        if (persons.length === 0) dispatch(getPersons());
+        if (persons.length === 0 && !isLoadingPersons) dispatch(getPersons());
     }, [])
 
     return {

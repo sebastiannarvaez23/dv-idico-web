@@ -8,16 +8,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 export const getServices = (page: number = 1, code?: string, name?: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { serviceSelected } = getState().service;
-            dispatch(startLoadingServices());
-            const services = await fetchGetServices(uribuild({ page, code, name }));
-            await dispatch(setServices({ services: services.rows }));
-            await dispatch(setCount({ count: services.count }));
-            await dispatch(setPage({ page }));
-            await dispatch(setFilter({ filter: { code, name } }));
-            if (!code && !name && services.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay servicios almacenados' }));
-            else if ((code || name) && services.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen servicios para los filtros especificados' }));
-            else if (serviceSelected?.id === '') dispatch(getService(services.rows[0].id));
+            const { isLoadingServices, serviceSelected } = getState().service;
+            if (!isLoadingServices) {
+                dispatch(startLoadingServices());
+                const services = await fetchGetServices(uribuild({ page, code, name }));
+                await dispatch(setServices({ services: services.rows }));
+                await dispatch(setCount({ count: services.count }));
+                await dispatch(setPage({ page }));
+                await dispatch(setFilter({ filter: { code, name } }));
+                if (!code && !name && services.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay servicios almacenados' }));
+                else if ((code || name) && services.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen servicios para los filtros especificados' }));
+                else if (serviceSelected?.id === '') dispatch(getService(services.rows[0].id));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de servicios.' }));
         }

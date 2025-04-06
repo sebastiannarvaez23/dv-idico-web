@@ -74,7 +74,7 @@ function useCharacter() {
     }
 
     useEffect(() => {
-        if (characters.length === 0) dispatch(getCharacters());
+        if (characters.length === 0 && !isLoadingCharacters) dispatch(getCharacters());
     }, [])
 
     return {

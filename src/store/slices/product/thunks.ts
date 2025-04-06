@@ -8,16 +8,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 export const getProducts = (page: number = 1, title?: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { productSelected } = getState().product;
-            dispatch(startLoadingProducts());
-            const products = await fetchGetProducts(uribuild({ page, title }));
-            await dispatch(setProducts({ products: products.rows }));
-            await dispatch(setCount({ count: products.count }));
-            await dispatch(setPage({ page }));
-            await dispatch(setFilter({ filter: title }));
-            if (!title && products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
-            else if (title && products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen productos para los filtros especificados' }));
-            else if (productSelected?.id === '') dispatch(getProduct(products.rows[0].id));
+            const { isLoadingProducts, productSelected } = getState().product;
+            if (!isLoadingProducts) {
+                dispatch(startLoadingProducts());
+                const products = await fetchGetProducts(uribuild({ page, title }));
+                await dispatch(setProducts({ products: products.rows }));
+                await dispatch(setCount({ count: products.count }));
+                await dispatch(setPage({ page }));
+                await dispatch(setFilter({ filter: title }));
+                if (!title && products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay Productos almacenados' }));
+                else if (title && products.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen productos para los filtros especificados' }));
+                else if (productSelected?.id === '') dispatch(getProduct(products.rows[0].id));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de productos.' }));
         }

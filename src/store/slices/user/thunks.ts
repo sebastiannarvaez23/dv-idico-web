@@ -8,16 +8,18 @@ import { uribuild } from "../../../utils/params/uribuild";
 export const getUsers = (page: number = 1, nickname?: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            const { userSelected } = getState().user;
-            dispatch(startLoadingUsers());
-            const users = await fetchGetUsers(uribuild({ page, nickname }));
-            await dispatch(setUsers({ users: users.rows }));
-            await dispatch(setCount({ count: users.count }));
-            await dispatch(setPage({ page }));
-            await dispatch(setFilter({ filter: { nickname } }));
-            if (!nickname && users.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay usuarios almacenados' }));
-            else if (nickname && users.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen usuarios para los filtros especificados' }));
-            else if (userSelected?.id === '') dispatch(getUser(users.rows[0].id));
+            const { isLoadingUsers, userSelected } = getState().user;
+            if (!isLoadingUsers) {
+                dispatch(startLoadingUsers());
+                const users = await fetchGetUsers(uribuild({ page, nickname }));
+                await dispatch(setUsers({ users: users.rows }));
+                await dispatch(setCount({ count: users.count }));
+                await dispatch(setPage({ page }));
+                await dispatch(setFilter({ filter: { nickname } }));
+                if (!nickname && users.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No hay usuarios almacenados' }));
+                else if (nickname && users.rows.length === 0) dispatch(setAlert({ type: 'warning', message: 'No existen usuarios para los filtros especificados' }));
+                else if (userSelected?.id === '') dispatch(getUser(users.rows[0].id));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la lista de usuarios.' }));
         }
