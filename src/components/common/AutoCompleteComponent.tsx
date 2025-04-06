@@ -10,11 +10,14 @@ interface AutoCompleteComponentProps {
     list: AutocompleteSelectItem[];
     label: string;
     loading: boolean;
+    value: AutocompleteSelectItem | null;
+    touched?: boolean;
+    errors?: string | any;
     getList: (pg: number, filter: string) => void;
     onSelect: (value: AutocompleteSelectItem | null) => void;
 }
 
-const AutoCompleteComponent = ({ list, label, loading, getList, onSelect }: AutoCompleteComponentProps) => {
+const AutoCompleteComponent = ({ list, label, loading, touched, errors, value, getList, onSelect }: AutoCompleteComponentProps) => {
     const [open, setOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
@@ -37,6 +40,7 @@ const AutoCompleteComponent = ({ list, label, loading, getList, onSelect }: Auto
 
     return (
         <Autocomplete
+            fullWidth
             open={open}
             onOpen={handleOpen}
             onClose={handleClose}
@@ -44,7 +48,7 @@ const AutoCompleteComponent = ({ list, label, loading, getList, onSelect }: Auto
             getOptionLabel={(option) => option.label}
             options={list}
             loading={loading}
-            fullWidth
+            value={value}
             onChange={(_, value) => onSelect(value)}
             renderInput={(params) => (
                 <TextField
@@ -53,6 +57,8 @@ const AutoCompleteComponent = ({ list, label, loading, getList, onSelect }: Auto
                     margin="normal"
                     fullWidth
                     onChange={(e) => setInputValue(e.target.value)}
+                    error={Boolean(touched && errors)}
+                    helperText={touched && errors ? errors : ""}
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

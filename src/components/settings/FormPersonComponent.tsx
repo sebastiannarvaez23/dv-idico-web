@@ -1,14 +1,10 @@
 import { Fragment } from "react";
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Button, Typography, Box, TextField, FormControl } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { Button, Typography, Box, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Dayjs } from "dayjs";
 
-import { dateToDaysjs } from "../../utils/dates/daysjs";
 import { mapRoleToAutocompleteSelectItem } from "../../utils/mappers/role-select-item.mapper";
 import AutoCompleteComponent from "../common/AutoCompleteComponent";
 import useRole from "../../hooks/useRole.hook";
@@ -137,6 +133,7 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
                             list={roles.map(e => mapRoleToAutocompleteSelectItem(e))}
                             loading={isLoadingRoles}
                             getList={handleGetRoles}
+                            value={mapRoleToAutocompleteSelectItem({ id: formik.values.roleId, name: "" })}
                             onSelect={(item) => {
                                 formik.setFieldValue("roleId", item ? item.value : null);
                             }}

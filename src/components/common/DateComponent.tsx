@@ -12,8 +12,8 @@ import { dateToDaysjs } from "../../utils/dates/daysjs";
 interface DateComponentProps {
     label: string;
     name: string;
-    touched: boolean | undefined;
-    errors: string | undefined;
+    touched?: boolean | undefined;
+    errors?: string | undefined;
     value: string;
     handleDateChange: (value: Dayjs | null) => void;
 }

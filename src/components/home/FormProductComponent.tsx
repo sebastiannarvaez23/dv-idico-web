@@ -138,6 +138,9 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
                             list={genders.map(e => mapGenderToAutocompleteSelectItem(e))}
                             loading={isLoadingGenders}
                             getList={handleGetGenders}
+                            touched={Boolean(formik.touched.gender?.id)}
+                            errors={formik.errors.gender?.id}
+                            value={mapGenderToAutocompleteSelectItem(formik.values.gender)}
                             onSelect={(item) => {
                                 const selected = genders.find(g => g.id === item?.value);
                                 formik.setFieldValue("gender", selected || { id: "", name: "" });
@@ -148,6 +151,9 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
                             list={kinds.map(e => mapKindToAutocompleteSelectItem(e))}
                             loading={isLoadingKinds}
                             getList={handleGetKinds}
+                            touched={Boolean(formik.touched.kind)}
+                            errors={formik.errors.kind?.id}
+                            value={mapKindToAutocompleteSelectItem(formik.values.kind)}
                             onSelect={(item) => {
                                 const selected = kinds.find(k => k.id === item?.value);
                                 formik.setFieldValue("kind", selected || { id: "", name: "" });
