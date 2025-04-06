@@ -319,7 +319,7 @@ const TableComponent = ({
                                         </TableCell>
                                         {headers.map((headCell) => (
                                             <TableCell key={headCell.id} align="left">
-                                                {row[headCell.id]}
+                                                {row[headCell.id] !== 'null' ? row[headCell.id] : "Sin información"}
                                             </TableCell>
                                         ))}
                                     </TableRow>

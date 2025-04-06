@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 
 import SteperComponent from "../common/SteperComponent";
 import FormUserComponent from "./FormUserComponent";

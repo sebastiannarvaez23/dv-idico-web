@@ -11,7 +11,7 @@ interface FormUserProps {
     userSelected: User;
     title: string;
     page: number;
-    setUser: (user: User) => void;
+    setUser?: (user: User) => void;
     setModalOpen?: (fun: boolean) => void;
     action: (data: User, pg: number) => void;
 }
@@ -23,11 +23,21 @@ const FormUserComponent = ({ page, title, userSelected, setUser, setModalOpen, a
             .required("El nombre de usuario es requerido")
             .max(70, "El nombre de usuario no puede tener más de 70 caracteres")
             .min(5, "El nombre de usuario no puede tener menos de 5 caracteres"),
-        password: Yup.string()
-            .required("La contraseña es requerida"),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password")], "Las contraseñas no coinciden")
-            .required("Debe repetir la contraseña"),
+
+        password: Yup.string().when([], {
+            is: () => userSelected.id === '',
+            then: (schema) => schema.required("La contraseña es requerida"),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+
+        confirmPassword: Yup.string().when("password", {
+            is: (val: string) => !!val && userSelected.id === '',
+            then: (schema) =>
+                schema
+                    .oneOf([Yup.ref("password")], "Las contraseñas no coinciden")
+                    .required("Debe repetir la contraseña"),
+            otherwise: (schema) => schema.notRequired(),
+        }),
     });
 
     const initialValues: FormUser = {
@@ -47,7 +57,7 @@ const FormUserComponent = ({ page, title, userSelected, setUser, setModalOpen, a
     const handleSubmit = async (values: FormUser) => {
         const { confirmPassword, ...user } = values;
         await action(user, page);
-        await setUser({ ...user });
+        setUser && await setUser({ ...user });
         setModalOpen && await setModalOpen(false);
     };
 
@@ -61,6 +71,7 @@ const FormUserComponent = ({ page, title, userSelected, setUser, setModalOpen, a
                         <TextField
                             label="Nombre de usuario"
                             name="nickname"
+                            disabled={userSelected.id !== ''}
                             value={formik.values.nickname}
                             error={formik.touched.nickname && Boolean(formik.errors.nickname)}
                             helperText={formik.touched.nickname && formik.errors.nickname}
@@ -68,28 +79,33 @@ const FormUserComponent = ({ page, title, userSelected, setUser, setModalOpen, a
                             fullWidth
                             margin="normal"
                         />
-                        <TextField
-                            label="Contraseña"
-                            name="password"
-                            type="password"
-                            value={formik.values.password}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            onChange={formik.handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            label="Repetir contraseña"
-                            name="confirmPassword"
-                            type="password"
-                            value={formik.values.confirmPassword}
-                            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                            onChange={formik.handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
+                        {(userSelected.id === '' &&
+                            <Fragment>
+                                <TextField
+                                    label="Contraseña"
+                                    name="password"
+                                    type="password"
+                                    value={formik.values.password}
+                                    error={formik.touched.password && Boolean(formik.errors.password)}
+                                    helperText={formik.touched.password && formik.errors.password}
+                                    onChange={formik.handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                                <TextField
+                                    label="Repetir contraseña"
+                                    name="confirmPassword"
+                                    type="password"
+                                    value={formik.values.confirmPassword}
+                                    error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                                    helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                    onChange={formik.handleChange}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Fragment>
+                        )}
+
                         <FormControlLabel
                             control={
                                 <Switch

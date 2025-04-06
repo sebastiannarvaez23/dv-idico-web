@@ -13,6 +13,7 @@ import TableComponent from "../components/common/TableComponent";
 import useSession from "../hooks/useSession.hook";
 import useUser from "../hooks/useUser.hook";
 import StepsCreateUser from "../components/settings/StepsCreateUser";
+import FormUserComponent from "../components/settings/FormUserComponent";
 
 
 const AdminUsersPage = () => {
@@ -37,48 +38,42 @@ const AdminUsersPage = () => {
             disablePadding: false,
             label: 'Activo',
         },
+        {
+            id: 'lastAuth',
+            numeric: false,
+            disablePadding: false,
+            label: 'Ultima conexión',
+        },
+        {
+            id: 'origin',
+            numeric: false,
+            disablePadding: false,
+            label: 'Origen',
+        },
     ];
 
     const { isAuthenticated, handleValidateAuthorization } = useSession();
-    const {
-        users,
-        userEmpty,
-        page,
-        count,
-        handleCreateUser,
-        handleUpdateUser,
-        handleGetUsers
-    } = useUser();
+    const { users, userEmpty, page, count, handleUpdateUser, handleGetUsers } = useUser();
 
-    const [openModal, setOpenModal] = useState<boolean>(false);
-    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
+    const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
     const [userSelected, setUserSelected] = useState<User>(userEmpty);
     const [searchNicknameValue, setSearchNicknameValue] = useState<string>('');
 
     const debounceSearchNicknameValue = useDebounce(searchNicknameValue, 500);
 
     const handleEdit = (id: string) => {
-        setOpenModal(true);
+        setOpenModalEdit(true);
         const user = users.find(e => e.id === id);
         user && setUserSelected(user);
-    }
-
-    const handleCreate = (user: User) => {
-        handleCreateUser(user);
     }
 
     const handleUpdate = (user: User) => {
         handleUpdateUser(user);
     }
 
-    const handleOpenDialog = (id: string) => {
-        const user = users.find(e => e.id === id);
-        user && setUserSelected(user);
-        setOpenDialog(true);
-    }
-
     const handleOpenModal = () => {
-        setOpenModal(true);
+        setOpenModalCreate(true);
         setUserSelected(userEmpty);
     }
 
@@ -90,10 +85,21 @@ const AdminUsersPage = () => {
         <Fragment>
             <ModalComponent
                 width={50}
-                open={openModal}
-                onClose={() => setOpenModal(false)}>
+                open={openModalCreate}
+                onClose={() => setOpenModalCreate(false)}>
                 <StepsCreateUser
-                    setOpenModal={setOpenModal}
+                    setOpenModal={setOpenModalCreate}
+                />
+            </ModalComponent>
+            <ModalComponent
+                width={50}
+                open={openModalEdit}
+                onClose={() => setOpenModalEdit(false)}>
+                <FormUserComponent
+                    userSelected={userSelected}
+                    title={"Edición de usuario"}
+                    page={page}
+                    action={(user) => handleUpdate(user)}
                 />
             </ModalComponent>
             <SettingsLayoutComponent>
@@ -120,7 +126,7 @@ const AdminUsersPage = () => {
                 </Box>
                 <TableComponent
                     editable={handleValidateAuthorization('0404')}
-                    deleteable={handleValidateAuthorization('0405')}
+                    deleteable={false}
                     data={users.map(e => mapUserToRowTableUser(e))}
                     totalRows={count}
                     headers={headCells}
@@ -128,7 +134,7 @@ const AdminUsersPage = () => {
                     filters={[debounceSearchNicknameValue]}
                     page={page}
                     onEdit={handleEdit}
-                    onDelete={handleOpenDialog}
+                    onDelete={() => { }}
                     changePage={handleGetUsers} />
             </SettingsLayoutComponent>
         </Fragment>
