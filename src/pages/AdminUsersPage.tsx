@@ -92,7 +92,9 @@ const AdminUsersPage = () => {
                 width={50}
                 open={openModal}
                 onClose={() => setOpenModal(false)}>
-                <StepsCreateUser />
+                <StepsCreateUser
+                    setOpenModal={setOpenModal}
+                />
             </ModalComponent>
             <SettingsLayoutComponent>
                 <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Usuarios</Typography>

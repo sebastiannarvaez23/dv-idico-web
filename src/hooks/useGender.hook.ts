@@ -34,7 +34,7 @@ function useGender() {
     }
 
     useEffect(() => {
-        dispatch(getGenders());
+        if (genders.length === 0) dispatch(getGenders());
     }, []);
 
     return {

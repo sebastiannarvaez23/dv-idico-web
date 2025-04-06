@@ -54,7 +54,7 @@ function usePerson() {
     };
 
     useEffect(() => {
-        dispatch(getPersons());
+        if (persons.length === 0) dispatch(getPersons());
     }, [])
 
     return {

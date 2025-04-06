@@ -54,7 +54,7 @@ function useService() {
     };
 
     useEffect(() => {
-        dispatch(getServices());
+        if (services.length === 0) dispatch(getServices());
     }, []);
 
     return {

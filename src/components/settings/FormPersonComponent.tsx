@@ -12,6 +12,7 @@ import { dateToDaysjs } from "../../utils/dates/daysjs";
 import { mapRoleToAutocompleteSelectItem } from "../../utils/mappers/role-select-item.mapper";
 import AutoCompleteComponent from "../common/AutoCompleteComponent";
 import useRole from "../../hooks/useRole.hook";
+import useUser from "../../hooks/useUser.hook";
 
 
 interface FormPersonProps {
@@ -19,11 +20,12 @@ interface FormPersonProps {
     personSelected: Person;
     title: string;
     page: number;
-    setModalOpen: (fun: boolean) => void;
+    nickname: string;
+    setModalOpen?: (fun: boolean) => void;
     action: (data: Person, pg: number) => void;
 }
 
-const FormPersonComponent = ({ page, title, personSelected, userSelected, setModalOpen, action }: FormPersonProps) => {
+const FormPersonComponent = ({ page, title, personSelected, userSelected, nickname, setModalOpen, action }: FormPersonProps) => {
 
     const validationSchema = Yup.object({
         firstName: Yup.string()
@@ -61,10 +63,16 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, setMod
     });
 
     const { isLoadingRoles, handleGetRoles, roles } = useRole();
+    const { handleGetUserByNickname } = useUser();
+
+    const selectedRole = roles.find(role => role.id === formik.values.roleId);
+    const selectedRoleOption = selectedRole ? mapRoleToAutocompleteSelectItem(selectedRole) : null;
 
     const handleSubmit = async (person: Person) => {
+        const user = await handleGetUserByNickname(nickname);
+        if (user) person.userId = user.id;
         action(person, page);
-        await setModalOpen(false);
+        setModalOpen && await setModalOpen(false);
     };
 
     const handleDateChange = (newValue: Dayjs | null) => {
@@ -147,6 +155,9 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, setMod
                             list={roles.map(e => mapRoleToAutocompleteSelectItem(e))}
                             loading={isLoadingRoles}
                             getList={handleGetRoles}
+                            onSelect={(item) => {
+                                formik.setFieldValue("roleId", item ? item.value : null);
+                            }}
                         />
                     </div>
                     <Button

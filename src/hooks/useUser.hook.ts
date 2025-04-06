@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../store/store';
 import { createUser, getUsers, updateUser } from '../store/slices/user';
+import { fetchGetUserByNickname } from '../services/user';
 
 
 function useUser() {
@@ -35,8 +36,12 @@ function useUser() {
         dispatch(updateUser(user));
     }
 
+    const handleGetUserByNickname = async (nickname: string) => {
+        return await fetchGetUserByNickname(nickname);
+    };
+
     useEffect(() => {
-        dispatch(getUsers());
+        if (users.length === 0) dispatch(getUsers());
     }, []);
 
     return {
@@ -47,6 +52,7 @@ function useUser() {
         modalCreateUser,
         userEmpty,
         userSelected,
+        handleGetUserByNickname,
         setModalEditUser,
         setModalCreateUser,
         handleGetUsers,

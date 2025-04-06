@@ -17,6 +17,14 @@ export const fetchGetUser = async (id: string): Promise<User> => {
     return response.data;
 };
 
+export const fetchGetUserByNickname = async (nickname: string): Promise<User> => {
+    const response = await api.get(`/user/nickname/${nickname}`)
+        .catch((error: any) => {
+            throw new Error(`Error al obtener usuario: ${error.message}`);
+        })
+    return response.data;
+};
+
 export const fetchCreateUser = async (user: User): Promise<User> => {
     const { id, ...rest } = user;
     const response = await api.post('/user', { ...rest })

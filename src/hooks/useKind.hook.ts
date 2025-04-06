@@ -35,7 +35,7 @@ function useKind() {
 
 
     useEffect(() => {
-        dispatch(getKinds());
+        if (kinds.length === 0) dispatch(getKinds());
     }, []);
 
     return {

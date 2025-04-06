@@ -11,9 +11,10 @@ interface AutoCompleteComponentProps {
     label: string;
     loading: boolean;
     getList: (pg: number, filter: string) => void;
+    onSelect: (value: AutocompleteSelectItem | null) => void;
 }
 
-const AutoCompleteComponent = ({ list, label, loading, getList }: AutoCompleteComponentProps) => {
+const AutoCompleteComponent = ({ list, label, loading, getList, onSelect }: AutoCompleteComponentProps) => {
     const [open, setOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
@@ -44,6 +45,7 @@ const AutoCompleteComponent = ({ list, label, loading, getList }: AutoCompleteCo
             options={list}
             loading={loading}
             fullWidth
+            onChange={(_, value) => onSelect(value)}
             renderInput={(params) => (
                 <TextField
                     {...params}

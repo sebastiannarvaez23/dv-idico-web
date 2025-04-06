@@ -11,17 +11,18 @@ interface FormUserProps {
     userSelected: User;
     title: string;
     page: number;
-    setModalOpen: (fun: boolean) => void;
+    setUser: (user: User) => void;
+    setModalOpen?: (fun: boolean) => void;
     action: (data: User, pg: number) => void;
 }
 
-const FormUserComponent = ({ page, title, userSelected, setModalOpen, action }: FormUserProps) => {
+const FormUserComponent = ({ page, title, userSelected, setUser, setModalOpen, action }: FormUserProps) => {
 
     const validationSchema = Yup.object({
         nickname: Yup.string()
             .required("El nombre de usuario es requerido")
             .max(70, "El nombre de usuario no puede tener más de 70 caracteres")
-            .min(3, "El nombre de usuario no puede tener menos de 3 caracteres"),
+            .min(5, "El nombre de usuario no puede tener menos de 5 caracteres"),
         password: Yup.string()
             .required("La contraseña es requerida"),
         confirmPassword: Yup.string()
@@ -45,8 +46,9 @@ const FormUserComponent = ({ page, title, userSelected, setModalOpen, action }: 
 
     const handleSubmit = async (values: FormUser) => {
         const { confirmPassword, ...user } = values;
-        action(user, page);
-        await setModalOpen(false);
+        await action(user, page);
+        await setUser({ ...user });
+        setModalOpen && await setModalOpen(false);
     };
 
     return (

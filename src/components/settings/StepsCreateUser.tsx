@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import SteperComponent from "../common/SteperComponent";
 import FormUserComponent from "./FormUserComponent";
@@ -6,24 +6,28 @@ import useUser from "../../hooks/useUser.hook";
 import FormPersonComponent from "./FormPersonComponent";
 import usePerson from "../../hooks/usePerson.hook";
 
+interface StepsCreateUserProps {
+    setOpenModal: (open: boolean) => void;
+}
 
-const StepsCreateUser = () => {
+const StepsCreateUser = ({ setOpenModal }: StepsCreateUserProps) => {
 
     const steps = ['Creación de usuario', 'creación de persona'];
 
-    const [activeStep, setActiveStep] = useState<number>(2);
-    const [modalOpen, setOpenModal] = useState<boolean>(false);
-
     const { userEmpty, userSelected, page: pageUser, handleCreateUser } = useUser();
     const { personEmpty, page: pagePerson, handleCreatePerson } = usePerson();
+
+    const [activeStep, setActiveStep] = useState<number>(1);
+    const [user, setUser] = useState<User>(userEmpty);
 
     const createUser = (user: User) => {
         handleCreateUser(user);
         nextStep();
     }
 
-    const createPerson = (person: Person) => {
-        handleCreatePerson(person);
+    const createPerson = async (person: Person) => {
+        await handleCreatePerson(person);
+        await setOpenModal(false);
     }
 
     const nextStep = () => {
@@ -46,8 +50,8 @@ const StepsCreateUser = () => {
                                 userSelected={userEmpty}
                                 title={"Creación de usuario"}
                                 page={pageUser}
-                                setModalOpen={setOpenModal}
                                 action={(user) => createUser(user)}
+                                setUser={setUser}
                             />
                         );
                     case 2:
@@ -57,7 +61,7 @@ const StepsCreateUser = () => {
                                 personSelected={personEmpty}
                                 title={"Creación de persona"}
                                 page={pagePerson}
-                                setModalOpen={setOpenModal}
+                                nickname={user?.nickname}
                                 action={(person) => createPerson(person)}
                             />
                         );
