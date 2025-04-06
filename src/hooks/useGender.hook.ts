@@ -42,6 +42,7 @@ function useGender() {
         genderEmpty,
         genders,
         page,
+        isLoadingGenders,
         handleCreateGender,
         handleDeleteGender,
         handleGetGenders,

@@ -43,6 +43,7 @@ function useKind() {
         kindEmpty,
         kinds,
         page,
+        isLoadingKinds,
         handleGetKinds,
         handleCreateKind,
         handleUpdateKind,

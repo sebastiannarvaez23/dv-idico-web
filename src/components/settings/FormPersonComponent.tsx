@@ -66,9 +66,6 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
     const { isLoadingRoles, handleGetRoles, roles } = useRole();
     const { handleGetUserByNickname } = useUser();
 
-    const selectedRole = roles.find(role => role.id === formik.values.roleId);
-    const selectedRoleOption = selectedRole ? mapRoleToAutocompleteSelectItem(selectedRole) : null;
-
     const handleSubmit = async (person: Person) => {
         const user = await handleGetUserByNickname(nickname);
         if (user) person.userId = user.id;

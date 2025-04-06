@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 
-import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { Button, Typography, Box, TextField, Input, Rating } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Dayjs } from "dayjs";
 
 import { DateComponent } from "../common/DateComponent";
+import { mapGenderToAutocompleteSelectItem } from "../../utils/mappers/gender-select-item.mapper";
+import { mapKindToAutocompleteSelectItem } from "../../utils/mappers/kind-select-item.mapper";
+import AutoCompleteComponent from "../common/AutoCompleteComponent";
 import FormCharacterAssigment from "./FormCharacterAssigment";
 import ModalComponent from "../common/ModalComponent";
 import useGender from "../../hooks/useGender.hook";
@@ -27,8 +30,8 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const { genders } = useGender();
-    const { kinds } = useKind();
+    const { genders, isLoadingGenders, handleGetGenders } = useGender();
+    const { kinds, isLoadingKinds, handleGetKinds } = useKind();
 
     const validationSchema = Yup.object({
         qualification: Yup.number()
@@ -38,9 +41,7 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
             .required("El título es requerido")
             .max(100, "El título no puede tener más de 100 caracteres"),
         createdDate: Yup.date()
-            .nullable()
-            .typeError("La fecha de estreno debe ser una fecha válida")
-            .required("La fecha de estreno es requerida"),
+            .nullable(),
         gender: Yup.object({ id: Yup.string().required("El género es requerido") }),
         kind: Yup.object({ id: Yup.string().required("El tipo de producto es requerido") }),
     });
@@ -83,16 +84,6 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
         if (newValue !== null) {
             formik.setFieldValue('qualification', newValue.toString());
         }
-    };
-
-    const handleGenderChange = (event: SelectChangeEvent<string>) => {
-        const selectedGender = genders.find(e => e.id === event.target.value) || { id: "", name: "" };
-        formik.setFieldValue('gender', selectedGender);
-    };
-
-    const handleKindChange = (event: SelectChangeEvent<string>) => {
-        const selectedKind = kinds.find(e => e.id === event.target.value) || { id: "", name: "" };
-        formik.setFieldValue('kind', selectedKind);
     };
 
     const handleDateChange = (newValue: Dayjs | null) => {
@@ -142,64 +133,26 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
                             value={formik.values.createdDate}
                             handleDateChange={handleDateChange}
                         />
-                        <FormControl
-                            fullWidth
-                            margin="normal"
-                            error={formik.touched.gender && Boolean(formik.errors.gender?.id)}>
-                            <InputLabel id="gender-label">Género</InputLabel>
-                            <Select
-                                labelId="gender-label"
-                                id="gender"
-                                name="gender.id"
-                                label="Género"
-                                value={formik.values.gender.id as string}
-                                onChange={handleGenderChange}
-                            >
-                                {genders && genders.map((gender, index) => (
-                                    <MenuItem key={index} value={gender.id as string}>
-                                        {gender.name}
-                                    </MenuItem>
-                                )) || (
-                                        <MenuItem value={"Cargando..."}>
-                                            {"Cargando..."}
-                                        </MenuItem>
-                                    )}
-                            </Select>
-                            {formik.touched.gender && formik.errors.gender?.id && (
-                                <Typography variant="caption" color="error" sx={{ textAlign: 'left', display: 'block', mt: 0.5, ml: 2 }}>
-                                    {formik.errors.gender.id}
-                                </Typography>
-                            )}
-                        </FormControl>
-                        <FormControl
-                            fullWidth
-                            margin="normal"
-                            error={formik.touched.kind && Boolean(formik.errors.kind?.id)}>
-                            <InputLabel id="kind-label">Tipo de Producto</InputLabel>
-                            <Select
-                                labelId="kind-label"
-                                id="kind"
-                                name="kind.id"
-                                label="Tipo de Producto"
-                                value={formik.values.kind.id as string}
-                                onChange={handleKindChange}
-                            >
-                                {kinds && kinds.map((kind, index) => (
-                                    <MenuItem key={index} value={kind.id as string}>
-                                        {kind.name}
-                                    </MenuItem>
-                                )) || (
-                                        <MenuItem value={"Cargando..."}>
-                                            {"Cargando.."}
-                                        </MenuItem>
-                                    )}
-                            </Select>
-                            {formik.touched.kind && formik.errors.kind?.id && (
-                                <Typography variant="caption" color="error" sx={{ textAlign: 'left', display: 'block', mt: 0.5, ml: 2 }}>
-                                    {formik.errors.kind.id}
-                                </Typography>
-                            )}
-                        </FormControl>
+                        <AutoCompleteComponent
+                            label={"Género"}
+                            list={genders.map(e => mapGenderToAutocompleteSelectItem(e))}
+                            loading={isLoadingGenders}
+                            getList={handleGetGenders}
+                            onSelect={(item) => {
+                                const selected = genders.find(g => g.id === item?.value);
+                                formik.setFieldValue("gender", selected || { id: "", name: "" });
+                            }}
+                        />
+                        <AutoCompleteComponent
+                            label={"Tipo de producto"}
+                            list={kinds.map(e => mapKindToAutocompleteSelectItem(e))}
+                            loading={isLoadingKinds}
+                            getList={handleGetKinds}
+                            onSelect={(item) => {
+                                const selected = kinds.find(k => k.id === item?.value);
+                                formik.setFieldValue("kind", selected || { id: "", name: "" });
+                            }}
+                        />
                         <Input
                             type="file"
                             onChange={handleFileChange}

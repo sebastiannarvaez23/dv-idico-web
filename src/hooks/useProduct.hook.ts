@@ -28,7 +28,7 @@ function useProduct() {
     const productEmpty: Product = {
         id: "",
         title: "",
-        createdDate: new Date,
+        createdDate: "",
         qualification: "",
         gender: { id: "", name: "" },
         kind: { id: "", name: "" },
