@@ -6,8 +6,12 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
+
+import { dateToDaysjs } from "../../utils/dates/daysjs";
+import { mapRoleToAutocompleteSelectItem } from "../../utils/mappers/role-select-item.mapper";
 import AutoCompleteComponent from "../common/AutoCompleteComponent";
+import useRole from "../../hooks/useRole.hook";
 
 
 interface FormPersonProps {
@@ -37,6 +41,8 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, setMod
             .required("El teléfono es requerido")
             .max(10, "El teléfono no puede tener más de 10 caracteres")
             .min(10, "El teléfono no puede tener menos de 10 caracteres"),
+        birthDate: Yup.string()
+            .required("La fecha de nacimiento es requerida")
     });
 
     const formik = useFormik<Person>({
@@ -46,13 +52,15 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, setMod
             lastName: personSelected.lastName,
             email: personSelected.email,
             phone: personSelected.phone,
-            birthDate: dayjs(personSelected.birthDate).toString(),
+            birthDate: personSelected.birthDate,
             userId: userSelected.id,
             roleId: personSelected.roleId,
         },
         validationSchema,
         onSubmit: (values) => handleSubmit(values)
     });
+
+    const { isLoadingRoles, handleGetRoles, roles } = useRole();
 
     const handleSubmit = async (person: Person) => {
         action(person, page);
@@ -119,7 +127,7 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, setMod
                                     <DatePicker
                                         label="Fecha de nacimiento"
                                         name="birthDate"
-                                        value={dayjs(formik.values.birthDate)}
+                                        value={dateToDaysjs(formik.values.birthDate)}
                                         onChange={handleDateChange}
                                         slotProps={{
                                             textField: {
@@ -136,7 +144,9 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, setMod
                         </FormControl>
                         <AutoCompleteComponent
                             label={"Rol"}
-                            list={[{ label: 'rol 1', value: '1' }, { label: 'rol 2', value: '2' }]}
+                            list={roles.map(e => mapRoleToAutocompleteSelectItem(e))}
+                            loading={isLoadingRoles}
+                            getList={handleGetRoles}
                         />
                     </div>
                     <Button

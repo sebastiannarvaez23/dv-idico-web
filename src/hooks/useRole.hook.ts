@@ -11,7 +11,7 @@ function useRole() {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const { roleSelected, roles, count, page } = useSelector(
+    const { roles, count, page, isLoadingRoles } = useSelector(
         (state: RootState) => state.role);
 
     const [modalEditRole, setModalEditRole] = useState(false);
@@ -77,6 +77,7 @@ function useRole() {
         page,
         roleEmpty,
         roles,
+        isLoadingRoles,
         handleCloseModalCreateRole,
         handleCloseModalEditRole,
         handleGetRoles,
