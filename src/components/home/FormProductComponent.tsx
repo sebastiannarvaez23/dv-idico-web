@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Button, Typography, Box, TextField, Input, Rating, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 
+import { DateComponent } from "../common/DateComponent";
 import FormCharacterAssigment from "./FormCharacterAssigment";
 import ModalComponent from "../common/ModalComponent";
 import useGender from "../../hooks/useGender.hook";
@@ -52,7 +50,7 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
             id: productSelected.id,
             title: productSelected.title,
             image: productSelected.image,
-            createdDate: productSelected.createdDate ? dayjs(productSelected.createdDate).toDate() : new Date(),
+            createdDate: productSelected.createdDate,
             qualification: productSelected.qualification,
             gender: productSelected.gender,
             kind: productSelected.kind,
@@ -72,7 +70,7 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
         const formDataToSend = new FormData();
         formDataToSend.append('id', values.id);
         formDataToSend.append('title', values.title);
-        formDataToSend.append('createdDate', dayjs(values.createdDate).toISOString());
+        formDataToSend.append('createdDate', values.createdDate);
         formDataToSend.append('qualification', values.qualification);
         formDataToSend.append('genderId', values.gender.id as string);
         formDataToSend.append('kindId', values.kind.id as string);
@@ -136,38 +134,18 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
                             fullWidth
                             margin="normal"
                         />
-
+                        <DateComponent
+                            label={"Fecha de creación"}
+                            name={"createdDate"}
+                            touched={formik.touched.createdDate}
+                            errors={formik.errors.createdDate}
+                            value={formik.values.createdDate}
+                            handleDateChange={handleDateChange}
+                        />
                         <FormControl
                             fullWidth
                             margin="normal"
-                            error={formik.touched.createdDate && Boolean(formik.errors.createdDate)}
-                        >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']} sx={{ width: '100%' }}>
-                                    <DatePicker
-                                        label="Fecha de estreno"
-                                        name="createdDate"
-                                        value={dayjs(formik.values.createdDate)}
-                                        onChange={handleDateChange}
-                                        slotProps={{
-                                            textField: {
-                                                error: formik.touched.createdDate && Boolean(formik.errors.createdDate),
-                                                helperText: formik.touched.createdDate && typeof formik.errors.createdDate === 'string'
-                                                    ? formik.errors.createdDate
-                                                    : undefined,
-                                                fullWidth: true,
-                                            }
-                                        }}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                        </FormControl>
-
-                        <FormControl
-                            fullWidth
-                            margin="normal"
-                            error={formik.touched.gender && Boolean(formik.errors.gender?.id)}
-                        >
+                            error={formik.touched.gender && Boolean(formik.errors.gender?.id)}>
                             <InputLabel id="gender-label">Género</InputLabel>
                             <Select
                                 labelId="gender-label"
@@ -243,8 +221,9 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
                             size="large"
                             color="primary"
                             style={{ marginTop: "20px", marginLeft: "12px", color: "#161732", borderColor: "#161732" }}
-                            onClick={handleOpenModalAssigmentCharacter}
-                        >Asignar personajes</Button>)}
+                            onClick={handleOpenModalAssigmentCharacter}>
+                            Asignar personajes
+                        </Button>)}
                 </Box>
             </form >
             {formik.values.id &&
@@ -254,7 +233,6 @@ const FormProductComponent = ({ page, productSelected, title, modalAssigmentChar
                     onClose={handleCloseModalAssigmentCharacter!}>
                     <FormCharacterAssigment
                         setModalOpen={setModalOpen}
-                        productSelected={productSelected}
                     />
                 </ModalComponent>)}
         </div>

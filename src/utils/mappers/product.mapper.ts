@@ -4,7 +4,7 @@ const months: string[] = [
 ];
 
 const formattingDate = (date: string | Date): string => {
-    const dateObj = new Date(date); // Parseamos la fecha ISO
+    const dateObj = new Date(date);
     const day = dateObj.getUTCDate().toString().padStart(2, '0');
     const month = months[dateObj.getUTCMonth()];
     const year = dateObj.getUTCFullYear();

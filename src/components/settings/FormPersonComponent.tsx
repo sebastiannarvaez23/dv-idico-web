@@ -13,6 +13,7 @@ import { mapRoleToAutocompleteSelectItem } from "../../utils/mappers/role-select
 import AutoCompleteComponent from "../common/AutoCompleteComponent";
 import useRole from "../../hooks/useRole.hook";
 import useUser from "../../hooks/useUser.hook";
+import { DateComponent } from "../common/DateComponent";
 
 
 interface FormPersonProps {
@@ -126,30 +127,14 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
                             onChange={formik.handleChange}
                             fullWidth
                             margin="normal" />
-                        <FormControl
-                            fullWidth
-                            margin="normal"
-                            error={formik.touched.birthDate && Boolean(formik.errors.birthDate)}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']} sx={{ width: '100%' }}>
-                                    <DatePicker
-                                        label="Fecha de nacimiento"
-                                        name="birthDate"
-                                        value={dateToDaysjs(formik.values.birthDate)}
-                                        onChange={handleDateChange}
-                                        slotProps={{
-                                            textField: {
-                                                error: formik.touched.birthDate && Boolean(formik.errors.birthDate),
-                                                helperText: formik.touched.birthDate && typeof formik.errors.birthDate === 'string'
-                                                    ? formik.errors.birthDate
-                                                    : undefined,
-                                                fullWidth: true,
-                                            }
-                                        }}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
-                        </FormControl>
+                        <DateComponent
+                            label={"Fecha de nacimiento"}
+                            name={"birthDate"}
+                            touched={formik.touched.birthDate}
+                            errors={formik.errors.birthDate}
+                            value={formik.values.birthDate}
+                            handleDateChange={handleDateChange}
+                        />
                         <AutoCompleteComponent
                             label={"Rol"}
                             list={roles.map(e => mapRoleToAutocompleteSelectItem(e))}
