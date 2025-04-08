@@ -27,11 +27,14 @@ export const getCharacters = (page: number = 1, name?: string) => {
 };
 
 export const getCharacter = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingCharactersSelected());
-            const character: Character = await fetchGetCharacter(id);
-            await dispatch(setCharacterSelected({ character }));
+            const { isLoadingCharacterSelected } = getState().character;
+            if (!isLoadingCharacterSelected) {
+                dispatch(startLoadingCharactersSelected());
+                const character: Character = await fetchGetCharacter(id);
+                await dispatch(setCharacterSelected({ character }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error oteniendo el personaje.' }));
         }

@@ -120,7 +120,7 @@ const AdminUsersPage = () => {
                     <TextField
                         sx={{ width: '100%' }}
                         id="outlined-basic"
-                        label="Nombre"
+                        label="Nombre de usuario"
                         variant="outlined"
                         onChange={(e) => setSearchNicknameValue(e.target.value)} />
                 </Box>

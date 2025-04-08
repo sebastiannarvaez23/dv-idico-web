@@ -27,11 +27,14 @@ export const getRoles = (page: number = 1, name?: string) => {
 };
 
 export const getRole = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingRoleSelected());
-            const role: Role = await fetchGetRole(id);
-            await dispatch(setRoleSelected({ role }));
+            const { isLoadingRoleSelected } = getState().role;
+            if (!isLoadingRoleSelected) {
+                dispatch(startLoadingRoleSelected());
+                const role: Role = await fetchGetRole(id);
+                await dispatch(setRoleSelected({ role }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la rol.' }));
         }

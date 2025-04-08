@@ -5,6 +5,7 @@ import FormUserComponent from "./FormUserComponent";
 import useUser from "../../hooks/useUser.hook";
 import FormPersonComponent from "./FormPersonComponent";
 import usePerson from "../../hooks/usePerson.hook";
+import useRole from "../../hooks/useRole.hook";
 
 interface StepsCreateUserProps {
     setOpenModal: (open: boolean) => void;
@@ -14,6 +15,7 @@ const StepsCreateUser = ({ setOpenModal }: StepsCreateUserProps) => {
 
     const steps = ['Creación de usuario', 'creación de persona'];
 
+    const { roleEmpty } = useRole();
     const { userEmpty, userSelected, page: pageUser, handleCreateUser } = useUser();
     const { personEmpty, page: pagePerson, handleCreatePerson } = usePerson();
 
@@ -26,8 +28,10 @@ const StepsCreateUser = ({ setOpenModal }: StepsCreateUserProps) => {
     }
 
     const createPerson = async (person: Person) => {
-        await handleCreatePerson(person);
-        await setOpenModal(false);
+        const result = await handleCreatePerson(person);
+        if (result?.success) {
+            await setOpenModal(false);
+        }
     }
 
     const nextStep = () => {
@@ -58,7 +62,7 @@ const StepsCreateUser = ({ setOpenModal }: StepsCreateUserProps) => {
                         return (
                             <FormPersonComponent
                                 userSelected={userSelected}
-                                personSelected={personEmpty}
+                                personSelected={{ role: { ...roleEmpty }, ...personEmpty }}
                                 title={"Creación de persona"}
                                 page={pagePerson}
                                 nickname={user?.nickname}

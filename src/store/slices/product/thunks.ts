@@ -27,11 +27,14 @@ export const getProducts = (page: number = 1, title?: string) => {
 };
 
 export const getProduct = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingProductSelected());
-            const product: Product = await fetchGetProduct(id);
-            await dispatch(setProductSelected({ product }));
+            const { isLoadingProductSelected } = getState().product;
+            if (!isLoadingProductSelected) {
+                dispatch(startLoadingProductSelected());
+                const product: Product = await fetchGetProduct(id);
+                await dispatch(setProductSelected({ product }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el producto.' }));
         }

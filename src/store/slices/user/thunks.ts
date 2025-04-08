@@ -27,11 +27,14 @@ export const getUsers = (page: number = 1, nickname?: string) => {
 }
 
 export const getUser = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingUserSelected());
-            const user: User = await fetchGetUser(id);
-            await dispatch(setUserSelected({ user }));
+            const { isLoadingUserSelected } = getState().user;
+            if (!isLoadingUserSelected) {
+                dispatch(startLoadingUserSelected());
+                const user: User = await fetchGetUser(id);
+                await dispatch(setUserSelected({ user }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el usuario.' }));
         }

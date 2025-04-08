@@ -27,11 +27,14 @@ export const getKinds = (page: number = 1, name?: string) => {
 };
 
 export const getKind = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingKindSelected());
-            const kind: Kind = await fetchGetKind(id);
-            await dispatch(setKindSelected({ kind }));
+            const { isLoadingKindSelected } = getState().kind;
+            if (!isLoadingKindSelected) {
+                dispatch(startLoadingKindSelected());
+                const kind: Kind = await fetchGetKind(id);
+                await dispatch(setKindSelected({ kind }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el tipo de producto.' }));
         }

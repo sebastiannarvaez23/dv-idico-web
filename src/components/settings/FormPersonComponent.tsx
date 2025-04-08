@@ -14,7 +14,7 @@ import { DateComponent } from "../common/DateComponent";
 
 interface FormPersonProps {
     userSelected: User,
-    personSelected: Person;
+    personSelected: PersonForm;
     title: string;
     page: number;
     nickname: string;
@@ -41,10 +41,11 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
             .max(10, "El teléfono no puede tener más de 10 caracteres")
             .min(10, "El teléfono no puede tener menos de 10 caracteres"),
         birthDate: Yup.string()
-            .required("La fecha de nacimiento es requerida")
+            .required("La fecha de nacimiento es requerida"),
+        role: Yup.object({ id: Yup.string().required("El rol es requerido") }),
     });
 
-    const formik = useFormik<Person>({
+    const formik = useFormik<PersonForm>({
         initialValues: {
             id: personSelected.id,
             firstName: personSelected.firstName,
@@ -53,7 +54,7 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
             phone: personSelected.phone,
             birthDate: personSelected.birthDate,
             userId: userSelected.id,
-            roleId: personSelected.roleId,
+            role: personSelected.role,
         },
         validationSchema,
         onSubmit: (values) => handleSubmit(values)
@@ -62,9 +63,11 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
     const { isLoadingRoles, handleGetRoles, roles } = useRole();
     const { handleGetUserByNickname } = useUser();
 
-    const handleSubmit = async (person: Person) => {
+    const handleSubmit = async (personForm: PersonForm) => {
         const user = await handleGetUserByNickname(nickname);
-        if (user) person.userId = user.id;
+        if (user) personForm.userId = user.id;
+        const { role, ...rest } = personForm;
+        const person: Person = { roleId: role.id, ...rest };
         action(person, page);
         setModalOpen && await setModalOpen(false);
     };
@@ -133,9 +136,12 @@ const FormPersonComponent = ({ page, title, personSelected, userSelected, nickna
                             list={roles.map(e => mapRoleToAutocompleteSelectItem(e))}
                             loading={isLoadingRoles}
                             getList={handleGetRoles}
-                            value={mapRoleToAutocompleteSelectItem({ id: formik.values.roleId, name: "" })}
+                            touched={Boolean(formik.touched.role)}
+                            errors={formik.errors.role?.id}
+                            value={mapRoleToAutocompleteSelectItem(formik.values.role)}
                             onSelect={(item) => {
-                                formik.setFieldValue("roleId", item ? item.value : null);
+                                const selected = roles.find(k => k.id === item?.value);
+                                formik.setFieldValue("role", selected || { id: "", name: "" });
                             }}
                         />
                     </div>

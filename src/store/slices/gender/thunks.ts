@@ -27,11 +27,14 @@ export const getGenders = (page: number = 1, name?: string) => {
 };
 
 export const getGender = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingGenderSelected());
-            const gender: Gender = await fetchGetGender(id);
-            await dispatch(setGenderSelected({ gender }));
+            const { isLoadingGenderSelected } = getState().gender;
+            if (!isLoadingGenderSelected) {
+                dispatch(startLoadingGenderSelected());
+                const gender: Gender = await fetchGetGender(id);
+                await dispatch(setGenderSelected({ gender }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el género de producto.' }));
         }

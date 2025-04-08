@@ -27,11 +27,14 @@ export const getServices = (page: number = 1, code?: string, name?: string) => {
 };
 
 export const getService = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingServiceSelected());
-            const service: Service = await fetchGetService(id);
-            await dispatch(setServiceSelected({ service }));
+            const { isLoadingServiceSelected } = getState().service;
+            if (!isLoadingServiceSelected) {
+                dispatch(startLoadingServiceSelected());
+                const service: Service = await fetchGetService(id);
+                await dispatch(setServiceSelected({ service }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo el servicio.' }));
         }

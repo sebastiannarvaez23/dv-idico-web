@@ -29,8 +29,8 @@ function usePerson() {
         dispatch(getPersons(page, firstName, lastName, email));
     }
 
-    const handleCreatePerson = (person: Person) => {
-        dispatch(createPerson(person));
+    const handleCreatePerson = async (person: Person) => {
+        return await dispatch(createPerson(person));
     }
 
     const handleUpdatePerson = (person: Person) => {

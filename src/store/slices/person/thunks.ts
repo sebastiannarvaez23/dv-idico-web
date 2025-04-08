@@ -27,11 +27,14 @@ export const getPersons = (page: number = 1, firstName?: string, lastName?: stri
 };
 
 export const getPerson = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         try {
-            dispatch(startLoadingPersonSelected());
-            const person: Person = await fetchGetPerson(id);
-            await dispatch(setPersonSelected({ person }));
+            const { isLoadingPersonSelected } = getState().person;
+            if (!isLoadingPersonSelected) {
+                dispatch(startLoadingPersonSelected());
+                const person: Person = await fetchGetPerson(id);
+                await dispatch(setPersonSelected({ person }));
+            }
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error obteniendo la persona.' }));
         }
@@ -45,6 +48,7 @@ export const createPerson = (person: Person) => {
             await dispatch(getPersons());
             await dispatch(setPersonSelected({ person: personCreated }));
             await dispatch(setAlert({ type: 'success', message: `Persona "${personCreated.firstName}" creado exitosamente!` }));
+            return { success: true, data: personCreated };
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: 'Ocurrió un error creando la persona.' }));
         }
