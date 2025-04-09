@@ -1,0 +1,23 @@
+{
+    "000000": "Ha ocurrido un error inesperado",
+    "000001": "Error al guardar el token",
+    "000002": "Error al obtener el token",
+    "000003": "No se proporcionó un token",
+    "000004": "Error al eliminar el token",
+    "000005": "Token no encontrado",
+    "000006": "El token ha expirado",
+    "000007": "Token inválido",
+    "000008": "Formato de UUID inválido",
+    "000009": "Ya existe un registro con la misma información. Por favor verifica los datos ingresados.",
+    "000010": "Acceso denegado. No autorizado.",
+    "000011": "Acceso denegado. No tienes permisos para este servicio.",
+    "000012": "Violación de clave foránea.",
+    "000013": "El token para restablecer la contraseña ha expirado.",
+    "000014": "El usuario asociado al token no existe.",
+    "000015": "Tiempo de expiración inválido.",
+    "000017": "Token inválido o revocado.",
+    "000018": "No se pudo revocar el token.",
+    "000019": "Se requieren client_id y client_secret.",
+    "000020": "Cliente inválido.",
+    "000021": "El parámetro no era esperado."
+}
