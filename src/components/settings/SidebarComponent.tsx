@@ -39,7 +39,17 @@ const SidebarComponent = () => {
 
     return (
         <List
-            sx={{ boxShadow: '7px 0 7px -3px rgba(0, 0, 0, 0.5)', height: '100vh', width: '100%', maxWidth: 360, bgcolor: 'background.paper', minWidth: '270px' }}
+            sx={{
+                position: 'fixed', // ← inmoviliza
+                top: '64px',       // ← debajo del Topbar
+                left: 0,
+                height: 'calc(100vh - 64px)', // ← ocupa toda la altura restante
+                overflowY: 'auto',
+                width: '270px',    // ← ancho fijo
+                bgcolor: 'background.paper',
+                boxShadow: '7px 0 7px -3px rgba(0, 0, 0, 0.5)',
+                zIndex: 1100
+            }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={

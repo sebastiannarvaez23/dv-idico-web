@@ -21,17 +21,26 @@ const AdminLayoutComponent = ({ children }: { children: React.ReactNode }) => {
                 />
             )}
             <TopbarComponent />
+            <SidebarComponent />
             <Box
                 sx={{
-                    display: 'grid',
-                    gridTemplateColumns: '20% 80%',
-                    minHeight: '100vh',
-                    mt: '64px'
+                    display: 'flex',
+                    flexDirection: 'row',
+                    mt: '64px',
+                    minHeight: 'calc(100vh - 64px)',
                 }}>
-                <SidebarComponent />
-                <Container sx={{ with: '100%', margin: '0px auto', minWidth: '1000px' }}>
-                    {children}
-                </Container>
+                <Box
+                    sx={{
+                        marginLeft: '270px',
+                        width: '100%',
+                        overflowY: 'auto',
+                        padding: 2,
+                    }}
+                >
+                    <Container sx={{ with: '100%', margin: '0px auto', minWidth: '1000px' }}>
+                        {children}
+                    </Container>
+                </Box>
             </Box>
         </Fragment>
     );
