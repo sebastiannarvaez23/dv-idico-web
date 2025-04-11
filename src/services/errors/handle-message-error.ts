@@ -21,7 +21,6 @@ export class HandleMessageError {
         if (internalCode) {
             const entityMsg = this.entityMessages[internalCode];
             const coreMsg = coreMessages[internalCode as keyof typeof coreMessages];
-            console.log({ coreMsg, entityMsg });
 
             if (typeof entityMsg === 'string') throw new Error(entityMsg);
             if (typeof entityMsg === 'object' && entityMsg.messageClient) throw new Error(entityMsg.messageClient);

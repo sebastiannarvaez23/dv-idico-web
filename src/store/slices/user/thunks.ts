@@ -48,6 +48,7 @@ export const createUser = (user: User) => {
             await dispatch(getUsers());
             await dispatch(setUserSelected({ user: userCreated }));
             await dispatch(setAlert({ type: 'success', message: `Usuario "${userCreated.nickname}" creado exitosamente!` }));
+            return { success: true, data: userCreated };
         } catch (error: any) {
             dispatch(setAlert({ type: 'error', message: error.message }));
         }

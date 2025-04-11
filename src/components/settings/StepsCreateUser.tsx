@@ -22,16 +22,14 @@ const StepsCreateUser = ({ setOpenModal }: StepsCreateUserProps) => {
     const [activeStep, setActiveStep] = useState<number>(1);
     const [user, setUser] = useState<User>(userEmpty);
 
-    const createUser = (user: User) => {
-        handleCreateUser(user);
-        nextStep();
+    const createUser = async (user: User) => {
+        const result = await handleCreateUser(user);
+        if (result?.success) await nextStep();
     }
 
     const createPerson = async (person: Person) => {
         const result = await handleCreatePerson(person);
-        if (result?.success) {
-            await setOpenModal(false);
-        }
+        if (result?.success) await setOpenModal(false);
     }
 
     const nextStep = () => {

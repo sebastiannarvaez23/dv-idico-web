@@ -28,8 +28,8 @@ function useUser() {
         dispatch(getUsers(page, nickname));
     }
 
-    const handleCreateUser = (user: User) => {
-        dispatch(createUser(user));
+    const handleCreateUser = async (user: User) => {
+        return await dispatch(createUser(user));
     }
 
     const handleUpdateUser = (user: User) => {
