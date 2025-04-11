@@ -1,6 +1,4 @@
-import { ErrorNamespace } from "./error-namespace.enum";
 import coreMessagesRaw from './00-core.json' assert { type: 'json' };
-
 
 type ErrorMessages = Record<
     string,
@@ -10,20 +8,10 @@ type ErrorMessages = Record<
 const coreMessages: Record<string, string> = coreMessagesRaw;
 
 export class HandleMessageError {
-    private entityMessages: ErrorMessages = {};
+    private constructor(private entityMessages: ErrorMessages) { }
 
-    private constructor(private namespace: ErrorNamespace, entityMessages: ErrorMessages) {
-        this.entityMessages = entityMessages;
-    }
-
-    static async create(namespace: ErrorNamespace): Promise<HandleMessageError> {
-        try {
-            const module = await import(`./${namespace}.json`, { assert: { type: 'json' } });
-            return new HandleMessageError(namespace, module.default);
-        } catch {
-            console.warn(`Archivo de errores no encontrado para la entidad: ${namespace}`);
-            return new HandleMessageError(namespace, {});
-        }
+    static async create(entityMessages: ErrorMessages): Promise<HandleMessageError> {
+        return new HandleMessageError(entityMessages);
     }
 
     handle(error: any): never {
