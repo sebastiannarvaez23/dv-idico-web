@@ -21,7 +21,7 @@ import SwitchAccessShortcutAddIcon from '@mui/icons-material/SwitchAccessShortcu
 import useSession from '../../hooks/useSession.hook';
 
 
-const NestedList = () => {
+const SidebarComponent = () => {
 
     const navigate = useNavigate();
     const { handleValidateAuthorization } = useSession();
@@ -39,7 +39,7 @@ const NestedList = () => {
 
     return (
         <List
-            sx={{ zIndex: '100', boxShadow: '7px 0 7px -3px rgba(0, 0, 0, 0.5)', height: '100vh', width: '100%', maxWidth: 360, bgcolor: 'background.paper', position: "fixed", top: 64, left: 0 }}
+            sx={{ boxShadow: '7px 0 7px -3px rgba(0, 0, 0, 0.5)', height: '100vh', width: '100%', maxWidth: 360, bgcolor: 'background.paper', minWidth: '270px' }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
@@ -135,4 +135,4 @@ const NestedList = () => {
     );
 }
 
-export default NestedList;
+export default SidebarComponent;

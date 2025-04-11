@@ -7,7 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import useSession from '../../hooks/useSession.hook';
 
 
-const SidebarComponent = () => {
+const TopbarComponent = () => {
 
     const navigate = useNavigate();
     const { isAuthenticated, nickname, handleLogout } = useSession();
@@ -78,4 +78,4 @@ const SidebarComponent = () => {
     );
 }
 
-export default SidebarComponent;
+export default TopbarComponent;

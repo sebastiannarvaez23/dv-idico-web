@@ -4,7 +4,7 @@ import CharacterPage from './CharacterPage';
 import FloatingAlertComponent from '../components/home/FloatingAlertComponent';
 import NavbarAppComponent from '../components/home/NavbarAppComponent';
 import ProductPage from './ProductPage';
-import SidebarComponent from '../components/common/SidebarComponent';
+import TopBarComponent from '../components/common/TopbarComponent';
 import useAlert from '../hooks/useAlert.hook';
 
 
@@ -23,7 +23,7 @@ const HomePage = () => {
                     onClose={hideAlert}
                 />
             )}
-            <SidebarComponent />
+            <TopBarComponent />
             <NavbarAppComponent setSectionSelected={setSectionSelected} />
             {sectionSelected === "characters" && (
                 <CharacterPage />

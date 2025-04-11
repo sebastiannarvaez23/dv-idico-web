@@ -9,7 +9,7 @@ import { useDebounce } from "../hooks/useDebounce.hook";
 import DialogComponent from "../components/common/DialogComponent";
 import FormKindComponent from "../components/settings/FormKindComponent";
 import ModalComponent from "../components/common/ModalComponent";
-import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
+import SettingsLayoutComponent from "../components/settings/AdminLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useKind from "../hooks/useKind.hook";
 import useSession from "../hooks/useSession.hook";

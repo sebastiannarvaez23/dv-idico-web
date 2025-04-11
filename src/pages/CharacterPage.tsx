@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 
+import { Box } from '@mui/system';
+
 import { ButtonComponent } from '../components/common/ButtonComponent';
 import { mapCharacterToDetailsCardElement } from '../utils/mappers/character.mapper';
 import ContainerSectionComponent from '../components/home/ContainerSectionComponent';
@@ -42,58 +44,60 @@ const CharacterPage = () => {
 
     return (
         <Fragment>
-            <ModalComponent
-                width={50}
-                open={modalCreateCharacter}
-                onClose={handleCloseModalCreateCharacter}>
-                <FormCharacterComponent
-                    title="Agregar Personaje"
-                    setModalOpen={setModalCreateCharacter}
-                    characterSelected={characterEmpty}
-                    action={handleCreateCharacter}
-                    page={page}
+            <Box sx={{ maxWidth: '1250px', margin: '0 auto' }}>
+                <ModalComponent
+                    width={50}
+                    open={modalCreateCharacter}
+                    onClose={handleCloseModalCreateCharacter}>
+                    <FormCharacterComponent
+                        title="Agregar Personaje"
+                        setModalOpen={setModalCreateCharacter}
+                        characterSelected={characterEmpty}
+                        action={handleCreateCharacter}
+                        page={page}
+                    />
+                </ModalComponent>
+                <ModalComponent
+                    width={50}
+                    open={modalEditCharacter}
+                    onClose={handleCloseModalEditCharacter}>
+                    <FormCharacterComponent
+                        title="Editar Personaje"
+                        setModalOpen={setModalEditCharacter}
+                        characterSelected={characterSelected}
+                        action={handleUpdateCharacter}
+                        page={page}
+                    />
+                </ModalComponent>
+                <SearchElementComponent
+                    handleGetCharacters={handleGetCharacters}
+                    flag={SECTION}
                 />
-            </ModalComponent>
-            <ModalComponent
-                width={50}
-                open={modalEditCharacter}
-                onClose={handleCloseModalEditCharacter}>
-                <FormCharacterComponent
-                    title="Editar Personaje"
-                    setModalOpen={setModalEditCharacter}
-                    characterSelected={characterSelected}
-                    action={handleUpdateCharacter}
+                <ContainerSectionComponent
+                    titleSection={"Personaje"}
+                    titleListSection={"Listado de Personajes"}
+                    detailElement={characterDto}
+                    totalRows={count}
                     page={page}
+                    filter={filter}
+                    handleGetElements={handleGetCharacters}
+                    listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
+                    sectionSelected={SECTION}>
+                    <InformationCharacterComponent
+                        element={characterDto}
+                        label={detailLabelsCharacter}
+                        deleteElement={handleDeleteCharacter}
+                        updateElement={handleOpenModalEditCharacter} />
+                </ContainerSectionComponent>
+                <ButtonComponent
+                    isAuthenticated={isAuthenticated}
+                    isAuthorized={handleValidateAuthorization('0503')}
+                    label={'Agregar Personaje'}
+                    margin={'20px 4px'}
+                    size={'large'}
+                    onClick={handleOpenModalCreateCharacter}
                 />
-            </ModalComponent>
-            <SearchElementComponent
-                handleGetCharacters={handleGetCharacters}
-                flag={SECTION}
-            />
-            <ContainerSectionComponent
-                titleSection={"Personaje"}
-                titleListSection={"Listado de Personajes"}
-                detailElement={characterDto}
-                totalRows={count}
-                page={page}
-                filter={filter}
-                handleGetElements={handleGetCharacters}
-                listElement={characters?.map(e => mapCharacterToDetailsCardElement(e)) ?? []}
-                sectionSelected={SECTION}>
-                <InformationCharacterComponent
-                    element={characterDto}
-                    label={detailLabelsCharacter}
-                    deleteElement={handleDeleteCharacter}
-                    updateElement={handleOpenModalEditCharacter} />
-            </ContainerSectionComponent>
-            <ButtonComponent
-                isAuthenticated={isAuthenticated}
-                isAuthorized={handleValidateAuthorization('0503')}
-                label={'Agregar Personaje'}
-                margin={'20px 4px'}
-                size={'large'}
-                onClick={handleOpenModalCreateCharacter}
-            />
+            </Box>
         </Fragment>
     );
 }

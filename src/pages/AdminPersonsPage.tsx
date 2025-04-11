@@ -7,7 +7,7 @@ import { Grid, TextField } from "@mui/material";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import FormPersonComponent from "../components/settings/FormPersonComponent";
 import ModalComponent from "../components/common/ModalComponent";
-import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
+import SettingsLayoutComponent from "../components/settings/AdminLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import usePerson from "../hooks/usePerson.hook";
 import useSession from "../hooks/useSession.hook";

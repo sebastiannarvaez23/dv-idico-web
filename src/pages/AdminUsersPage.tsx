@@ -8,7 +8,7 @@ import { ButtonComponent } from "../components/common/ButtonComponent";
 import { mapUserToRowTableUser } from "../utils/mappers/user-row-table.mapper";
 import { useDebounce } from "../hooks/useDebounce.hook";
 import ModalComponent from "../components/common/ModalComponent";
-import SettingsLayoutComponent from "../components/settings/SettingsLayoutComponent";
+import AdminLayoutComponent from "../components/settings/AdminLayoutComponent";
 import TableComponent from "../components/common/TableComponent";
 import useSession from "../hooks/useSession.hook";
 import useUser from "../hooks/useUser.hook";
@@ -102,7 +102,7 @@ const AdminUsersPage = () => {
                     action={(user) => handleUpdate(user)}
                 />
             </ModalComponent>
-            <SettingsLayoutComponent>
+            <AdminLayoutComponent>
                 <Typography variant="h4" sx={{ textAlign: 'left', margin: '20px 0' }}>Gestión de Usuarios</Typography>
                 <hr />
                 <Typography variant="h6" sx={{ textAlign: 'left', margin: '20px 0' }}>Listado de usuarios</Typography>
@@ -136,7 +136,7 @@ const AdminUsersPage = () => {
                     onEdit={handleEdit}
                     onDelete={() => { }}
                     changePage={handleGetUsers} />
-            </SettingsLayoutComponent>
+            </AdminLayoutComponent>
         </Fragment>
     );
 }
